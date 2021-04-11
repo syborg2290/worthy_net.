@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "375745137010",
+    "project_id": "worthynet-93f98",
+    "storage_bucket": "worthynet-93f98.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:375745137010:android:6f20b9ebf1d4c0c536f5eb",
+        "android_client_info": {
+          "package_name": "com.example.worthy_net"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "375745137010-ai1g3nhdgnrdu6nitbuc62tft616dufi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD_Sgr3MZVqvEKooEIAF02SQeOEcbnc3iA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "375745137010-ai1g3nhdgnrdu6nitbuc62tft616dufi.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
