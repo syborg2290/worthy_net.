@@ -1,39 +1,37 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:worthy_net/pages/Register_page.dart';
+import 'package:worthy_net/pages/Login_page.dart';
 import 'package:worthy_net/utils/Color.dart';
 import 'package:worthy_net/widgets/Button_widget.dart';
 import 'package:worthy_net/widgets/Header_container.dart';
 
-class LoginPage extends StatefulWidget {
+class RegisterPage extends StatefulWidget {
   @override
-  _LoginPageState createState() => _LoginPageState();
+  _RegisterPageState createState() => _RegisterPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Container(
         padding: EdgeInsets.only(bottom: 30),
         child: Column(
           children: <Widget>[
-            HeaderContainer("Login"),
+            HeaderContainer("Register"),
             Expanded(
               child: Container(
                 margin: EdgeInsets.only(left: 20, right: 20, top: 30),
                 child: Column(
                   children: <Widget>[
+                    textInput(hint: "First Name", icon: Icons.person),
+                    textInput(hint: "Last Name", icon: Icons.person),
                     textInput(hint: "Email", icon: Icons.email),
+                    textInput(hint: "Phone Number", icon: Icons.phone),
                     textInput(hint: "Password", icon: Icons.vpn_key),
-                    Container(
-                      margin: EdgeInsets.only(top: 10),
-                      alignment: Alignment.centerRight,
-                      child: Text(
-                        "Forgot Password?",
-                        textAlign: TextAlign.end,
-                      ),
-                    ),
+                    textInput(
+                        hint: "Confirm Password", icon: Icons.vpn_key_rounded),
                     Expanded(
                       child: Center(
                         child: ButtonWidget(
@@ -41,25 +39,25 @@ class _LoginPageState extends State<LoginPage> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => RegisterPage()));
+                                    builder: (context) => LoginPage()));
                           },
-                          btnText: "LOGIN",
+                          btnText: "REGISTER",
                         ),
                       ),
                     ),
                     RichText(
                       text: TextSpan(children: [
                         TextSpan(
-                            text: "Don't have an account ?",
+                            text: "Already a member ?",
                             style: TextStyle(color: Colors.black)),
                         TextSpan(
-                          text: "Register",
+                          text: "Login",
                           style: TextStyle(color: blueColors),
                           recognizer: TapGestureRecognizer()
-                            ..onTap = () => Navigator.push(
+                            ..onTap = () => Navigator.pop(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => RegisterPage()),
+                                      builder: (context) => LoginPage()),
                                 ),
                         ),
                       ]),
@@ -74,7 +72,7 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-// input widget
+  // input widget
   Widget textInput({controller, hint, icon}) {
     return Container(
       margin: EdgeInsets.only(top: 10),

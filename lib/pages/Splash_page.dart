@@ -26,7 +26,7 @@ class _SplashPageState extends State<SplashPage> {
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
-            colors: [orangeColors, orangeLightColors],
+            colors: [blueColors, blueLightColors],
             end: Alignment.bottomCenter,
             begin: Alignment.topCenter,
           ),
