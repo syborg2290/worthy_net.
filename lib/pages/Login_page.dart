@@ -11,6 +11,39 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  TextEditingController emailController = new TextEditingController();
+  TextEditingController passwordController = new TextEditingController();
+
+  String valEmail = "";
+  String valPassword = "";
+
+//login function
+  login() {
+    if (emailController.text == "") {
+      setState(() {
+        valEmail = "Email is required.";
+      });
+    } else {
+      if (passwordController.text == "") {
+        setState(() {
+          valPassword = "Password is required.";
+        });
+      }
+      if (emailController.text != "") {
+        setState(() {
+          // print(emailController.text);
+          valEmail = "";
+        });
+      }
+      if (passwordController.text != "") {
+        setState(() {
+          // print(passwordController.text);
+          valPassword = "";
+        });
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,8 +57,17 @@ class _LoginPageState extends State<LoginPage> {
                 margin: EdgeInsets.only(left: 20, right: 20, top: 30),
                 child: Column(
                   children: <Widget>[
-                    textInput(hint: "Email", icon: Icons.email),
-                    textInput(hint: "Password", icon: Icons.vpn_key),
+                    textInput(
+                        controller: emailController,
+                        hint: "Email",
+                        icon: Icons.email),
+                    Text(valEmail, style: TextStyle(color: validationColors)),
+                    passwordInput(
+                        controller: passwordController,
+                        hint: "Password",
+                        icon: Icons.vpn_key),
+                    Text(valPassword,
+                        style: TextStyle(color: validationColors)),
                     Container(
                       margin: EdgeInsets.only(top: 10),
                       alignment: Alignment.centerRight,
@@ -38,10 +80,11 @@ class _LoginPageState extends State<LoginPage> {
                       child: Center(
                         child: ButtonWidget(
                           onClick: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => RegisterPage()));
+                            // Navigator.push(
+                            //     context,
+                            //     MaterialPageRoute(
+                            //         builder: (context) => RegisterPage()));
+                            login();
                           },
                           btnText: "LOGIN",
                         ),
@@ -84,6 +127,23 @@ class _LoginPageState extends State<LoginPage> {
       ),
       padding: EdgeInsets.only(left: 10),
       child: TextFormField(
+        controller: controller,
+        decoration: InputDecoration(
+            border: InputBorder.none, hintText: hint, prefixIcon: Icon(icon)),
+      ),
+    );
+  }
+
+  Widget passwordInput({controller, hint, icon}) {
+    return Container(
+      margin: EdgeInsets.only(top: 10),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.all(Radius.circular(20)),
+        color: Colors.white,
+      ),
+      padding: EdgeInsets.only(left: 10),
+      child: TextFormField(
+        obscureText: true,
         controller: controller,
         decoration: InputDecoration(
             border: InputBorder.none, hintText: hint, prefixIcon: Icon(icon)),
