@@ -1,5 +1,8 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:worthy_net/config/collections.dart';
 import 'package:worthy_net/pages/Home_page.dart';
 import 'package:worthy_net/pages/Register_page.dart';
 import 'package:worthy_net/utils/Color.dart';
@@ -14,12 +17,13 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   TextEditingController emailController = new TextEditingController();
   TextEditingController passwordController = new TextEditingController();
+  bool isLoading = false;
 
   String valEmail = "";
   String valPassword = "";
 
 //login function
-  login() {
+  login() async {
     if (emailController.text == "") {
       setState(() {
         valEmail = "Email is required.";
@@ -29,18 +33,82 @@ class _LoginPageState extends State<LoginPage> {
         setState(() {
           valPassword = "Password is required.";
         });
-      }
-      if (emailController.text != "") {
-        setState(() {
-          // print(emailController.text);
-          valEmail = "";
-        });
-      }
-      if (passwordController.text != "") {
-        setState(() {
-          // print(passwordController.text);
-          valPassword = "";
-        });
+      } else {
+        if (emailController.text != "") {
+          setState(() {
+            // print(emailController.text);
+            valEmail = "";
+          });
+        }
+        if (passwordController.text != "") {
+          setState(() {
+            // print(passwordController.text);
+            valPassword = "";
+          });
+        }
+
+        try {
+          setState(() {
+            isLoading = true;
+          });
+          var result = await usersRef
+              .where("email", isEqualTo: emailController.text.trim())
+              .get();
+
+          if (result.docs.length > 0) {
+            var resultPass = await usersRef
+                .where("password", isEqualTo: emailController.text.trim())
+                .get();
+            if (resultPass.docs.length > 0) {
+              SharedPreferences prefs = await SharedPreferences.getInstance();
+              await prefs.setString("email", emailController.text).then((_) => {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => HomePage()))
+                  });
+            } else {
+              AwesomeDialog(
+                context: context,
+                dialogType: DialogType.INFO,
+                animType: AnimType.BOTTOMSLIDE,
+                title: 'Info',
+                desc: 'Password not matched with any email address!',
+                btnCancel: Text(""),
+                btnOk: Text(""),
+              )..show();
+
+              setState(() {
+                isLoading = false;
+              });
+            }
+          } else {
+            AwesomeDialog(
+              context: context,
+              dialogType: DialogType.INFO,
+              animType: AnimType.BOTTOMSLIDE,
+              title: 'Info',
+              desc: 'Email address not matched with any account!',
+              btnCancel: Text(""),
+              btnOk: Text(""),
+            )..show();
+
+            setState(() {
+              isLoading = false;
+            });
+          }
+        } catch (e) {
+          AwesomeDialog(
+            context: context,
+            dialogType: DialogType.INFO,
+            animType: AnimType.BOTTOMSLIDE,
+            title: 'Info',
+            desc: e,
+            btnCancel: Text(""),
+            btnOk: Text(""),
+          )..show();
+          setState(() {
+            isLoading = false;
+          });
+        }
       }
     }
   }
@@ -78,18 +146,20 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ),
                     Expanded(
-                      child: Center(
-                        child: ButtonWidget(
-                          onClick: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => HomePage()));
-                            login();
-                          },
-                          btnText: "LOGIN",
-                        ),
-                      ),
+                      child: isLoading
+                          ? Center(
+                              child: CircularProgressIndicator(
+                                backgroundColor: blueColors,
+                              ),
+                            )
+                          : Center(
+                              child: ButtonWidget(
+                                onClick: () {
+                                  login();
+                                },
+                                btnText: "LOGIN",
+                              ),
+                            ),
                     ),
                     RichText(
                       text: TextSpan(children: [
