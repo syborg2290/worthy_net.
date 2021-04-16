@@ -1,5 +1,9 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:worthy_net/config/collections.dart';
+import 'package:worthy_net/pages/Home_page.dart';
 import 'package:worthy_net/pages/Login_page.dart';
 import 'package:worthy_net/utils/Color.dart';
 import 'package:worthy_net/widgets/Button_widget.dart';
@@ -17,6 +21,7 @@ class _RegisterPageState extends State<RegisterPage> {
   String valPhone = "";
   String valPW = "";
   String valCPW = "";
+  bool isLoading = false;
   TextEditingController fNameController = new TextEditingController();
   TextEditingController lNameController = new TextEditingController();
   TextEditingController emailController = new TextEditingController();
@@ -25,10 +30,10 @@ class _RegisterPageState extends State<RegisterPage> {
   TextEditingController cpwController = new TextEditingController();
 
 //register function
-  register() {
+  register() async {
     if (fNameController.text == "") {
       setState(() {
-        valFirstName = "Enter your frist name";
+        valFirstName = "Enter your first name";
       });
     } else {
       if (lNameController.text == "") {
@@ -55,6 +60,62 @@ class _RegisterPageState extends State<RegisterPage> {
                 setState(() {
                   valCPW = "Passwords are not matched";
                 });
+              } else {
+                try {
+                  setState(() {
+                    isLoading = true;
+                  });
+                  var result = await usersRef
+                      .where("email", isEqualTo: emailController.text.trim())
+                      .get();
+                  if (result.docs.length > 0) {
+                    AwesomeDialog(
+                      context: context,
+                      dialogType: DialogType.INFO,
+                      animType: AnimType.BOTTOMSLIDE,
+                      title: 'Info',
+                      desc: 'Email address already in used!',
+                      btnCancel: Text(""),
+                      btnOk: Text(""),
+                    )..show();
+
+                    setState(() {
+                      isLoading = false;
+                    });
+                  } else {
+                    SharedPreferences prefs =
+                        await SharedPreferences.getInstance();
+                    usersRef.add({
+                      "fname": fNameController.text.trim(),
+                      "lname": lNameController.text.trim(),
+                      "email": emailController.text.trim(),
+                      "phonenumber": phoneController.text.trim(),
+                      "password": pwController.text.trim(),
+                    }).then((_) async => {
+                          await prefs
+                              .setString("email", emailController.text)
+                              .then((_) => {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => HomePage()))
+                                  })
+                        });
+                  }
+                } catch (e) {
+                  AwesomeDialog(
+                    context: context,
+                    dialogType: DialogType.INFO,
+                    animType: AnimType.BOTTOMSLIDE,
+                    title: 'Info',
+                    desc: e,
+                    btnCancel: Text(""),
+                    btnOk: Text(""),
+                  )..show();
+                  setState(() {
+                    isLoading = false;
+                  });
+                }
               }
             }
           }
@@ -154,16 +215,18 @@ class _RegisterPageState extends State<RegisterPage> {
                         style: TextStyle(color: validationColors)),
                     Expanded(
                       child: Center(
-                        child: ButtonWidget(
-                          onClick: () {
-                            // Navigator.push(
-                            //     context,
-                            //     MaterialPageRoute(
-                            //         builder: (context) => LoginPage()));
-                            register(); //register function
-                          },
-                          btnText: "REGISTER",
-                        ),
+                        child: isLoading
+                            ? Center(
+                                child: CircularProgressIndicator(
+                                  backgroundColor: blueColors,
+                                ),
+                              )
+                            : ButtonWidget(
+                                onClick: () {
+                                  register(); //register function
+                                },
+                                btnText: "REGISTER",
+                              ),
                       ),
                     ),
                     Center(
