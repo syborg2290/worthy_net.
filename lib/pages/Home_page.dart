@@ -1,4 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:worthy_net/pages/Login_page.dart';
 
 class HomePage extends StatelessWidget {
   @override
@@ -13,7 +17,21 @@ class HomePage extends StatelessWidget {
             actions: <Widget>[
               Padding(
                 padding: const EdgeInsets.only(right: 16.0),
-                child: Icon(Icons.more_vert),
+                child: GestureDetector(
+                    onTap: () async {
+                      SharedPreferences prefs =
+                          await SharedPreferences.getInstance();
+                      prefs.remove("email").then((con) => {
+                            if (con)
+                              {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => LoginPage()))
+                              }
+                          });
+                    },
+                    child: Icon(Icons.more_vert)),
               ),
             ],
             bottom: TabBar(
@@ -26,15 +44,20 @@ class HomePage extends StatelessWidget {
               }).toList(),
             ),
           ),
-          body: TabBarView(
-            children: choices.map((Choice choice) {
-              return Padding(
-                padding: const EdgeInsets.all(0),
-                child: ChoicePage(
-                  choice: choice,
-                ),
-              );
-            }).toList(),
+          body: WillPopScope(
+            onWillPop: () async {
+              exit(0);
+            },
+            child: TabBarView(
+              children: choices.map((Choice choice) {
+                return Padding(
+                  padding: const EdgeInsets.all(0),
+                  child: ChoicePage(
+                    choice: choice,
+                  ),
+                );
+              }).toList(),
+            ),
           ),
         ),
       ),
