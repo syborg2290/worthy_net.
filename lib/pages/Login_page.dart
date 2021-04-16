@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:worthy_net/pages/Home_page.dart';
 import 'package:worthy_net/pages/Register_page.dart';
 import 'package:worthy_net/utils/Color.dart';
 import 'package:worthy_net/widgets/Button_widget.dart';
@@ -80,10 +81,10 @@ class _LoginPageState extends State<LoginPage> {
                       child: Center(
                         child: ButtonWidget(
                           onClick: () {
-                            // Navigator.push(
-                            //     context,
-                            //     MaterialPageRoute(
-                            //         builder: (context) => RegisterPage()));
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => HomePage()));
                             login();
                           },
                           btnText: "LOGIN",
