@@ -10,6 +10,12 @@ class HomePage extends StatelessWidget {
         child: Scaffold(
           appBar: AppBar(
             title: const Text('Tabbed AppBar'),
+            actions: <Widget>[
+              Padding(
+                padding: const EdgeInsets.only(right: 16.0),
+                child: Icon(Icons.more_vert),
+              ),
+            ],
             bottom: TabBar(
               isScrollable: true,
               tabs: choices.map<Widget>((Choice choice) {
@@ -23,7 +29,7 @@ class HomePage extends StatelessWidget {
           body: TabBarView(
             children: choices.map((Choice choice) {
               return Padding(
-                padding: const EdgeInsets.all(20.0),
+                padding: const EdgeInsets.all(0),
                 child: ChoicePage(
                   choice: choice,
                 ),
@@ -57,20 +63,28 @@ class ChoicePage extends StatelessWidget {
     return Card(
       color: Colors.white,
       child: Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            Icon(
-              choice.icon,
-              size: 150.0,
-              color: textStyle.color,
-            ),
-            Text(
-              choice.title,
-              style: textStyle,
-            ),
-          ],
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            // mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Icon(
+                choice.icon,
+                size: 50.0,
+                color: textStyle.color,
+              ),
+              Text(
+                choice.title,
+                style: textStyle,
+              ),
+              Text(
+                choice.title,
+                style: textStyle,
+              ),
+            ],
+          ),
         ),
       ),
     );
