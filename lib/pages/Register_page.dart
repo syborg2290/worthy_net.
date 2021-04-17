@@ -157,18 +157,21 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
+      // resizeToAvoidBottomInset: false,
       body: Container(
-        padding: EdgeInsets.only(bottom: 30),
+        padding: EdgeInsets.only(bottom: 5),
         child: Column(
           children: <Widget>[
             HeaderContainer("Register"),
             Expanded(
               child: Container(
                 margin: EdgeInsets.only(left: 20, right: 20, top: 30),
-                //column
+                //Column
+                //ListView
                 child: ListView(
                   shrinkWrap: true,
+                  // mainAxisAlignment: MainAxisAlignment.center,
+                  // crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
                     textInput(
                         controller: fNameController,

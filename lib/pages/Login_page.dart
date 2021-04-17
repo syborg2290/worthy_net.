@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -57,7 +59,7 @@ class _LoginPageState extends State<LoginPage> {
 
           if (result.docs.length > 0) {
             var resultPass = await usersRef
-                .where("password", isEqualTo: emailController.text.trim())
+                .where("password", isEqualTo: passwordController.text.trim())
                 .get();
             if (resultPass.docs.length > 0) {
               SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -116,73 +118,78 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        padding: EdgeInsets.only(bottom: 30),
-        child: Column(
-          children: <Widget>[
-            HeaderContainer("Login"),
-            Expanded(
-              child: Container(
-                margin: EdgeInsets.only(left: 20, right: 20, top: 30),
-                child: Column(
-                  children: <Widget>[
-                    textInput(
-                        controller: emailController,
-                        hint: "Email",
-                        icon: Icons.email),
-                    Text(valEmail, style: TextStyle(color: validationColors)),
-                    passwordInput(
-                        controller: passwordController,
-                        hint: "Password",
-                        icon: Icons.vpn_key),
-                    Text(valPassword,
-                        style: TextStyle(color: validationColors)),
-                    Container(
-                      margin: EdgeInsets.only(top: 10),
-                      alignment: Alignment.centerRight,
-                      child: Text(
-                        "Forgot Password?",
-                        textAlign: TextAlign.end,
-                      ),
-                    ),
-                    Expanded(
-                      child: isLoading
-                          ? Center(
-                              child: CircularProgressIndicator(
-                                backgroundColor: blueColors,
-                              ),
-                            )
-                          : Center(
-                              child: ButtonWidget(
-                                onClick: () {
-                                  login();
-                                },
-                                btnText: "LOGIN",
-                              ),
-                            ),
-                    ),
-                    RichText(
-                      text: TextSpan(children: [
-                        TextSpan(
-                            text: "Don't have an account ?",
-                            style: TextStyle(color: Colors.black)),
-                        TextSpan(
-                          text: "Register",
-                          style: TextStyle(color: blueColors),
-                          recognizer: TapGestureRecognizer()
-                            ..onTap = () => Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => RegisterPage()),
-                                ),
+      body: WillPopScope(
+        onWillPop: () async {
+          exit(0);
+        },
+        child: Container(
+          padding: EdgeInsets.only(bottom: 30),
+          child: Column(
+            children: <Widget>[
+              HeaderContainer("Login"),
+              Expanded(
+                child: Container(
+                  margin: EdgeInsets.only(left: 20, right: 20, top: 30),
+                  child: Column(
+                    children: <Widget>[
+                      textInput(
+                          controller: emailController,
+                          hint: "Email",
+                          icon: Icons.email),
+                      Text(valEmail, style: TextStyle(color: validationColors)),
+                      passwordInput(
+                          controller: passwordController,
+                          hint: "Password",
+                          icon: Icons.vpn_key),
+                      Text(valPassword,
+                          style: TextStyle(color: validationColors)),
+                      Container(
+                        margin: EdgeInsets.only(top: 10),
+                        alignment: Alignment.centerRight,
+                        child: Text(
+                          "Forgot Password?",
+                          textAlign: TextAlign.end,
                         ),
-                      ]),
-                    ),
-                  ],
+                      ),
+                      Expanded(
+                        child: isLoading
+                            ? Center(
+                                child: CircularProgressIndicator(
+                                  backgroundColor: blueColors,
+                                ),
+                              )
+                            : Center(
+                                child: ButtonWidget(
+                                  onClick: () {
+                                    login();
+                                  },
+                                  btnText: "LOGIN",
+                                ),
+                              ),
+                      ),
+                      RichText(
+                        text: TextSpan(children: [
+                          TextSpan(
+                              text: "Don't have an account ?",
+                              style: TextStyle(color: Colors.black)),
+                          TextSpan(
+                            text: "Register",
+                            style: TextStyle(color: blueColors),
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () => Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => RegisterPage()),
+                                  ),
+                          ),
+                        ]),
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
