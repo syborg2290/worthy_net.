@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:worthy_net/utils/Color.dart';
 
 class HeaderContainer extends StatelessWidget {
   var text = "";
- 
- HeaderContainer(this.text);
+
+  HeaderContainer(this.text);
 
   @override
   Widget build(BuildContext context) {
@@ -20,15 +21,25 @@ class HeaderContainer extends StatelessWidget {
       child: Stack(
         children: <Widget>[
           Positioned(
-            bottom: 20,
-            right: 20,
+              bottom: 20,
+              right: 20,
               child: Text(
-            text,
-            style: TextStyle(color: Colors.white,fontSize: 20),
-          )),
+                text,
+                style: TextStyle(color: Colors.white, fontSize: 20),
+              )),
           Center(
-            child: Image.asset("assets/logo.png", width: 100, height: 100),
+            child: Image.asset("assets/logo.png", width: 250, height: 250),
           ),
+          // Center(
+          //   child: Text(
+          //     "Worthy Net",
+          //     style: GoogleFonts.openSans(
+          //         textStyle: TextStyle(
+          //             color: textColors,
+          //             fontSize: 28,
+          //             fontWeight: FontWeight.bold)),
+          //   ),
+          // ),
         ],
       ),
     );
