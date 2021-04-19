@@ -1,114 +1,75 @@
-import 'dart:io';
+// import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:worthy_net/utils/Color.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:worthy_net/widgets/GridDashbord.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:worthy_net/pages/Login_page.dart';
+import 'package:worthy_net/widgets/Header_container.dart';
 
 class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: DefaultTabController(
-        length: choices.length,
-        child: Scaffold(
-          appBar: AppBar(
-            title: const Text('Tabbed AppBar'),
-            actions: <Widget>[
-              Padding(
-                padding: const EdgeInsets.only(right: 16.0),
-                child: GestureDetector(
-                    onTap: () async {
-                      SharedPreferences prefs =
-                          await SharedPreferences.getInstance();
-                      prefs.remove("email").then((con) => {
-                            if (con)
-                              {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => LoginPage()))
-                              }
-                          });
-                    },
-                    child: Icon(Icons.more_vert)),
-              ),
-            ],
-            bottom: TabBar(
-              isScrollable: true,
-              tabs: choices.map<Widget>((Choice choice) {
-                return Tab(
-                  text: choice.title,
-                  icon: Icon(choice.icon),
-                );
-              }).toList(),
-            ),
+    return Scaffold(
+      backgroundColor: dashbordColor,
+      body: Column(
+        children: <Widget>[
+          HeaderContainer("Dashbord"),
+          SizedBox(
+            height: 60,
           ),
-          body: WillPopScope(
-            onWillPop: () async {
-              exit(0);
-            },
-            child: TabBarView(
-              children: choices.map((Choice choice) {
-                return Padding(
-                  padding: const EdgeInsets.all(0),
-                  child: ChoicePage(
-                    choice: choice,
+          Padding(
+            padding: EdgeInsets.only(left: 16, right: 16),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      "Worthy Net",
+                      style: GoogleFonts.openSans(
+                          textStyle: TextStyle(
+                              color: textColors,
+                              fontSize: 28,
+                              fontWeight: FontWeight.bold)),
+                    ),
+                    // SizedBox(
+                    //   height: 4,
+                    // ),
+                  ],
+                ),
+                TextButton(
+                  // alignment: Alignment.topCenter,
+                  // icon: Image.asset("assets/logo.png", width: 24),
+                  child: Text('Logout'),
+                  style: TextButton.styleFrom(
+                    primary: textColors,
+                    backgroundColor: blueLightColors,
                   ),
-                );
-              }).toList(),
+                  onPressed: () async {
+                    SharedPreferences prefs =
+                        await SharedPreferences.getInstance();
+                    prefs.remove("email").then((con) => {
+                          if (con)
+                            {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => LoginPage()))
+                            }
+                        });
+                  },
+                ),
+              ],
             ),
           ),
-        ),
-      ),
-    );
-  }
-}
-
-class Choice {
-  final String title;
-  final IconData icon;
-  const Choice({this.title, this.icon});
-}
-
-const List<Choice> choices = <Choice>[
-  Choice(title: 'Car', icon: Icons.directions_car),
-  Choice(title: 'bike', icon: Icons.directions_bike),
-];
-
-class ChoicePage extends StatelessWidget {
-  const ChoicePage({Key key, this.choice}) : super(key: key);
-  final Choice choice;
-
-  @override
-  Widget build(BuildContext context) {
-    final TextStyle textStyle = Theme.of(context).textTheme.display1;
-    return Card(
-      color: Colors.white,
-      child: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            // mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Icon(
-                choice.icon,
-                size: 50.0,
-                color: textStyle.color,
-              ),
-              Text(
-                choice.title,
-                style: textStyle,
-              ),
-              Text(
-                choice.title,
-                style: textStyle,
-              ),
-            ],
+          SizedBox(
+            height: 40,
           ),
-        ),
+          GridDashbor(),
+        ],
       ),
     );
   }
