@@ -1,88 +1,74 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:worthy_net/pages/User_page.dart';
 import 'package:worthy_net/utils/Color.dart';
 
 class GridDashbor extends StatelessWidget {
-  Item item1 = new Item(
-    title: "User",
-    // subtitle: "",
-    // event: "1event",
-    img: "assets/host.png",
-  );
-  Item item2 = new Item(
-    title: "Host",
-    // subtitle: "",
-    // event: "2event",
-    img: "assets/user.png",
-  );
-
   @override
   Widget build(BuildContext context) {
-    List<Item> myList = [item1, item2];
-    return Flexible(
-      child: GridView.count(
-          childAspectRatio: 1.0,
-          padding: EdgeInsets.only(left: 16, right: 16),
-          crossAxisCount: 2,
-          crossAxisSpacing: 18,
-          mainAxisSpacing: 18,
-          children: myList.map((data) {
-            return Container(
-              decoration: BoxDecoration(
-                  color: blueLightColors,
-                  borderRadius: BorderRadius.circular(10)),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Image.asset(
-                    data.img,
-                    width:80,
-                  ),
-                  SizedBox(
-                    height: 14,
-                  ),
-                  Text(
-                    data.title,
-                    style: GoogleFonts.openSans(
-                        textStyle: TextStyle(
-                            color: textColors,
-                            fontSize: 25,
-                            fontWeight: FontWeight.w600)),
-                  ),
-                  // SizedBox(
-                  //   height: 8,
-                  // ),
-                  // Text(
-                  //   data.subtitle,
-                  //   style: GoogleFonts.openSans(
-                  //       textStyle: TextStyle(
-                  //           color: textColors,
-                  //           fontSize: 10,
-                  //           fontWeight: FontWeight.w600)),
-                  // ),
-                  // SizedBox(
-                  //   height: 10,
-                  // ),
-                  // Text(
-                  //   data.event,
-                  //   style: GoogleFonts.openSans(
-                  //       textStyle: TextStyle(
-                  //           color: textColors,
-                  //           fontSize: 10,
-                  //           fontWeight: FontWeight.w600)),
-                  // ),
-                ],
-              ),
-            );
-          }).toList()),
-    );
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+      CardWidget(
+        img: 'assets/user.png',
+        title: 'User',
+        onClick: () => {
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => UserPage()))
+        },
+      ),
+      CardWidget(
+        img: 'assets/host.png',
+        title: 'Host',
+        onClick: () => {
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => UserPage()))
+        },
+      ),
+    ]);
   }
 }
 
-class Item {
-  String title;
-  // String subtitle;
-  // String event;
-  String img;
-  Item({this.title, this.img});
+class CardWidget extends StatelessWidget {
+  final String img;
+  final String title;
+  final onClick;
+
+  CardWidget({this.img, this.onClick, this.title});
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      elevation: 10,
+      margin: EdgeInsets.all(10),
+      color: blueLightColors,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+        child: InkWell(
+          onTap: onClick,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              Image.asset(
+                img,
+                width: 150,
+                height: 150,
+              ),
+              SizedBox(
+                height: 14,
+              ),
+              Text(
+                title,
+                style: GoogleFonts.openSans(
+                    textStyle: TextStyle(
+                        color: textColors,
+                        fontSize: 25,
+                        fontWeight: FontWeight.w600)),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
 }

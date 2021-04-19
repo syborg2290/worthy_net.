@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:worthy_net/utils/Color.dart';
 
 class HeaderContainer extends StatelessWidget {
-  var text = "";
+  final String text;
 
   HeaderContainer(this.text);
 
@@ -30,16 +29,6 @@ class HeaderContainer extends StatelessWidget {
           Center(
             child: Image.asset("assets/logo.png", width: 250, height: 250),
           ),
-          // Center(
-          //   child: Text(
-          //     "Worthy Net",
-          //     style: GoogleFonts.openSans(
-          //         textStyle: TextStyle(
-          //             color: textColors,
-          //             fontSize: 28,
-          //             fontWeight: FontWeight.bold)),
-          //   ),
-          // ),
         ],
       ),
     );

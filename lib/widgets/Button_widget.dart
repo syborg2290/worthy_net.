@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:worthy_net/utils/Color.dart';
 
 class ButtonWidget extends StatelessWidget {
-  var btnText = "";
-  var onClick;
+  final String btnText;
+  final  onClick;
 
   ButtonWidget({this.btnText, this.onClick});
 
