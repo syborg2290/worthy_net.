@@ -91,6 +91,25 @@ class _RegisterPageState extends State<RegisterPage> {
                       "email": emailController.text.trim(),
                       "phonenumber": phoneController.text.trim(),
                       "password": pwController.text.trim(),
+                      "connected": false,
+                      "merchantId": null,
+                      "merchantSecret": null,
+                      "ssid": null,
+                      "hotspot_password": null,
+                      "packages": {
+                        "5": false,
+                        "10": false,
+                        "15": false,
+                        "20": false,
+                        "25": false,
+                        "30": false,
+                        "35": false,
+                        "40": false,
+                        "45": false,
+                        "50": false,
+                        "55": false,
+                        "60": false,
+                      }
                     }).then((_) async => {
                           await prefs
                               .setString("email", emailController.text)
