@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:worthy_net/pages/User_page.dart';
 import 'package:worthy_net/utils/Color.dart';
+import 'package:worthy_net/pages/HostDashboard_page.dart';
 
 class GridDashbor extends StatelessWidget {
   @override
@@ -22,7 +23,7 @@ class GridDashbor extends StatelessWidget {
         title: 'Host',
         onClick: () => {
           Navigator.push(
-              context, MaterialPageRoute(builder: (context) => UserPage()))
+              context, MaterialPageRoute(builder: (context) => HostDashboardPage()))
         },
       ),
     ]);
