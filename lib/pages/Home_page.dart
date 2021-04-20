@@ -44,8 +44,6 @@ class HomePage extends StatelessWidget {
                     ],
                   ),
                   TextButton(
-                    // alignment: Alignment.topCenter,
-                    // icon: Image.asset("assets/logo.png", width: 24),
                     child: Text('Logout'),
                     style: TextButton.styleFrom(
                       primary: textColors,

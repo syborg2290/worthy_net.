@@ -1,9 +1,53 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:worthy_net/pages/HostDataPackage_page.dart';
+import 'package:worthy_net/pages/Paymant_page.dart';
 import 'package:worthy_net/utils/Color.dart';
 
 class HostDashboardPage extends StatelessWidget {
+  final TextEditingController hostPassword = new TextEditingController();
+
+  // modal sheet
+  modalWidget(BuildContext context) {
+    showModalBottomSheet<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return Container(
+          height: 200,
+          color: modalColor,
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Text('Enter your hotspot password',
+                    style: TextStyle(fontSize: 20)),
+                Container(
+                  margin: EdgeInsets.only(left: 20, right: 20, top: 30),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(20)),
+                    color: Colors.white,
+                  ),
+                  padding: EdgeInsets.only(left: 10),
+                  child: TextFormField(
+                    controller: hostPassword,
+                    decoration: InputDecoration(
+                        border: InputBorder.none,
+                        hintText: "Hotspot Password",
+                        prefixIcon: Icon(Icons.wifi_lock_rounded)),
+                  ),
+                ),
+                ElevatedButton(
+                  child: const Text('Submit'),
+                  onPressed: () => Navigator.pop(context),
+                )
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     // data package card media query
@@ -12,9 +56,27 @@ class HostDashboardPage extends StatelessWidget {
     final double itemWidth = size.width / 2;
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          'Data package',
-        ),
+        title: Text('Package'),
+        actions: <Widget>[
+          FlatButton(
+            onPressed: () => {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => PymantPage()),
+              ),
+            },
+            // color: Colors.orange,
+            // padding: EdgeInsets.all(0.5),
+            child: Column(
+              // Replace with a Row for horizontal icon + text
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Icon(Icons.monetization_on),
+                Text("Setup the payment")
+              ],
+            ),
+          ),
+        ],
       ),
       body: Container(
         color: dashbordColor,
@@ -28,131 +90,73 @@ class HostDashboardPage extends StatelessWidget {
               title: '5MB',
               subTitle: 'LKR 1',
               img: 'assets/user.png',
-              onClick: () => {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => HostDataPackagePage()))
-              },
+              onClick: () => modalWidget(context),
             ),
             CardWidget(
               title: '10MB',
               subTitle: 'LKR 2',
               img: 'assets/user.png',
-              onClick: () => {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => HostDataPackagePage()))
-              },
+              onClick: () => modalWidget(context),
             ),
             CardWidget(
               title: '15MB',
               subTitle: 'LKR 5',
               img: 'assets/user.png',
-              onClick: () => {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => HostDataPackagePage()))
-              },
+              onClick: () => modalWidget(context),
             ),
             CardWidget(
               title: '20MB',
               subTitle: 'LKR 5',
               img: 'assets/user.png',
-              onClick: () => {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => HostDataPackagePage()))
-              },
+              onClick: () => modalWidget(context),
             ),
             CardWidget(
               title: '25MB',
               subTitle: 'LKR 5',
               img: 'assets/user.png',
-              onClick: () => {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => HostDataPackagePage()))
-              },
+              onClick: () => modalWidget(context),
             ),
             CardWidget(
               title: '30MB',
               subTitle: 'LKR 5',
               img: 'assets/user.png',
-              onClick: () => {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => HostDataPackagePage()))
-              },
+              onClick: () => modalWidget(context),
             ),
             CardWidget(
               title: '35MB',
               subTitle: 'LKR 5',
               img: 'assets/user.png',
-              onClick: () => {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => HostDataPackagePage()))
-              },
+              onClick: () => modalWidget(context),
             ),
             CardWidget(
               title: '40MB',
               subTitle: 'LKR 5',
               img: 'assets/user.png',
-              onClick: () => {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => HostDataPackagePage()))
-              },
+              onClick: () => modalWidget(context),
             ),
             CardWidget(
               title: '45MB',
               subTitle: 'LKR 5',
               img: 'assets/user.png',
-              onClick: () => {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => HostDataPackagePage()))
-              },
+              onClick: () => modalWidget(context),
             ),
             CardWidget(
               title: '50MB',
               subTitle: 'LKR 5',
               img: 'assets/user.png',
-              onClick: () => {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => HostDataPackagePage()))
-              },
+              onClick: () => modalWidget(context),
             ),
             CardWidget(
               title: '55MB',
               subTitle: 'LKR 5',
               img: 'assets/user.png',
-              onClick: () => {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => HostDataPackagePage()))
-              },
+              onClick: () => modalWidget(context),
             ),
             CardWidget(
               title: '60MB',
               subTitle: 'LKR 5',
               img: 'assets/user.png',
-              onClick: () => {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => HostDataPackagePage()))
-              },
+              onClick: () => modalWidget(context),
             ),
           ],
         ),

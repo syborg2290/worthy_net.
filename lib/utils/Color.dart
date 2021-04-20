@@ -7,3 +7,5 @@ Color blueLightColors = Color(0xff00BFFF);
 Color validationColors = Color(0xffF70D1A);
 Color textColors = Color(0xffFFFFFF);
 Color dashbordColor = Color(0xff4D4A4F);
+Color modalColor = Colors.amber;
+Color appbarColor = Color(0xffAB8000);
