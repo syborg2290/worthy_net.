@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:worthy_net/pages/User_page.dart';
+import 'package:worthy_net/pages/HostDataPackage_page.dart';
 import 'package:worthy_net/utils/Color.dart';
 
 class HostDashboardPage extends StatelessWidget {
@@ -30,7 +30,7 @@ class HostDashboardPage extends StatelessWidget {
               img: 'assets/user.png',
               onClick: () => {
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => UserPage()))
+                    MaterialPageRoute(builder: (context) => HostDataPackagePage()))
               },
             ),
             CardWidget(
@@ -41,7 +41,7 @@ class HostDashboardPage extends StatelessWidget {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => HostDashboardPage()))
+                        builder: (context) => HostDataPackagePage()))
               },
             ),
             CardWidget(
@@ -52,7 +52,7 @@ class HostDashboardPage extends StatelessWidget {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => HostDashboardPage()))
+                        builder: (context) => HostDataPackagePage()))
               },
             ),
             CardWidget(
@@ -63,7 +63,7 @@ class HostDashboardPage extends StatelessWidget {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => HostDashboardPage()))
+                        builder: (context) => HostDataPackagePage()))
               },
             ),
             CardWidget(
@@ -74,7 +74,7 @@ class HostDashboardPage extends StatelessWidget {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => HostDashboardPage()))
+                        builder: (context) => HostDataPackagePage()))
               },
             ),
             CardWidget(
@@ -85,7 +85,7 @@ class HostDashboardPage extends StatelessWidget {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => HostDashboardPage()))
+                        builder: (context) => HostDataPackagePage()))
               },
             ),
             CardWidget(
@@ -96,7 +96,7 @@ class HostDashboardPage extends StatelessWidget {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => HostDashboardPage()))
+                        builder: (context) => HostDataPackagePage()))
               },
             ),
             CardWidget(
@@ -107,7 +107,7 @@ class HostDashboardPage extends StatelessWidget {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => HostDashboardPage()))
+                        builder: (context) => HostDataPackagePage()))
               },
             ),
             CardWidget(
@@ -118,7 +118,7 @@ class HostDashboardPage extends StatelessWidget {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => HostDashboardPage()))
+                        builder: (context) => HostDataPackagePage()))
               },
             ),
             CardWidget(
@@ -129,7 +129,7 @@ class HostDashboardPage extends StatelessWidget {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => HostDashboardPage()))
+                        builder: (context) => HostDataPackagePage()))
               },
             ),
             CardWidget(
@@ -140,7 +140,7 @@ class HostDashboardPage extends StatelessWidget {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => HostDashboardPage()))
+                        builder: (context) => HostDataPackagePage()))
               },
             ),
             CardWidget(
@@ -151,7 +151,7 @@ class HostDashboardPage extends StatelessWidget {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => HostDashboardPage()))
+                        builder: (context) => HostDataPackagePage()))
               },
             ),
           ],
