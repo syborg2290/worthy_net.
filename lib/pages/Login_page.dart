@@ -123,69 +123,68 @@ class _LoginPageState extends State<LoginPage> {
           exit(0);
         },
         child: Container(
-          padding: EdgeInsets.only(bottom: 30),
-          child: Column(
+          // padding: EdgeInsets.only(bottom: 10),
+          child: ListView(
             children: <Widget>[
               HeaderContainer("Login"),
-              Expanded(
-                child: Container(
-                  margin: EdgeInsets.only(left: 20, right: 20, top: 30),
-                  child: Column(
-                    children: <Widget>[
-                      textInput(
-                          controller: emailController,
-                          hint: "Email",
-                          icon: Icons.email),
-                      Text(valEmail, style: TextStyle(color: validationColors)),
-                      passwordInput(
-                          controller: passwordController,
-                          hint: "Password",
-                          icon: Icons.vpn_key),
-                      Text(valPassword,
-                          style: TextStyle(color: validationColors)),
-                      Container(
-                        margin: EdgeInsets.only(top: 10),
-                        alignment: Alignment.centerRight,
-                        child: Text(
-                          "Forgot Password?",
-                          textAlign: TextAlign.end,
-                        ),
+              Container(
+                margin: EdgeInsets.only(left: 20, right: 20, top: 40),
+                child: Column(
+                  children: <Widget>[
+                    textInput(
+                        controller: emailController,
+                        hint: "Email",
+                        icon: Icons.email),
+                    Text(valEmail, style: TextStyle(color: validationColors)),
+                    passwordInput(
+                        controller: passwordController,
+                        hint: "Password",
+                        icon: Icons.vpn_key),
+                    Text(valPassword,
+                        style: TextStyle(color: validationColors)),
+                    Container(
+                      margin: EdgeInsets.only(top: 10),
+                      alignment: Alignment.centerRight,
+                      child: Text(
+                        "Forgot Password?",
+                        textAlign: TextAlign.end,
                       ),
-                      Expanded(
-                        child: isLoading
-                            ? Center(
-                                child: CircularProgressIndicator(
-                                  backgroundColor: blueColors,
-                                ),
-                              )
-                            : Center(
-                                child: ButtonWidget(
-                                  onClick: () {
-                                    login();
-                                  },
-                                  btnText: "LOGIN",
-                                ),
+                    ),
+                    Container(
+                     padding: EdgeInsets.only(top: 50,bottom: 10),
+                      child: isLoading
+                          ? Center(
+                              child: CircularProgressIndicator(
+                                backgroundColor: blueColors,
                               ),
-                      ),
-                      RichText(
-                        text: TextSpan(children: [
-                          TextSpan(
-                              text: "Don't have an account ?",
-                              style: TextStyle(color: Colors.black)),
-                          TextSpan(
-                            text: "Register",
-                            style: TextStyle(color: blueColors),
-                            recognizer: TapGestureRecognizer()
-                              ..onTap = () => Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => RegisterPage()),
-                                  ),
-                          ),
-                        ]),
-                      ),
-                    ],
-                  ),
+                            )
+                          : Center(
+                              child: ButtonWidget(
+                                onClick: () {
+                                  login();
+                                },
+                                btnText: "LOGIN",
+                              ),
+                            ),
+                    ),
+                    RichText(
+                      text: TextSpan(children: [
+                        TextSpan(
+                            text: "Don't have an account ?",
+                            style: TextStyle(color: Colors.black)),
+                        TextSpan(
+                          text: "Register",
+                          style: TextStyle(color: blueColors),
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = () => Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => RegisterPage()),
+                                ),
+                        ),
+                      ]),
+                    ),
+                  ],
                 ),
               ),
             ],
