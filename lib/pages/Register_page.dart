@@ -88,18 +88,19 @@ class _RegisterPageState extends State<RegisterPage> {
                     SharedPreferences prefs =
                         await SharedPreferences.getInstance();
                     final key = KeyGet.Key.fromUtf8(
-                        'ufdsuyr8734rfhjsdfksklfdsigfysjdsfdsgsfhgh878');
+                        'ghjklsgdferty27364uyrhjskytrghso');
                     final iv = IV.fromLength(16);
 
                     final encrypter = Encrypter(AES(key));
-
+                  
                     usersRef.add({
                       "fname": fNameController.text.trim(),
                       "lname": lNameController.text.trim(),
                       "email": emailController.text.trim(),
                       "phonenumber": phoneController.text.trim(),
-                      "password":
-                          encrypter.encrypt(pwController.text.trim(), iv: iv),
+                      "password": encrypter
+                          .encrypt(pwController.text.trim(), iv: iv)
+                          .base64,
                       "isConnected": false,
                       "merchantId": null,
                       "merchantSecret": null,
@@ -136,7 +137,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     dialogType: DialogType.INFO,
                     animType: AnimType.BOTTOMSLIDE,
                     title: 'Info',
-                    desc: e,
+                    desc: e.toString(),
                     btnCancel: Text(""),
                     btnOk: Text(""),
                   )..show();

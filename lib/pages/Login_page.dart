@@ -60,15 +60,15 @@ class _LoginPageState extends State<LoginPage> {
               .get();
 
           if (result.docs.length > 0) {
-            final key = KeyGet.Key.fromUtf8(
-                'ufdsuyr8734rfhjsdfksklfdsigfysjdsfdsgsfhgh878');
+            final key = KeyGet.Key.fromUtf8('ghjklsgdferty27364uyrhjskytrghso');
             final iv = IV.fromLength(16);
 
             final encrypter = Encrypter(AES(key));
             var resultPass = await usersRef
                 .where("password",
-                    isEqualTo: encrypter.encrypt(passwordController.text.trim(),
-                        iv: iv))
+                    isEqualTo: encrypter
+                        .encrypt(passwordController.text.trim(), iv: iv)
+                        .base64)
                 .get();
             if (resultPass.docs.length > 0) {
               SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -112,7 +112,7 @@ class _LoginPageState extends State<LoginPage> {
             dialogType: DialogType.INFO,
             animType: AnimType.BOTTOMSLIDE,
             title: 'Info',
-            desc: e,
+            desc: e.toString(),
             btnCancel: Text(""),
             btnOk: Text(""),
           )..show();
