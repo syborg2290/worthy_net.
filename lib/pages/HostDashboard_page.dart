@@ -257,7 +257,7 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                               : () => {
                                     AwesomeDialog(
                                       context: context,
-                                      dialogType: DialogType.INFO,
+                                      dialogType: DialogType.WARNING,
                                       animType: AnimType.BOTTOMSLIDE,
                                       title: 'Info',
                                       desc: "Payment details required!",
@@ -284,7 +284,7 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                               : () => {
                                     AwesomeDialog(
                                       context: context,
-                                      dialogType: DialogType.INFO,
+                                      dialogType: DialogType.WARNING,
                                       animType: AnimType.BOTTOMSLIDE,
                                       title: 'Info',
                                       desc: "Payment details required!",
@@ -311,7 +311,7 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                               : () => {
                                     AwesomeDialog(
                                       context: context,
-                                      dialogType: DialogType.INFO,
+                                      dialogType: DialogType.WARNING,
                                       animType: AnimType.BOTTOMSLIDE,
                                       title: 'Info',
                                       desc: "Payment details required!",
@@ -338,7 +338,7 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                               : () => {
                                     AwesomeDialog(
                                       context: context,
-                                      dialogType: DialogType.INFO,
+                                      dialogType: DialogType.WARNING,
                                       animType: AnimType.BOTTOMSLIDE,
                                       title: 'Info',
                                       desc: "Payment details required!",
@@ -365,7 +365,7 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                               : () => {
                                     AwesomeDialog(
                                       context: context,
-                                      dialogType: DialogType.INFO,
+                                      dialogType: DialogType.WARNING,
                                       animType: AnimType.BOTTOMSLIDE,
                                       title: 'Info',
                                       desc: "Payment details required!",
@@ -392,7 +392,7 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                               : () => {
                                     AwesomeDialog(
                                       context: context,
-                                      dialogType: DialogType.INFO,
+                                      dialogType: DialogType.WARNING,
                                       animType: AnimType.BOTTOMSLIDE,
                                       title: 'Info',
                                       desc: "Payment details required!",
@@ -419,7 +419,7 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                               : () => {
                                     AwesomeDialog(
                                       context: context,
-                                      dialogType: DialogType.INFO,
+                                      dialogType: DialogType.WARNING,
                                       animType: AnimType.BOTTOMSLIDE,
                                       title: 'Info',
                                       desc: "Payment details required!",
@@ -446,7 +446,7 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                               : () => {
                                     AwesomeDialog(
                                       context: context,
-                                      dialogType: DialogType.INFO,
+                                      dialogType: DialogType.WARNING,
                                       animType: AnimType.BOTTOMSLIDE,
                                       title: 'Info',
                                       desc: "Payment details required!",
@@ -473,7 +473,7 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                               : () => {
                                     AwesomeDialog(
                                       context: context,
-                                      dialogType: DialogType.INFO,
+                                      dialogType: DialogType.WARNING,
                                       animType: AnimType.BOTTOMSLIDE,
                                       title: 'Info',
                                       desc: "Payment details required!",
@@ -500,7 +500,7 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                               : () => {
                                     AwesomeDialog(
                                       context: context,
-                                      dialogType: DialogType.INFO,
+                                      dialogType: DialogType.WARNING,
                                       animType: AnimType.BOTTOMSLIDE,
                                       title: 'Info',
                                       desc: "Payment details required!",
@@ -527,7 +527,7 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                               : () => {
                                     AwesomeDialog(
                                       context: context,
-                                      dialogType: DialogType.INFO,
+                                      dialogType: DialogType.WARNING,
                                       animType: AnimType.BOTTOMSLIDE,
                                       title: 'Info',
                                       desc: "Payment details required!",
@@ -554,7 +554,7 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                               : () => {
                                     AwesomeDialog(
                                       context: context,
-                                      dialogType: DialogType.INFO,
+                                      dialogType: DialogType.WARNING,
                                       animType: AnimType.BOTTOMSLIDE,
                                       title: 'Info',
                                       desc: "Payment details required!",
