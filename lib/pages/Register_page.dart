@@ -8,6 +8,8 @@ import 'package:worthy_net/pages/Login_page.dart';
 import 'package:worthy_net/utils/Color.dart';
 import 'package:worthy_net/widgets/Button_widget.dart';
 import 'package:worthy_net/widgets/Header_container.dart';
+import 'package:encrypt/encrypt.dart';
+import 'package:encrypt/encrypt.dart' as KeyGet;
 
 class RegisterPage extends StatefulWidget {
   @override
@@ -85,12 +87,38 @@ class _RegisterPageState extends State<RegisterPage> {
                   } else {
                     SharedPreferences prefs =
                         await SharedPreferences.getInstance();
+                    final key = KeyGet.Key.fromUtf8(
+                        'ufdsuyr8734rfhjsdfksklfdsigfysjdsfdsgsfhgh878');
+                    final iv = IV.fromLength(16);
+
+                    final encrypter = Encrypter(AES(key));
+
                     usersRef.add({
                       "fname": fNameController.text.trim(),
                       "lname": lNameController.text.trim(),
                       "email": emailController.text.trim(),
                       "phonenumber": phoneController.text.trim(),
-                      "password": pwController.text.trim(),
+                      "password":
+                          encrypter.encrypt(pwController.text.trim(), iv: iv),
+                      "isConnected": false,
+                      "merchantId": null,
+                      "merchantSecret": null,
+                      "ssid": null,
+                      "hotspot_password": null,
+                      "packages": {
+                        "5": false,
+                        "10": false,
+                        "15": false,
+                        "20": false,
+                        "25": false,
+                        "30": false,
+                        "35": false,
+                        "40": false,
+                        "45": false,
+                        "50": false,
+                        "55": false,
+                        "60": false,
+                      }
                     }).then((_) async => {
                           await prefs
                               .setString("email", emailController.text)

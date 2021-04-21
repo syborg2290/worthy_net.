@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:worthy_net/utils/Color.dart';
 
 class HeaderContainer extends StatelessWidget {
-  var text = "";
- 
- HeaderContainer(this.text);
+  final String text;
+
+  HeaderContainer(this.text);
 
   @override
   Widget build(BuildContext context) {
@@ -20,14 +20,14 @@ class HeaderContainer extends StatelessWidget {
       child: Stack(
         children: <Widget>[
           Positioned(
-            bottom: 20,
-            right: 20,
+              bottom: 20,
+              right: 20,
               child: Text(
-            text,
-            style: TextStyle(color: Colors.white,fontSize: 20),
-          )),
+                text,
+                style: TextStyle(color: Colors.white, fontSize: 20),
+              )),
           Center(
-            child: Image.asset("assets/logo.png", width: 100, height: 100),
+            child: Image.asset("assets/logo.png", width: 250, height: 250),
           ),
         ],
       ),
