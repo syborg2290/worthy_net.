@@ -25,7 +25,6 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
   void initState() {
     super.initState();
     getUserEmailAndId();
-    //OpenSettings.openMainSetting()
   }
 
   getUserEmailAndId() async {
@@ -209,17 +208,12 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
             ),
           ),
           FlatButton(
-            onPressed: () => {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => PymantPage()),
-              ),
-            },
+            onPressed: () => {OpenSettings.openMainSetting()},
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Icon(Icons.settings),
-                Text("hotsport settings")
+                Icon(Icons.wifi_protected_setup),
+                Text("Turn on hotspot"),
               ],
             ),
           ),
