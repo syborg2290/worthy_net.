@@ -1,6 +1,7 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:open_settings/open_settings.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:worthy_net/config/collections.dart';
 import 'package:worthy_net/pages/Paymant_page.dart';
@@ -24,6 +25,7 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
   void initState() {
     super.initState();
     getUserEmailAndId();
+    //OpenSettings.openMainSetting()
   }
 
   getUserEmailAndId() async {
@@ -111,7 +113,7 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
     }
   }
 
-  modalWidget(BuildContext context, String package) {
+  modalWidget(BuildContext context, String package) async {
     showModalBottomSheet<void>(
       context: context,
       builder: (BuildContext context) {
@@ -215,24 +217,23 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                       childAspectRatio: (itemWidth / itemHeight),
                       children: <Widget>[
                         CardWidget(
-                          title: '  5MB',
-                          subTitle: 'LKR 2',
-                          img: 'assets/payhere.png',
-                          notConnected: '',
-                          unavailable: '',
-                          onClick: snapshot.data["merchantId"] &&
-                                  snapshot.data["merchantSecret"]
-                              ? () => modalWidget(context, "5")
-                              : null,
-                        ),
+                            title: '  5MB',
+                            subTitle: 'LKR 2',
+                            img: 'assets/payhere.png',
+                            notConnected: '',
+                            unavailable: '',
+                            onClick: snapshot.data["merchantId"] != null &&
+                                    snapshot.data["merchantSecret"] != null
+                                ? () => modalWidget(context, "5")
+                                : null),
                         CardWidget(
                           title: '10MB',
                           subTitle: 'LKR 5',
                           notConnected: '',
                           unavailable: '',
                           img: 'assets/payhere.png',
-                          onClick: snapshot.data["merchantId"] &&
-                                  snapshot.data["merchantSecret"]
+                          onClick: snapshot.data["merchantId"] != null &&
+                                  snapshot.data["merchantSecret"] != null
                               ? () => modalWidget(context, "10")
                               : null,
                         ),
@@ -242,8 +243,8 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                           notConnected: '',
                           unavailable: '',
                           img: 'assets/payhere.png',
-                          onClick: snapshot.data["merchantId"] &&
-                                  snapshot.data["merchantSecret"]
+                          onClick: snapshot.data["merchantId"] != null &&
+                                  snapshot.data["merchantSecret"] != null
                               ? () => modalWidget(context, "15")
                               : null,
                         ),
@@ -253,8 +254,8 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                           notConnected: '',
                           unavailable: '',
                           img: 'assets/payhere.png',
-                          onClick: snapshot.data["merchantId"] &&
-                                  snapshot.data["merchantSecret"]
+                          onClick: snapshot.data["merchantId"] != null &&
+                                  snapshot.data["merchantSecret"] != null
                               ? () => modalWidget(context, "20")
                               : null,
                         ),
@@ -264,8 +265,8 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                           notConnected: '',
                           unavailable: '',
                           img: 'assets/payhere.png',
-                          onClick: snapshot.data["merchantId"] &&
-                                  snapshot.data["merchantSecret"]
+                          onClick: snapshot.data["merchantId"] != null &&
+                                  snapshot.data["merchantSecret"] != null
                               ? () => modalWidget(context, "25")
                               : null,
                         ),
@@ -275,8 +276,8 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                           notConnected: '',
                           unavailable: '',
                           img: 'assets/payhere.png',
-                          onClick: snapshot.data["merchantId"] &&
-                                  snapshot.data["merchantSecret"]
+                          onClick: snapshot.data["merchantId"] != null &&
+                                  snapshot.data["merchantSecret"] != null
                               ? () => modalWidget(context, "30")
                               : null,
                         ),
@@ -286,8 +287,8 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                           notConnected: '',
                           unavailable: '',
                           img: 'assets/payhere.png',
-                          onClick: snapshot.data["merchantId"] &&
-                                  snapshot.data["merchantSecret"]
+                          onClick: snapshot.data["merchantId"] != null &&
+                                  snapshot.data["merchantSecret"] != null
                               ? () => modalWidget(context, "35")
                               : null,
                         ),
@@ -297,8 +298,8 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                           notConnected: '',
                           unavailable: '',
                           img: 'assets/payhere.png',
-                          onClick: snapshot.data["merchantId"] &&
-                                  snapshot.data["merchantSecret"]
+                          onClick: snapshot.data["merchantId"] != null &&
+                                  snapshot.data["merchantSecret"] != null
                               ? () => modalWidget(context, "40")
                               : null,
                         ),
@@ -308,8 +309,8 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                           notConnected: '',
                           unavailable: '',
                           img: 'assets/payhere.png',
-                          onClick: snapshot.data["merchantId"] &&
-                                  snapshot.data["merchantSecret"]
+                          onClick: snapshot.data["merchantId"] != null &&
+                                  snapshot.data["merchantSecret"] != null
                               ? () => modalWidget(context, "45")
                               : null,
                         ),
@@ -319,8 +320,8 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                           notConnected: '',
                           unavailable: '',
                           img: 'assets/payhere.png',
-                          onClick: snapshot.data["merchantId"] &&
-                                  snapshot.data["merchantSecret"]
+                          onClick: snapshot.data["merchantId"] != null &&
+                                  snapshot.data["merchantSecret"] != null
                               ? () => modalWidget(context, "50")
                               : null,
                         ),
@@ -330,8 +331,8 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                           notConnected: '',
                           unavailable: '',
                           img: 'assets/payhere.png',
-                          onClick: snapshot.data["merchantId"] &&
-                                  snapshot.data["merchantSecret"]
+                          onClick: snapshot.data["merchantId"] != null &&
+                                  snapshot.data["merchantSecret"] != null
                               ? () => modalWidget(context, "55")
                               : null,
                         ),
@@ -341,8 +342,8 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                           notConnected: '',
                           unavailable: '',
                           img: 'assets/payhere.png',
-                          onClick: snapshot.data["merchantId"] &&
-                                  snapshot.data["merchantSecret"]
+                          onClick: snapshot.data["merchantId"] != null &&
+                                  snapshot.data["merchantSecret"] != null
                               ? () => modalWidget(context, "60")
                               : null,
                         ),
