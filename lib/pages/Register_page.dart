@@ -185,102 +185,104 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: PreferredSize(
+          preferredSize: Size.fromHeight(3.0), // here the desired height
+          child: AppBar(
+            automaticallyImplyLeading: false,
+          )),
       // resizeToAvoidBottomInset: false,
       body: Container(
         padding: EdgeInsets.only(bottom: 5),
-        child: Column(
+        child: ListView(
           children: <Widget>[
             HeaderContainer("Register"),
-            Expanded(
-              child: Container(
-                margin: EdgeInsets.only(left: 20, right: 20, top: 30),
-                //Column
-                //ListView
-                child: ListView(
-                  shrinkWrap: true,
-                  // mainAxisAlignment: MainAxisAlignment.center,
-                  // crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    textInput(
-                        controller: fNameController,
-                        hint: "First Name",
-                        icon: Icons.person),
-                    Text(valFirstName,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(color: validationColors)),
-                    textInput(
-                        controller: lNameController,
-                        hint: "Last Name",
-                        icon: Icons.person),
-                    Text(valLastName,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(color: validationColors)),
-                    textInput(
-                        controller: emailController,
-                        hint: "Email",
-                        icon: Icons.email),
-                    Text(valEmail,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(color: validationColors)),
-                    numbersdInput(
-                        controller: phoneController,
-                        hint: "Phone Number",
-                        icon: Icons.phone),
-                    Text(valPhone,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(color: validationColors)),
-                    passwordInput(
-                      controller: pwController,
-                      hint: "Password",
-                      icon: Icons.vpn_key,
+            Container(
+              margin: EdgeInsets.only(left: 20, right: 20, top: 30),
+              //Column
+              //ListView
+              child: Column(
+                // shrinkWrap: true,
+                // mainAxisAlignment: MainAxisAlignment.center,
+                // crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  textInput(
+                      controller: fNameController,
+                      hint: "First Name",
+                      icon: Icons.person),
+                  Text(valFirstName,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(color: validationColors)),
+                  textInput(
+                      controller: lNameController,
+                      hint: "Last Name",
+                      icon: Icons.person),
+                  Text(valLastName,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(color: validationColors)),
+                  textInput(
+                      controller: emailController,
+                      hint: "Email",
+                      icon: Icons.email),
+                  Text(valEmail,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(color: validationColors)),
+                  numbersdInput(
+                      controller: phoneController,
+                      hint: "Phone Number",
+                      icon: Icons.phone),
+                  Text(valPhone,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(color: validationColors)),
+                  passwordInput(
+                    controller: pwController,
+                    hint: "Password",
+                    icon: Icons.vpn_key,
+                  ),
+                  Text(valPW,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(color: validationColors)),
+                  passwordInput(
+                      controller: cpwController,
+                      hint: "Confirm Password",
+                      icon: Icons.vpn_key_rounded),
+                  Text(valCPW,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(color: validationColors)),
+                  Container(
+                    padding: EdgeInsets.only(top: 5, bottom: 10),
+                    child: Center(
+                      child: isLoading
+                          ? Center(
+                              child: CircularProgressIndicator(
+                                backgroundColor: blueColors,
+                              ),
+                            )
+                          : ButtonWidget(
+                              onClick: () {
+                                register(); //register function
+                              },
+                              btnText: "REGISTER",
+                            ),
                     ),
-                    Text(valPW,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(color: validationColors)),
-                    passwordInput(
-                        controller: cpwController,
-                        hint: "Confirm Password",
-                        icon: Icons.vpn_key_rounded),
-                    Text(valCPW,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(color: validationColors)),
-                    Expanded(
-                      child: Center(
-                        child: isLoading
-                            ? Center(
-                                child: CircularProgressIndicator(
-                                  backgroundColor: blueColors,
-                                ),
-                              )
-                            : ButtonWidget(
-                                onClick: () {
-                                  register(); //register function
-                                },
-                                btnText: "REGISTER",
+                  ),
+                  RichText(
+                    text: TextSpan(children: [
+                      TextSpan(
+                          text: "Already a member ?",
+                          style: TextStyle(color: Colors.black)),
+                      TextSpan(
+                        text: "Login",
+                        style: TextStyle(color: blueColors,fontWeight: FontWeight.w600,fontSize:17,),
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () => Navigator.pop(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => LoginPage()),
                               ),
                       ),
-                    ),
-                    Center(
-                      child: RichText(
-                        text: TextSpan(children: [
-                          TextSpan(
-                              text: "Already a member ?",
-                              style: TextStyle(color: Colors.black)),
-                          TextSpan(
-                            text: "Login",
-                            style: TextStyle(color: blueColors),
-                            recognizer: TapGestureRecognizer()
-                              ..onTap = () => Navigator.pop(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => LoginPage()),
-                                  ),
-                          ),
-                        ]),
-                      ),
-                    ),
-                  ],
-                ),
+                    ]),
+                  ),
+                ],
               ),
             ),
           ],
@@ -292,12 +294,12 @@ class _RegisterPageState extends State<RegisterPage> {
   // input widget
   Widget textInput({controller, hint, icon}) {
     return Container(
-      margin: EdgeInsets.only(top: 10),
+      margin: EdgeInsets.only(top:0.2),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(20)),
         color: Colors.white,
       ),
-      padding: EdgeInsets.only(left: 10),
+      padding: EdgeInsets.only(left: 8),
       child: TextFormField(
         controller: controller,
         decoration: InputDecoration(
@@ -308,7 +310,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
   Widget passwordInput({controller, hint, icon}) {
     return Container(
-      margin: EdgeInsets.only(top: 10),
+      margin: EdgeInsets.only(top: 0.2),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(20)),
         color: Colors.white,
@@ -325,7 +327,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
   Widget numbersdInput({controller, hint, icon}) {
     return Container(
-      margin: EdgeInsets.only(top: 10),
+      margin: EdgeInsets.only(top: 0.2),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(20)),
         color: Colors.white,
