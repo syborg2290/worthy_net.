@@ -177,7 +177,7 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
     final double itemWidth = size.width / 2.5;
     return Scaffold(
       appBar: AppBar(
-        title: Text('Packages'),
+        title: Text(''),
         actions: <Widget>[
           FlatButton(
             onPressed: () => {
@@ -191,6 +191,21 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
               children: <Widget>[
                 Icon(Icons.monetization_on),
                 Text("Setup the payment")
+              ],
+            ),
+          ),
+          FlatButton(
+            onPressed: () => {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => PymantPage()),
+              ),
+            },
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Icon(Icons.settings),
+                Text("hotsport settings")
               ],
             ),
           ),
