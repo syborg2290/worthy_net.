@@ -10,6 +10,8 @@ import 'package:worthy_net/pages/Register_page.dart';
 import 'package:worthy_net/utils/Color.dart';
 import 'package:worthy_net/widgets/Button_widget.dart';
 import 'package:worthy_net/widgets/Header_container.dart';
+import 'package:encrypt/encrypt.dart';
+import 'package:encrypt/encrypt.dart' as KeyGet;
 
 class LoginPage extends StatefulWidget {
   @override
@@ -58,8 +60,15 @@ class _LoginPageState extends State<LoginPage> {
               .get();
 
           if (result.docs.length > 0) {
+            final key = KeyGet.Key.fromUtf8(
+                'ufdsuyr8734rfhjsdfksklfdsigfysjdsfdsgsfhgh878');
+            final iv = IV.fromLength(16);
+
+            final encrypter = Encrypter(AES(key));
             var resultPass = await usersRef
-                .where("password", isEqualTo: passwordController.text.trim())
+                .where("password",
+                    isEqualTo: encrypter.encrypt(passwordController.text.trim(),
+                        iv: iv))
                 .get();
             if (resultPass.docs.length > 0) {
               SharedPreferences prefs = await SharedPreferences.getInstance();
