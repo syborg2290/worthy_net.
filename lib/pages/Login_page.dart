@@ -127,6 +127,11 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: PreferredSize(
+          preferredSize: Size.fromHeight(3.0), // here the desired height
+          child: AppBar(
+            automaticallyImplyLeading: false,
+          )),
       body: WillPopScope(
         onWillPop: () async {
           exit(0);
@@ -183,7 +188,7 @@ class _LoginPageState extends State<LoginPage> {
                             style: TextStyle(color: Colors.black)),
                         TextSpan(
                           text: "Register",
-                          style: TextStyle(color: blueColors),
+                          style: TextStyle(color: blueColors,fontWeight: FontWeight.w600,fontSize:17,),
                           recognizer: TapGestureRecognizer()
                             ..onTap = () => Navigator.push(
                                   context,
