@@ -1,7 +1,12 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:worthy_net/config/collections.dart';
 import 'package:worthy_net/utils/Color.dart';
 import 'package:worthy_net/widgets/Button_widget.dart';
+import 'package:encrypt/encrypt.dart';
+import 'package:encrypt/encrypt.dart' as KeyGet;
 
 class PymantPage extends StatefulWidget {
   @override
@@ -9,7 +14,64 @@ class PymantPage extends StatefulWidget {
 }
 
 class _PymantPageState extends State<PymantPage> {
-  TextEditingController emailController = new TextEditingController();
+  TextEditingController merchantId = new TextEditingController();
+  TextEditingController merchantSec = new TextEditingController();
+  bool isLoading = false;
+
+  setPaymentDetails() async {
+    if (merchantId.text != "") {
+      if (merchantSec.text != "") {
+        final key = KeyGet.Key.fromUtf8(
+            'ufdsuyr8734rfhjsdfksklfdsigfysjdsfdsgsfhgh878');
+        final iv = IV.fromLength(16);
+
+        final encrypter = Encrypter(AES(key));
+        try {
+          setState(() {
+            isLoading = true;
+          });
+          SharedPreferences prefs = await SharedPreferences.getInstance();
+          var result = await usersRef
+              .where("email", isEqualTo: prefs.getString("email"))
+              .get();
+          if (result.docs.length > 0) {
+            await usersRef.doc(result.docs[0].id).update({
+              "merchantId": encrypter.encrypt(merchantId.text.trim(), iv: iv),
+              "merchantSecret":
+                  encrypter.encrypt(merchantSec.text.trim(), iv: iv),
+            }).then((_) async => {
+                  await prefs
+                      .setString(
+                          "merchantId",
+                          encrypter
+                              .encrypt(merchantId.text.trim(), iv: iv)
+                              .base16)
+                      .then((_) => {
+                            setState(() {
+                              isLoading = false;
+                            }),
+                            Navigator.pop(context)
+                          })
+                });
+          }
+        } catch (e) {
+          setState(() {
+            isLoading = false;
+          });
+          AwesomeDialog(
+            context: context,
+            dialogType: DialogType.INFO,
+            animType: AnimType.BOTTOMSLIDE,
+            title: 'Info',
+            desc: e,
+            btnCancel: Text(""),
+            btnOk: Text(""),
+          )..show();
+        }
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -70,19 +132,21 @@ class _PymantPageState extends State<PymantPage> {
                 children: <Widget>[
                   // Text('sdfsf', style: TextStyle(fontSize: 20)),
                   textInput(
-                      controller: emailController,
+                      controller: merchantId,
                       hint: "merchant id",
                       icon: Icons.military_tech_sharp),
                   textInput(
-                      controller: emailController,
+                      controller: merchantSec,
                       hint: "merchant secret",
                       icon: Icons.mobile_screen_share_rounded),
                   Container(
                     padding: const EdgeInsets.all(20.0),
-                    child: ButtonWidget(
-                      btnText:'Submit',
-                      onClick: () => Navigator.pop(context),
-                    ),
+                    child: isLoading
+                        ? Center(child: CircularProgressIndicator())
+                        : ButtonWidget(
+                            btnText: 'Submit',
+                            onClick: () => setPaymentDetails(),
+                          ),
                   )
                 ],
               ),

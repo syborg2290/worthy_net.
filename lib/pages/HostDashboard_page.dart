@@ -1,14 +1,118 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:worthy_net/config/collections.dart';
 import 'package:worthy_net/pages/Paymant_page.dart';
 import 'package:worthy_net/utils/Color.dart';
+import 'package:encrypt/encrypt.dart';
+import 'package:encrypt/encrypt.dart' as KeyGet;
 
-class HostDashboardPage extends StatelessWidget {
+class HostDashboardPage extends StatefulWidget {
+  @override
+  _HostDashboardPageState createState() => _HostDashboardPageState();
+}
+
+class _HostDashboardPageState extends State<HostDashboardPage> {
   final TextEditingController hostPassword = new TextEditingController();
   final TextEditingController ssIDController = new TextEditingController();
+  bool isLoading = false;
+  String userEmail = null;
+  String userId = null;
 
-  // popup
-  modalWidget(BuildContext context) {
+  @override
+  void initState() {
+    super.initState();
+    getUserEmailAndId();
+  }
+
+  getUserEmailAndId() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var result = await usersRef
+        .where("email", isEqualTo: prefs.getString("email"))
+        .get();
+    setState(() {
+      userId = result.docs[0].id;
+      userEmail = prefs.getString("email");
+    });
+  }
+
+  setUpHotspotConfig(BuildContext context) async {
+    if (ssIDController.text != "") {
+      if (hostPassword.text != "") {
+        setState(() {
+          isLoading = true;
+        });
+        final key = KeyGet.Key.fromUtf8(
+            'ufdsuyr8734rfhjsdfksklfdsigfysjdsfdsgsfhgh878');
+        final iv = IV.fromLength(16);
+
+        final encrypter = Encrypter(AES(key));
+        try {
+          SharedPreferences prefs = await SharedPreferences.getInstance();
+          var result =
+              await usersRef.where("email", isEqualTo: userEmail).get();
+          if (result.docs.length > 0) {
+            await usersRef.doc(userId).update({
+              "ssid": ssIDController.text.trim(),
+              "hotspot_password":
+                  encrypter.encrypt(hostPassword.text.trim(), iv: iv),
+            }).then((_) async => {
+                  await prefs
+                      .setString("ssid", ssIDController.text.trim())
+                      .then((_) => {
+                            Navigator.pop(context),
+                            setState(() {
+                              isLoading = false;
+                            })
+                          })
+                });
+          }
+        } catch (e) {
+          setState(() {
+            isLoading = false;
+          });
+          AwesomeDialog(
+            context: context,
+            dialogType: DialogType.INFO,
+            animType: AnimType.BOTTOMSLIDE,
+            title: 'Info',
+            desc: e,
+            btnCancel: Text(""),
+            btnOk: Text(""),
+          )..show();
+        }
+      } else {
+        setState(() {
+          isLoading = false;
+        });
+        AwesomeDialog(
+          context: context,
+          dialogType: DialogType.INFO,
+          animType: AnimType.BOTTOMSLIDE,
+          title: 'Info',
+          desc: "All fields are required!",
+          btnCancel: Text(""),
+          btnOk: Text(""),
+        )..show();
+      }
+    } else {
+      setState(() {
+        isLoading = false;
+      });
+      AwesomeDialog(
+        context: context,
+        dialogType: DialogType.INFO,
+        animType: AnimType.BOTTOMSLIDE,
+        title: 'Info',
+        desc: "All fields are required!",
+        btnCancel: Text(""),
+        btnOk: Text(""),
+      )..show();
+    }
+  }
+
+  modalWidget(BuildContext context, String package) {
     showModalBottomSheet<void>(
       context: context,
       builder: (BuildContext context) {
@@ -54,7 +158,7 @@ class HostDashboardPage extends StatelessWidget {
                 ),
                 ElevatedButton(
                   child: const Text('Submit'),
-                  onPressed: () => Navigator.pop(context),
+                  onPressed: () => setUpHotspotConfig(context),
                 )
               ],
             ),
@@ -72,7 +176,7 @@ class HostDashboardPage extends StatelessWidget {
     final double itemWidth = size.width / 2.5;
     return Scaffold(
       appBar: AppBar(
-        title: Text('Package'),
+        title: Text('Packages'),
         actions: <Widget>[
           FlatButton(
             onPressed: () => {
@@ -91,113 +195,163 @@ class HostDashboardPage extends StatelessWidget {
           ),
         ],
       ),
-      body: Container(
-        color: packageCardColor,
-        child: GridView.count(
-          crossAxisSpacing: 5,
-          mainAxisSpacing: 5,
-          crossAxisCount: 1,
-          childAspectRatio: (itemWidth / itemHeight),
-          children: <Widget>[
-            CardWidget(
-              title: '  5MB',
-              subTitle: 'LKR 2',
-              img: 'assets/payhere.png',
-              notConnected: '',
-              unavailable: '',
-              onClick: () => modalWidget(context),
-            ),
-            CardWidget(
-              title: '10MB',
-              subTitle: 'LKR 5',
-              notConnected: '',
-              unavailable: '',
-              img: 'assets/payhere.png',
-              onClick: () => modalWidget(context),
-            ),
-            CardWidget(
-              title: '15MB',
-              subTitle: 'LKR 7',
-              notConnected: '',
-              unavailable: '',
-              img: 'assets/payhere.png',
-              onClick: () => modalWidget(context),
-            ),
-            CardWidget(
-              title: '20MB',
-              subTitle: 'LKR 10',
-              notConnected: '',
-              unavailable: '',
-              img: 'assets/payhere.png',
-              onClick: () => modalWidget(context),
-            ),
-            CardWidget(
-              title: '25MB',
-              subTitle: 'LKR 5',
-              notConnected: '',
-              unavailable: '',
-              img: 'assets/payhere.png',
-              onClick: () => modalWidget(context),
-            ),
-            CardWidget(
-              title: '30MB',
-              subTitle: 'LKR 5',
-              notConnected: '',
-              unavailable: '',
-              img: 'assets/payhere.png',
-              onClick: () => modalWidget(context),
-            ),
-            CardWidget(
-              title: '35MB',
-              subTitle: 'LKR 5',
-              notConnected: '',
-              unavailable: '',
-              img: 'assets/payhere.png',
-              onClick: () => modalWidget(context),
-            ),
-            CardWidget(
-              title: '40MB',
-              subTitle: 'LKR 5',
-              notConnected: '',
-              unavailable: '',
-              img: 'assets/payhere.png',
-              onClick: () => modalWidget(context),
-            ),
-            CardWidget(
-              title: '45MB',
-              subTitle: 'LKR 5',
-              notConnected: '',
-              unavailable: '',
-              img: 'assets/payhere.png',
-              onClick: () => modalWidget(context),
-            ),
-            CardWidget(
-              title: '50MB',
-              subTitle: 'LKR 5',
-              notConnected: '',
-              unavailable: '',
-              img: 'assets/payhere.png',
-              onClick: () => modalWidget(context),
-            ),
-            CardWidget(
-              title: '55MB',
-              subTitle: 'LKR 5',
-              notConnected: '',
-              unavailable: '',
-              img: 'assets/payhere.png',
-              onClick: () => modalWidget(context),
-            ),
-            CardWidget(
-              title: '60MB',
-              subTitle: 'LKR 5',
-              notConnected: '',
-              unavailable: '',
-              img: 'assets/payhere.png',
-              onClick: () => modalWidget(context),
-            ),
-          ],
-        ),
-      ),
+      body: userEmail == null && userId == null
+          ? Center(
+              child: CircularProgressIndicator(),
+            )
+          : StreamBuilder(
+              stream: usersRef.doc(userId).snapshots(),
+              builder: (context, snapshot) {
+                if (!snapshot.hasData) {
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                } else {
+                  return Container(
+                    color: packageCardColor,
+                    child: GridView.count(
+                      crossAxisSpacing: 5,
+                      mainAxisSpacing: 5,
+                      crossAxisCount: 1,
+                      childAspectRatio: (itemWidth / itemHeight),
+                      children: <Widget>[
+                        CardWidget(
+                          title: '  5MB',
+                          subTitle: 'LKR 2',
+                          img: 'assets/payhere.png',
+                          notConnected: '',
+                          unavailable: '',
+                          onClick: snapshot.data["merchantId"] &&
+                                  snapshot.data["merchantSecret"]
+                              ? () => modalWidget(context, "5")
+                              : null,
+                        ),
+                        CardWidget(
+                          title: '10MB',
+                          subTitle: 'LKR 5',
+                          notConnected: '',
+                          unavailable: '',
+                          img: 'assets/payhere.png',
+                          onClick: snapshot.data["merchantId"] &&
+                                  snapshot.data["merchantSecret"]
+                              ? () => modalWidget(context, "10")
+                              : null,
+                        ),
+                        CardWidget(
+                          title: '15MB',
+                          subTitle: 'LKR 7',
+                          notConnected: '',
+                          unavailable: '',
+                          img: 'assets/payhere.png',
+                          onClick: snapshot.data["merchantId"] &&
+                                  snapshot.data["merchantSecret"]
+                              ? () => modalWidget(context, "15")
+                              : null,
+                        ),
+                        CardWidget(
+                          title: '20MB',
+                          subTitle: 'LKR 10',
+                          notConnected: '',
+                          unavailable: '',
+                          img: 'assets/payhere.png',
+                          onClick: snapshot.data["merchantId"] &&
+                                  snapshot.data["merchantSecret"]
+                              ? () => modalWidget(context, "20")
+                              : null,
+                        ),
+                        CardWidget(
+                          title: '25MB',
+                          subTitle: 'LKR 5',
+                          notConnected: '',
+                          unavailable: '',
+                          img: 'assets/payhere.png',
+                          onClick: snapshot.data["merchantId"] &&
+                                  snapshot.data["merchantSecret"]
+                              ? () => modalWidget(context, "25")
+                              : null,
+                        ),
+                        CardWidget(
+                          title: '30MB',
+                          subTitle: 'LKR 5',
+                          notConnected: '',
+                          unavailable: '',
+                          img: 'assets/payhere.png',
+                          onClick: snapshot.data["merchantId"] &&
+                                  snapshot.data["merchantSecret"]
+                              ? () => modalWidget(context, "30")
+                              : null,
+                        ),
+                        CardWidget(
+                          title: '35MB',
+                          subTitle: 'LKR 5',
+                          notConnected: '',
+                          unavailable: '',
+                          img: 'assets/payhere.png',
+                          onClick: snapshot.data["merchantId"] &&
+                                  snapshot.data["merchantSecret"]
+                              ? () => modalWidget(context, "35")
+                              : null,
+                        ),
+                        CardWidget(
+                          title: '40MB',
+                          subTitle: 'LKR 5',
+                          notConnected: '',
+                          unavailable: '',
+                          img: 'assets/payhere.png',
+                          onClick: snapshot.data["merchantId"] &&
+                                  snapshot.data["merchantSecret"]
+                              ? () => modalWidget(context, "40")
+                              : null,
+                        ),
+                        CardWidget(
+                          title: '45MB',
+                          subTitle: 'LKR 5',
+                          notConnected: '',
+                          unavailable: '',
+                          img: 'assets/payhere.png',
+                          onClick: snapshot.data["merchantId"] &&
+                                  snapshot.data["merchantSecret"]
+                              ? () => modalWidget(context, "45")
+                              : null,
+                        ),
+                        CardWidget(
+                          title: '50MB',
+                          subTitle: 'LKR 5',
+                          notConnected: '',
+                          unavailable: '',
+                          img: 'assets/payhere.png',
+                          onClick: snapshot.data["merchantId"] &&
+                                  snapshot.data["merchantSecret"]
+                              ? () => modalWidget(context, "50")
+                              : null,
+                        ),
+                        CardWidget(
+                          title: '55MB',
+                          subTitle: 'LKR 5',
+                          notConnected: '',
+                          unavailable: '',
+                          img: 'assets/payhere.png',
+                          onClick: snapshot.data["merchantId"] &&
+                                  snapshot.data["merchantSecret"]
+                              ? () => modalWidget(context, "55")
+                              : null,
+                        ),
+                        CardWidget(
+                          title: '60MB',
+                          subTitle: 'LKR 5',
+                          notConnected: '',
+                          unavailable: '',
+                          img: 'assets/payhere.png',
+                          onClick: snapshot.data["merchantId"] &&
+                                  snapshot.data["merchantSecret"]
+                              ? () => modalWidget(context, "60")
+                              : null,
+                        ),
+                      ],
+                    ),
+                  );
+                }
+              }),
     );
   }
 }
