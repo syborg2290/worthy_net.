@@ -21,8 +21,7 @@ class _PymantPageState extends State<PymantPage> {
   setPaymentDetails() async {
     if (merchantId.text != "") {
       if (merchantSec.text != "") {
-        final key = KeyGet.Key.fromUtf8(
-            'ufdsuyr8734rfhjsdfksklfdsigfysjdsfdsgsfhgh878');
+        final key = KeyGet.Key.fromUtf8('ghjklsgdferty27364uyrhjskytrghso');
         final iv = IV.fromLength(16);
 
         final encrypter = Encrypter(AES(key));
@@ -34,18 +33,20 @@ class _PymantPageState extends State<PymantPage> {
           var result = await usersRef
               .where("email", isEqualTo: prefs.getString("email"))
               .get();
+
           if (result.docs.length > 0) {
             await usersRef.doc(result.docs[0].id).update({
-              "merchantId": encrypter.encrypt(merchantId.text.trim(), iv: iv),
+              "merchantId":
+                  encrypter.encrypt(merchantId.text.trim(), iv: iv).base64,
               "merchantSecret":
-                  encrypter.encrypt(merchantSec.text.trim(), iv: iv),
+                  encrypter.encrypt(merchantSec.text.trim(), iv: iv).base64,
             }).then((_) async => {
                   await prefs
                       .setString(
                           "merchantId",
                           encrypter
                               .encrypt(merchantId.text.trim(), iv: iv)
-                              .base16)
+                              .base64)
                       .then((_) => {
                             setState(() {
                               isLoading = false;
@@ -63,7 +64,7 @@ class _PymantPageState extends State<PymantPage> {
             dialogType: DialogType.INFO,
             animType: AnimType.BOTTOMSLIDE,
             title: 'Info',
-            desc: e,
+            desc: e.toString(),
             btnCancel: Text(""),
             btnOk: Text(""),
           )..show();

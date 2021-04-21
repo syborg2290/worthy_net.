@@ -43,8 +43,7 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
         setState(() {
           isLoading = true;
         });
-        final key = KeyGet.Key.fromUtf8(
-            'ufdsuyr8734rfhjsdfksklfdsigfysjdsfdsgsfhgh878');
+        final key = KeyGet.Key.fromUtf8('ghjklsgdferty27364uyrhjskytrghso');
         final iv = IV.fromLength(16);
 
         final encrypter = Encrypter(AES(key));
@@ -56,7 +55,7 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
             await usersRef.doc(userId).update({
               "ssid": ssIDController.text.trim(),
               "hotspot_password":
-                  encrypter.encrypt(hostPassword.text.trim(), iv: iv),
+                  encrypter.encrypt(hostPassword.text.trim(), iv: iv).base64,
             }).then((_) async => {
                   await prefs
                       .setString("ssid", ssIDController.text.trim())
@@ -77,7 +76,7 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
             dialogType: DialogType.INFO,
             animType: AnimType.BOTTOMSLIDE,
             title: 'Info',
-            desc: e,
+            desc: e.toString(),
             btnCancel: Text(""),
             btnOk: Text(""),
           )..show();
