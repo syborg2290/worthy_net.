@@ -10,3 +10,5 @@ Color packageCardColor = Color(0xffFFFFFF);
 Color dashbordColor = Color(0xff4D4A4F);
 Color modalColor = Colors.amber;
 Color appbarColor = Color(0xffAB8000);
+Color unavailableColor = Color(0xff008000);
+Color notConnectedColor = Color(0xffC71585);

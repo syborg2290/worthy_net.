@@ -172,8 +172,8 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
   Widget build(BuildContext context) {
     // data package card media query
     var size = MediaQuery.of(context).size;
-    final double itemHeight = (size.height - kToolbarHeight - 24) / 7;
-    final double itemWidth = size.width / 2;
+    final double itemHeight = (size.height - kToolbarHeight - 90) / 7;
+    final double itemWidth = size.width / 2.5;
     return Scaffold(
       appBar: AppBar(
         title: Text('Packages'),
@@ -185,9 +185,7 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                 MaterialPageRoute(builder: (context) => PymantPage()),
               ),
             },
-            // padding: EdgeInsets.all(0.5),
             child: Column(
-              // Replace with a Row for horizontal icon + text
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Icon(Icons.monetization_on),
@@ -210,10 +208,10 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                   );
                 } else {
                   return Container(
-                    color: dashbordColor,
+                    color: packageCardColor,
                     child: GridView.count(
                       crossAxisSpacing: 5,
-                      mainAxisSpacing: 20,
+                      mainAxisSpacing: 5,
                       crossAxisCount: 1,
                       childAspectRatio: (itemWidth / itemHeight),
                       children: <Widget>[
@@ -379,81 +377,79 @@ class CardWidget extends StatelessWidget {
     return FittedBox(
       fit: BoxFit.cover,
       child: Card(
-        margin: EdgeInsets.only(right: 5, top: 5, left: 5, bottom: 5),
-        elevation: 1,
+        elevation: 10,
         color: blueLightColors,
-        child: Padding(
-          padding: const EdgeInsets.all(0.0),
-          child: InkWell(
-            onTap: onClick,
-            child: Row(
-              children: <Widget>[
-                Column(
-                  // crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    Container(
-                      child: Text(
-                        title,
-                        textAlign: TextAlign.end,
-                        style: GoogleFonts.openSans(
-                          textStyle: TextStyle(
-                              color: textColors,
-                              fontSize: 40,
-                              fontWeight: FontWeight.w600),
-                        ),
+        child: InkWell(
+          onTap: onClick,
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                // crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  Container(
+                    child: Text(
+                      title,
+                      textAlign: TextAlign.end,
+                      style: GoogleFonts.openSans(
+                        textStyle: TextStyle(
+                            color: textColors,
+                            fontSize: 40,
+                            fontWeight: FontWeight.w600),
                       ),
                     ),
-                    Container(
-                      child: Text(
-                        subTitle,
-                        style: GoogleFonts.openSans(
-                          textStyle: TextStyle(
-                              color: textColors,
-                              fontSize: 20,
-                              fontWeight: FontWeight.w600),
-                        ),
+                  ),
+                  Container(
+                    child: Text(
+                      subTitle,
+                      style: GoogleFonts.openSans(
+                        textStyle: TextStyle(
+                            color: textColors,
+                            fontSize: 20,
+                            fontWeight: FontWeight.w600),
                       ),
                     ),
-                    Container(
-                      child: Text(
-                        unavailable,
-                        style: GoogleFonts.openSans(
-                          textStyle: TextStyle(
-                              color: textColors,
-                              fontSize: 20,
-                              fontWeight: FontWeight.w600),
-                        ),
+                  ),
+                  Container(
+                    child: Text(
+                      unavailable,
+                      style: GoogleFonts.openSans(
+                        textStyle: TextStyle(
+                            color: unavailableColor,
+                            fontSize: 15,
+                            fontWeight: FontWeight.w600),
                       ),
                     ),
-                    Container(
-                      child: Text(
-                        notConnected,
-                        style: GoogleFonts.openSans(
-                          textStyle: TextStyle(
-                              color: textColors,
-                              fontSize: 20,
-                              fontWeight: FontWeight.w600),
-                        ),
+                  ),
+                  Container(
+                    child: Text(
+                      notConnected,
+                      style: GoogleFonts.openSans(
+                        textStyle: TextStyle(
+                            color: notConnectedColor,
+                            fontSize: 15,
+                            fontWeight: FontWeight.w600),
                       ),
                     ),
-                  ],
-                ),
-                Column(
-                  children: <Widget>[
-                    Container(
-                      padding: const EdgeInsets.all(0.0),
-                      child: Image.asset(
-                        img,
-                        width: 135,
-                        height: 110,
-                        fit: BoxFit.cover,
-                      ),
+                  ),
+                ],
+              ),
+              Column(
+                children: <Widget>[
+                  Container(
+                    padding: const EdgeInsets.all(0.0),
+                    child: Image.asset(
+                      img,
+                      width: 135,
+                      height: 110,
+                      fit: BoxFit.cover,
                     ),
-                  ],
-                ),
-              ],
-            ),
+                  ),
+                ],
+              ),
+            ],
           ),
         ),
       ),
