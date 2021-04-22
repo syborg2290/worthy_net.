@@ -84,6 +84,7 @@ class _UserPageState extends State<UserPage> {
           : wifiNetworks.length <= 0
               ? Center(
                   child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Image.asset(
                       "assets/empty_hosts.png",
