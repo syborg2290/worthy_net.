@@ -676,12 +676,12 @@ class CardWidget extends StatelessWidget {
                   ),
                 ],
               ),
-              unavailable == "Available"
-                  ? Container(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Container(
+              Container(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    unavailable == "Available"
+                        ? Container(
                             // margin: EdgeInsets.only(top: 30),
                             padding: EdgeInsets.symmetric(horizontal: 20),
                             child: ElevatedButton.icon(
@@ -694,34 +694,34 @@ class CardWidget extends StatelessWidget {
                                 // onSurface: Colors.red,
                               ),
                             ),
-                          ),
-                          Container(
-                            child: Text(
-                              unavailable,
-                              style: GoogleFonts.openSans(
-                                textStyle: TextStyle(
-                                    color: unavailableColor,
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.w600),
-                              ),
-                            ),
-                          ),
-                          Container(
-                            // padding: EdgeInsets.only(bottom: 4.0),
-                            child: Text(
-                              notConnected,
-                              style: GoogleFonts.openSans(
-                                textStyle: TextStyle(
-                                    color: notConnectedColor,
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.w600),
-                              ),
-                            ),
-                          ),
-                        ],
+                          )
+                        : Text(""),
+                    Container(
+                      child: Text(
+                        unavailable,
+                        style: GoogleFonts.openSans(
+                          textStyle: TextStyle(
+                              color: unavailableColor,
+                              fontSize: 20,
+                              fontWeight: FontWeight.w600),
+                        ),
                       ),
-                    )
-                  : null,
+                    ),
+                    Container(
+                      // padding: EdgeInsets.only(bottom: 4.0),
+                      child: Text(
+                        notConnected,
+                        style: GoogleFonts.openSans(
+                          textStyle: TextStyle(
+                              color: notConnectedColor,
+                              fontSize: 20,
+                              fontWeight: FontWeight.w600),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ],
           ),
         ),
