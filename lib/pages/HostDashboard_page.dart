@@ -192,21 +192,21 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
     );
   }
 
-  disablePackage(String package, bool currentStatus) async {
+  disablePackage(String package, dynamic currentStatus) async {
     await usersRef.doc(userId).update({
       "packages": {
-        "5": package == "5" ? false : currentStatus,
-        "10": package == "10" ? false : currentStatus,
-        "15": package == "15" ? false : currentStatus,
-        "20": package == "20" ? false : currentStatus,
-        "25": package == "25" ? false : currentStatus,
-        "30": package == "30" ? false : currentStatus,
-        "35": package == "35" ? false : currentStatus,
-        "40": package == "40" ? false : currentStatus,
-        "45": package == "45" ? false : currentStatus,
-        "50": package == "50" ? false : currentStatus,
-        "55": package == "55" ? false : currentStatus,
-        "60": package == "60" ? false : currentStatus,
+        "5": package == "5" ? false : currentStatus["5"],
+        "10": package == "10" ? false : currentStatus["10"],
+        "15": package == "15" ? false : currentStatus["15"],
+        "20": package == "20" ? false : currentStatus["20"],
+        "25": package == "25" ? false : currentStatus["25"],
+        "30": package == "30" ? false : currentStatus["30"],
+        "35": package == "35" ? false : currentStatus["35"],
+        "40": package == "40" ? false : currentStatus["40"],
+        "45": package == "45" ? false : currentStatus["45"],
+        "50": package == "50" ? false : currentStatus["50"],
+        "55": package == "55" ? false : currentStatus["55"],
+        "60": package == "60" ? false : currentStatus["60"],
       }
     }).then((_) => {
           setState(() {
@@ -297,8 +297,8 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                                       btnOk: Text(""),
                                     )..show()
                                   },
-                          btnClick: () => disablePackage(
-                              "5", snapshot.data["packages"]["5"]),
+                          btnClick: () =>
+                              disablePackage("5", snapshot.data["packages"]),
                         ),
                         //////////////////////////////////////////////////////////////
                         CardWidget(
@@ -326,8 +326,8 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                                       btnOk: Text(""),
                                     )..show()
                                   },
-                          btnClick: () => disablePackage(
-                              "10", snapshot.data["packages"]["10"]),
+                          btnClick: () =>
+                              disablePackage("10", snapshot.data["packages"]),
                         ),
                         CardWidget(
                           title: '15MB',
@@ -354,8 +354,8 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                                       btnOk: Text(""),
                                     )..show()
                                   },
-                          btnClick: () => disablePackage(
-                              "15", snapshot.data["packages"]["15"]),
+                          btnClick: () =>
+                              disablePackage("15", snapshot.data["packages"]),
                         ),
                         CardWidget(
                           title: '20MB',
@@ -382,8 +382,8 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                                       btnOk: Text(""),
                                     )..show()
                                   },
-                          btnClick: () => disablePackage(
-                              "20", snapshot.data["packages"]["20"]),
+                          btnClick: () =>
+                              disablePackage("20", snapshot.data["packages"]),
                         ),
                         CardWidget(
                           title: '25MB',
@@ -410,8 +410,8 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                                       btnOk: Text(""),
                                     )..show()
                                   },
-                          btnClick: () => disablePackage(
-                              "25", snapshot.data["packages"]["25"]),
+                          btnClick: () =>
+                              disablePackage("25", snapshot.data["packages"]),
                         ),
                         CardWidget(
                           title: '30MB',
@@ -438,8 +438,8 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                                       btnOk: Text(""),
                                     )..show()
                                   },
-                          btnClick: () => disablePackage(
-                              "30", snapshot.data["packages"]["30"]),
+                          btnClick: () =>
+                              disablePackage("30", snapshot.data["packages"]),
                         ),
                         CardWidget(
                           title: '35MB',
@@ -466,8 +466,8 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                                       btnOk: Text(""),
                                     )..show()
                                   },
-                          btnClick: () => disablePackage(
-                              "35", snapshot.data["packages"]["35"]),
+                          btnClick: () =>
+                              disablePackage("35", snapshot.data["packages"]),
                         ),
                         CardWidget(
                           title: '40MB',
@@ -494,8 +494,8 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                                       btnOk: Text(""),
                                     )..show()
                                   },
-                          btnClick: () => disablePackage(
-                              "40", snapshot.data["packages"]["40"]),
+                          btnClick: () =>
+                              disablePackage("40", snapshot.data["packages"]),
                         ),
                         CardWidget(
                           title: '45MB',
@@ -522,8 +522,8 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                                       btnOk: Text(""),
                                     )..show()
                                   },
-                          btnClick: () => disablePackage(
-                              "45", snapshot.data["packages"]["45"]),
+                          btnClick: () =>
+                              disablePackage("45", snapshot.data["packages"]),
                         ),
                         CardWidget(
                           title: '50MB',
@@ -550,8 +550,8 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                                       btnOk: Text(""),
                                     )..show()
                                   },
-                          btnClick: () => disablePackage(
-                              "50", snapshot.data["packages"]["50"]),
+                          btnClick: () =>
+                              disablePackage("50", snapshot.data["packages"]),
                         ),
                         CardWidget(
                           title: '55MB',
@@ -578,14 +578,14 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                                       btnOk: Text(""),
                                     )..show()
                                   },
-                          btnClick: () => disablePackage(
-                              "55", snapshot.data["packages"]["55"]),
+                          btnClick: () =>
+                              disablePackage("55", snapshot.data["packages"]),
                         ),
                         CardWidget(
                           title: '60MB',
                           subTitle: 'LKR 5',
-                          btnClick: () => disablePackage(
-                              "60", snapshot.data["packages"]["60"]),
+                          btnClick: () =>
+                              disablePackage("60", snapshot.data["packages"]),
                           notConnected:
                               snapshot.data["packages"]["60"] == true &&
                                       snapshot.data["isConnected"] == true
