@@ -3,8 +3,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:worthy_net/utils/Color.dart';
 
 class UserDetailsPage extends StatelessWidget {
-  final int index;
-  UserDetailsPage(this.index);
+  // final int index;
+  // UserDetailsPage(this.index);
 
   @override
   Widget build(BuildContext context) {
@@ -28,98 +28,98 @@ class UserDetailsPage extends StatelessWidget {
             CardWidget(
               title: '  5MB',
               subTitle: 'LKR 2',
-              img: 'assets/payhere.png',
-              notConnected: '',
-              unavailable: '',
+              notConnected: 'no  tConnected',
+              unavailable: 'not Connected',
               onClick: () => {},
+              btnClick: () => {},
             ),
             CardWidget(
               title: '10MB',
               subTitle: 'LKR 5',
               notConnected: '',
               unavailable: '',
-              img: 'assets/payhere.png',
               onClick: () => {},
+              btnClick: () => {},
             ),
             CardWidget(
               title: '15MB',
               subTitle: 'LKR 7',
               notConnected: '',
               unavailable: '',
-              img: 'assets/payhere.png',
               onClick: () => {},
+              btnClick: () => {},
             ),
             CardWidget(
               title: '20MB',
               subTitle: 'LKR 10',
               notConnected: '',
               unavailable: '',
-              img: 'assets/payhere.png',
               onClick: () => {},
+              btnClick: () => {},
             ),
             CardWidget(
               title: '25MB',
               subTitle: 'LKR 5',
               notConnected: '',
               unavailable: '',
-              img: 'assets/payhere.png',
               onClick: () => {},
+              btnClick: () => {},
             ),
             CardWidget(
               title: '30MB',
               subTitle: 'LKR 5',
               notConnected: '',
               unavailable: '',
-              img: 'assets/payhere.png',
               onClick: () => {},
+              btnClick: () => {},
             ),
             CardWidget(
               title: '35MB',
               subTitle: 'LKR 5',
               notConnected: '',
               unavailable: '',
-              img: 'assets/payhere.png',
               onClick: () => {},
+              btnClick: () => {},
             ),
             CardWidget(
               title: '40MB',
               subTitle: 'LKR 5',
               notConnected: '',
               unavailable: '',
-              img: 'assets/payhere.png',
               onClick: () => {},
+              btnClick: () => {},
             ),
             CardWidget(
               title: '45MB',
               subTitle: 'LKR 5',
               notConnected: '',
               unavailable: '',
-              img: 'assets/payhere.png',
               onClick: () => {},
+              btnClick: () => {},
             ),
             CardWidget(
               title: '50MB',
               subTitle: 'LKR 5',
               notConnected: '',
               unavailable: '',
-              img: 'assets/payhere.png',
               onClick: () => {},
+              btnClick: () => {},
             ),
             CardWidget(
               title: '55MB',
               subTitle: 'LKR 5',
               notConnected: '',
               unavailable: '',
-              img: 'assets/payhere.png',
               onClick: () => {},
+              btnClick: () => {},
             ),
             CardWidget(
               title: '60MB',
               subTitle: 'LKR 5',
               notConnected: '',
               unavailable: '',
-              img: 'assets/payhere.png',
               onClick: () => {},
+              btnClick: () => {},
             ),
           ],
         ),
@@ -132,7 +132,7 @@ class UserDetailsPage extends StatelessWidget {
 class CardWidget extends StatelessWidget {
   final String subTitle;
   final String title;
-  final String img;
+  final btnClick;
   final String unavailable;
   final String notConnected;
   final onClick;
@@ -140,27 +140,27 @@ class CardWidget extends StatelessWidget {
   CardWidget(
       {this.subTitle,
       this.onClick,
-      this.img,
+      this.btnClick,
       this.title,
       this.notConnected,
       this.unavailable});
 
   @override
   Widget build(BuildContext context) {
-    return FittedBox(
-      fit: BoxFit.cover,
-      child: Card(
-        elevation: 10,
-        color: blueLightColors,
-        child: InkWell(
-          onTap: onClick,
+    return Card(
+      elevation: 10,
+      color: blueLightColors,
+      child: InkWell(
+        onTap: onClick,
+        child: Container(
+          padding: EdgeInsets.all(MediaQuery.of(context).size.width / 25),
           child: Row(
             mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
               Column(
                 mainAxisSize: MainAxisSize.min,
-                // crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Container(
                     child: Text(
@@ -169,7 +169,7 @@ class CardWidget extends StatelessWidget {
                       style: GoogleFonts.openSans(
                         textStyle: TextStyle(
                             color: textColors,
-                            fontSize: 40,
+                            fontSize: 55,
                             fontWeight: FontWeight.w600),
                       ),
                     ),
@@ -185,43 +185,51 @@ class CardWidget extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Container(
-                    child: Text(
-                      unavailable,
-                      style: GoogleFonts.openSans(
-                        textStyle: TextStyle(
-                            color: unavailableColor,
-                            fontSize: 10,
-                            fontWeight: FontWeight.w600),
-                      ),
-                    ),
-                  ),
-                  Container(
-                    padding: EdgeInsets.only(bottom: 4.0),
-                    child: Text(
-                      notConnected,
-                      style: GoogleFonts.openSans(
-                        textStyle: TextStyle(
-                            color: notConnectedColor,
-                            fontSize: 10,
-                            fontWeight: FontWeight.w600),
-                      ),
-                    ),
-                  ),
                 ],
               ),
-              Column(
-                children: <Widget>[
-                  Container(
-                    // padding: const EdgeInsets.all(0.0),
-                    child: Image.asset(
-                      img,
-                      width: 130,
-                      height: 90,
-                      fit: BoxFit.cover,
+              Container(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Container(
+                      // margin: EdgeInsets.only(top: 30),
+                      padding: EdgeInsets.symmetric(horizontal: 20),
+                      child: ElevatedButton.icon(
+                        label: Text('Disconnect'),
+                        icon: Icon(Icons.wifi_off_outlined),
+                        onPressed: btnClick,
+                        style: ElevatedButton.styleFrom(
+                          primary: Colors.yellow,
+                          onPrimary: Colors.black,
+                          // onSurface: Colors.red,
+                        ),
+                      ),
                     ),
-                  ),
-                ],
+                    Container(
+                      child: Text(
+                        unavailable,
+                        style: GoogleFonts.openSans(
+                          textStyle: TextStyle(
+                              color: unavailableColor,
+                              fontSize: 15,
+                              fontWeight: FontWeight.w600),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      padding: EdgeInsets.only(bottom: 4.0),
+                      child: Text(
+                        notConnected,
+                        style: GoogleFonts.openSans(
+                          textStyle: TextStyle(
+                              color: notConnectedColor,
+                              fontSize: 15,
+                              fontWeight: FontWeight.w600),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ],
           ),

@@ -81,10 +81,10 @@ class _UserPageState extends State<UserPage> {
           ),
           trailing: Icon(Icons.arrow_forward),
           onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => UserDetailsPage(index)),
-            );
+            // Navigator.push(
+            //   context,
+            //   MaterialPageRoute(builder: (context) => UserDetailsPage(index)),
+            // );
           },
         );
       },

@@ -12,4 +12,4 @@ Color modalColor = Colors.amber;
 Color appbarColor = Color(0xffAB8000);
 Color unavailableColor = Color(0xff008000);
 Color notConnectedColor = Color(0xffC71585);
-Color cardBtnTextColor = Color(0xff000000);
+Color cardBtnTextColor = Color(0xffFFFFFF);

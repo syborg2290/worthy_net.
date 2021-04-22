@@ -5,6 +5,7 @@ import 'package:open_settings/open_settings.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:worthy_net/config/collections.dart';
 import 'package:worthy_net/pages/Paymant_page.dart';
+import 'package:worthy_net/pages/UserDetails_page.dart';
 import 'package:worthy_net/utils/Color.dart';
 import 'package:encrypt/encrypt.dart';
 import 'package:encrypt/encrypt.dart' as KeyGet;
@@ -273,8 +274,13 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                                       btnOk: Text(""),
                                     )..show()
                                   },
-                          btnClick: () {},
+                          btnClick: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => UserDetailsPage()),
+                          ),
                         ),
+                        //////////////////////////////////////////////////////////////
                         CardWidget(
                           title: '10MB',
                           subTitle: 'LKR 5',
@@ -637,29 +643,6 @@ class CardWidget extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Container(
-                    child: Text(
-                      unavailable,
-                      style: GoogleFonts.openSans(
-                        textStyle: TextStyle(
-                            color: unavailableColor,
-                            fontSize: 20,
-                            fontWeight: FontWeight.w600),
-                      ),
-                    ),
-                  ),
-                  Container(
-                    // padding: EdgeInsets.only(bottom: 4.0),
-                    child: Text(
-                      notConnected,
-                      style: GoogleFonts.openSans(
-                        textStyle: TextStyle(
-                            color: notConnectedColor,
-                            fontSize: 20,
-                            fontWeight: FontWeight.w600),
-                      ),
-                    ),
-                  ),
                 ],
               ),
               Container(
@@ -670,13 +653,36 @@ class CardWidget extends StatelessWidget {
                       // margin: EdgeInsets.only(top: 30),
                       padding: EdgeInsets.symmetric(horizontal: 20),
                       child: ElevatedButton.icon(
-                        label: Text('Submit'),
+                        label: Text('Disable'),
                         icon: Icon(Icons.web),
                         onPressed: btnClick,
                         style: ElevatedButton.styleFrom(
-                          primary: modalColor,
+                          primary: Colors.red,
                           onPrimary: cardBtnTextColor,
                           // onSurface: Colors.red,
+                        ),
+                      ),
+                    ),
+                    Container(
+                      child: Text(
+                        unavailable,
+                        style: GoogleFonts.openSans(
+                          textStyle: TextStyle(
+                              color: unavailableColor,
+                              fontSize: 20,
+                              fontWeight: FontWeight.w600),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      // padding: EdgeInsets.only(bottom: 4.0),
+                      child: Text(
+                        notConnected,
+                        style: GoogleFonts.openSans(
+                          textStyle: TextStyle(
+                              color: notConnectedColor,
+                              fontSize: 20,
+                              fontWeight: FontWeight.w600),
                         ),
                       ),
                     ),
