@@ -5,7 +5,6 @@ import 'package:open_settings/open_settings.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:worthy_net/config/collections.dart';
 import 'package:worthy_net/pages/Paymant_page.dart';
-import 'package:worthy_net/pages/UserDetails_page.dart';
 import 'package:worthy_net/utils/Color.dart';
 import 'package:encrypt/encrypt.dart';
 import 'package:encrypt/encrypt.dart' as KeyGet;
@@ -55,7 +54,7 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
               await usersRef.where("email", isEqualTo: userEmail).get();
           if (result.docs.length > 0) {
             await usersRef.doc(userId).update({
-              "ssid": ssIDController.text.trim().toLowerCase(),
+              "ssid": ssIDController.text.trim(),
               "hotspot_password":
                   encrypter.encrypt(hostPassword.text.trim(), iv: iv).base64,
               "packages": {

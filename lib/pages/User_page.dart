@@ -10,33 +10,47 @@ class UserPage extends StatefulWidget {
 }
 
 class _UserPageState extends State<UserPage> {
-  List<WifiNetwork> wifiNetworks;
+  List<WifiNetwork> wifiNetworks = [];
   bool isLoading = true;
   @override
   void initState() {
     super.initState();
-    SimplyWifi.init();
-    SimplyWifi.turnOnWifi();
-    getListOfWifiAvailable();
+    SimplyWifi.init().then(
+      (intV) => {
+        if (intV)
+          {
+            SimplyWifi.turnOnWifi().then(
+              (value) => {getListOfWifiAvailable()},
+            )
+          }
+      },
+    );
   }
 
   getListOfWifiAvailable() async {
     // To get the list of Wifis
     List<WifiNetwork> _wifiNetworks = await SimplyWifi.getListOfWifis();
-    List<WifiNetwork> _wifiFiltered = [];
 
     for (var i = 0; i < _wifiNetworks.length; i++) {
-      var result = await usersRef
-          .where("ssid", isEqualTo: _wifiNetworks[i].ssid.toLowerCase())
-          .get();
-      if (result.docs.length > 0) {
-        _wifiFiltered.add(_wifiNetworks[i]);
-      }
+      await getUserDocUsingSsid(_wifiNetworks[i]);
     }
-    setState(() {
-      wifiNetworks = _wifiFiltered;
-      isLoading = false;
-    });
+  }
+
+  getUserDocUsingSsid(WifiNetwork wifiNetworksRe) async {
+    try {
+      var result =
+          await usersRef.where("ssid", isEqualTo: wifiNetworksRe.ssid).get();
+
+      if (result.docs.length > 0) {
+        wifiNetworks.add(wifiNetworksRe);
+      }
+
+      setState(() {
+        isLoading = false;
+      });
+    } catch (e) {
+      print(e);
+    }
   }
 
   getUserDetailsFromSsidAndNavigate(String ssid, int index) async {
@@ -45,8 +59,14 @@ class _UserPageState extends State<UserPage> {
       Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => UserDetailsPage(index,
-                result.docs[0].data()["email"], result.docs[0].data()["ssid"])),
+          builder: (context) => UserDetailsPage(
+            index,
+            result.docs[0].data()["email"],
+            result.docs[0].id,
+            ssid.toLowerCase(),
+            result.docs[0].data()["hotspot_password"],
+          ),
+        ),
       );
     }
   }

@@ -1,12 +1,54 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:simply_wifi/simply_wifi.dart';
+import 'package:worthy_net/config/collections.dart';
 import 'package:worthy_net/utils/Color.dart';
+import 'package:encrypt/encrypt.dart' as KeyGet;
+import 'package:encrypt/encrypt.dart';
 
-class UserDetailsPage extends StatelessWidget {
+class UserDetailsPage extends StatefulWidget {
   final int index;
   final String email;
   final String userId;
-  UserDetailsPage(this.index, this.email, this.userId);
+  final String ssid;
+  final String hotspassword;
+  UserDetailsPage(
+      this.index, this.email, this.userId, this.ssid, this.hotspassword);
+
+  @override
+  _UserDetailsPageState createState() => _UserDetailsPageState();
+}
+
+class _UserDetailsPageState extends State<UserDetailsPage> {
+  bool isLoading = false;
+
+  connectToHotspot() async {
+    final key = KeyGet.Key.fromUtf8('ghjklsgdferty27364uyrhjskytrghso');
+    final iv = IV.fromLength(16);
+    final encrypter = Encrypter(AES(key));
+    SimplyWifi.connectWifiByName(widget.ssid,
+            password: encrypter.decrypt64(widget.hotspassword, iv: iv))
+        .then((value) async => {
+              if (value)
+                {
+                  await usersRef
+                      .doc(widget.userId)
+                      .update({"isConnected": true}).then(
+                          (_) => {currentUserIsConnected()}),
+                }
+            });
+  }
+
+  currentUserIsConnected() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var result = await usersRef
+        .where("email", isEqualTo: prefs.getString("email"))
+        .get();
+    if (result.docs.length > 0) {
+      await usersRef.doc(result.docs[0].id).update({"isConnected": true});
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +58,7 @@ class UserDetailsPage extends StatelessWidget {
     final double itemWidth = size.width / 2;
     return Scaffold(
       appBar: AppBar(
-        title: Text('pakage details'),
+        title: Text('package details'),
       ),
       // child: Text('details #$index'),
       body: Container(
