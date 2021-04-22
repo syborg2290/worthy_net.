@@ -118,15 +118,12 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
       context: context,
       builder: (BuildContext context) {
         return Container(
-          height: 300,
+          height: MediaQuery.of(context).size.height / 2,
+          // width: double.infinity,
           color: modalColor,
           child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              mainAxisSize: MainAxisSize.min,
+            child: ListView(
               children: <Widget>[
-                Text('Enter your hotspot password SSID',
-                    style: TextStyle(fontSize: 20)),
                 Container(
                   margin: EdgeInsets.only(left: 20, right: 20, top: 30),
                   decoration: BoxDecoration(
@@ -157,10 +154,21 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                         prefixIcon: Icon(Icons.wifi_lock_rounded)),
                   ),
                 ),
-                ElevatedButton(
-                  child: const Text('Submit'),
-                  onPressed: () => setUpHotspotConfig(context),
-                )
+                Container(
+                  // width: MediaQuery.of(context).size.width,
+                  margin: EdgeInsets.only(top: 10),
+                  padding: EdgeInsets.symmetric(horizontal: 65),
+                  child: Text('Enter your hotspot password and SSID',
+                      style: TextStyle(fontSize: 20)),
+                ),
+                Container(
+                  margin: EdgeInsets.only(top: 30),
+                  padding: EdgeInsets.symmetric(horizontal: 60),
+                  child: ElevatedButton(
+                    child: const Text('Submit'),
+                    onPressed: () => setUpHotspotConfig(context),
+                  ),
+                ),
               ],
             ),
           ),
@@ -173,8 +181,8 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
   Widget build(BuildContext context) {
     // data package card media query
     var size = MediaQuery.of(context).size;
-    final double itemHeight = (size.height - kToolbarHeight - 90) / 7;
-    final double itemWidth = size.width / 2.5;
+    final double itemHeight = (size.height - kToolbarHeight - 24) / 7;
+    final double itemWidth = size.width / 2;
     return Scaffold(
       appBar: AppBar(
         title: Text(''),
@@ -232,135 +240,136 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                       childAspectRatio: (itemWidth / itemHeight),
                       children: <Widget>[
                         CardWidget(
-                            title: '  5MB',
-                            subTitle: 'LKR 2',
-                            img: 'assets/payhere.png',
-                            notConnected: '',
-                            unavailable: '',
-                            onClick: snapshot.data["merchantId"] != null &&
-                                    snapshot.data["merchantSecret"] != null
-                                ? () => modalWidget(context, "5")
-                                : null),
+                          title: '5MB',
+                          subTitle: 'LKR 2',
+                          notConnected: 'not Connected',
+                          unavailable: 'unavailable',
+                          onClick: snapshot.data["merchantId"] != null &&
+                                  snapshot.data["merchantSecret"] != null
+                              ? () => modalWidget(context, "5")
+                              : null,
+                          btnClick: () {},
+                        ),
                         CardWidget(
                           title: '10MB',
                           subTitle: 'LKR 5',
                           notConnected: '',
                           unavailable: '',
-                          img: 'assets/payhere.png',
                           onClick: snapshot.data["merchantId"] != null &&
                                   snapshot.data["merchantSecret"] != null
                               ? () => modalWidget(context, "10")
                               : null,
+                          btnClick: () {},
                         ),
                         CardWidget(
                           title: '15MB',
                           subTitle: 'LKR 7',
                           notConnected: '',
                           unavailable: '',
-                          img: 'assets/payhere.png',
                           onClick: snapshot.data["merchantId"] != null &&
                                   snapshot.data["merchantSecret"] != null
                               ? () => modalWidget(context, "15")
                               : null,
+                          btnClick: () {},
                         ),
                         CardWidget(
                           title: '20MB',
                           subTitle: 'LKR 10',
                           notConnected: '',
                           unavailable: '',
-                          img: 'assets/payhere.png',
                           onClick: snapshot.data["merchantId"] != null &&
                                   snapshot.data["merchantSecret"] != null
                               ? () => modalWidget(context, "20")
                               : null,
+                          btnClick: () {},
                         ),
                         CardWidget(
                           title: '25MB',
                           subTitle: 'LKR 5',
                           notConnected: '',
                           unavailable: '',
-                          img: 'assets/payhere.png',
                           onClick: snapshot.data["merchantId"] != null &&
                                   snapshot.data["merchantSecret"] != null
                               ? () => modalWidget(context, "25")
                               : null,
+                          btnClick: () {},
                         ),
                         CardWidget(
                           title: '30MB',
                           subTitle: 'LKR 5',
                           notConnected: '',
                           unavailable: '',
-                          img: 'assets/payhere.png',
                           onClick: snapshot.data["merchantId"] != null &&
                                   snapshot.data["merchantSecret"] != null
                               ? () => modalWidget(context, "30")
                               : null,
+                          btnClick: () {},
                         ),
                         CardWidget(
                           title: '35MB',
                           subTitle: 'LKR 5',
                           notConnected: '',
                           unavailable: '',
-                          img: 'assets/payhere.png',
                           onClick: snapshot.data["merchantId"] != null &&
                                   snapshot.data["merchantSecret"] != null
                               ? () => modalWidget(context, "35")
                               : null,
+                          btnClick: () {},
                         ),
                         CardWidget(
                           title: '40MB',
                           subTitle: 'LKR 5',
                           notConnected: '',
                           unavailable: '',
-                          img: 'assets/payhere.png',
                           onClick: snapshot.data["merchantId"] != null &&
                                   snapshot.data["merchantSecret"] != null
                               ? () => modalWidget(context, "40")
                               : null,
+                          btnClick: () {},
                         ),
                         CardWidget(
                           title: '45MB',
                           subTitle: 'LKR 5',
                           notConnected: '',
                           unavailable: '',
-                          img: 'assets/payhere.png',
                           onClick: snapshot.data["merchantId"] != null &&
                                   snapshot.data["merchantSecret"] != null
                               ? () => modalWidget(context, "45")
                               : null,
+                          btnClick: () {},
                         ),
                         CardWidget(
                           title: '50MB',
                           subTitle: 'LKR 5',
                           notConnected: '',
                           unavailable: '',
-                          img: 'assets/payhere.png',
                           onClick: snapshot.data["merchantId"] != null &&
                                   snapshot.data["merchantSecret"] != null
                               ? () => modalWidget(context, "50")
                               : null,
+                          btnClick: () {},
                         ),
                         CardWidget(
                           title: '55MB',
                           subTitle: 'LKR 5',
                           notConnected: '',
                           unavailable: '',
-                          img: 'assets/payhere.png',
                           onClick: snapshot.data["merchantId"] != null &&
                                   snapshot.data["merchantSecret"] != null
                               ? () => modalWidget(context, "55")
                               : null,
+                          btnClick: () {},
                         ),
                         CardWidget(
                           title: '60MB',
                           subTitle: 'LKR 5',
                           notConnected: '',
                           unavailable: '',
-                          img: 'assets/payhere.png',
                           onClick: snapshot.data["merchantId"] != null &&
                                   snapshot.data["merchantSecret"] != null
                               ? () => modalWidget(context, "60")
                               : null,
+                          btnClick: () {},
                         ),
                       ],
                     ),
@@ -374,35 +383,35 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
 class CardWidget extends StatelessWidget {
   final String subTitle;
   final String title;
-  final String img;
   final String unavailable;
   final String notConnected;
   final onClick;
+  final btnClick;
 
   CardWidget(
       {this.subTitle,
       this.onClick,
-      this.img,
+      this.btnClick,
       this.title,
       this.notConnected,
       this.unavailable});
 
   @override
   Widget build(BuildContext context) {
-    return FittedBox(
-      fit: BoxFit.cover,
-      child: Card(
-        elevation: 10,
-        color: blueLightColors,
-        child: InkWell(
-          onTap: onClick,
+    return Card(
+      elevation: 10,
+      color: blueLightColors,
+      child: InkWell(
+        onTap: onClick,
+        child: Container(
+          padding: EdgeInsets.all(MediaQuery.of(context).size.width / 25),
           child: Row(
             mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
               Column(
                 mainAxisSize: MainAxisSize.min,
-                // crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Container(
                     child: Text(
@@ -411,7 +420,7 @@ class CardWidget extends StatelessWidget {
                       style: GoogleFonts.openSans(
                         textStyle: TextStyle(
                             color: textColors,
-                            fontSize: 40,
+                            fontSize: 50,
                             fontWeight: FontWeight.w600),
                       ),
                     ),
@@ -422,7 +431,7 @@ class CardWidget extends StatelessWidget {
                       style: GoogleFonts.openSans(
                         textStyle: TextStyle(
                             color: textColors,
-                            fontSize: 20,
+                            fontSize: 25,
                             fontWeight: FontWeight.w600),
                       ),
                     ),
@@ -433,36 +442,45 @@ class CardWidget extends StatelessWidget {
                       style: GoogleFonts.openSans(
                         textStyle: TextStyle(
                             color: unavailableColor,
-                            fontSize: 15,
+                            fontSize: 20,
                             fontWeight: FontWeight.w600),
                       ),
                     ),
                   ),
                   Container(
+                    // padding: EdgeInsets.only(bottom: 4.0),
                     child: Text(
                       notConnected,
                       style: GoogleFonts.openSans(
                         textStyle: TextStyle(
                             color: notConnectedColor,
-                            fontSize: 15,
+                            fontSize: 20,
                             fontWeight: FontWeight.w600),
                       ),
                     ),
                   ),
                 ],
               ),
-              Column(
-                children: <Widget>[
-                  Container(
-                    padding: const EdgeInsets.all(0.0),
-                    child: Image.asset(
-                      img,
-                      width: 135,
-                      height: 110,
-                      fit: BoxFit.cover,
+              Container(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Container(
+                      // margin: EdgeInsets.only(top: 30),
+                      padding: EdgeInsets.symmetric(horizontal: 20),
+                      child: ElevatedButton.icon(
+                        label: Text('Submit'),
+                        icon: Icon(Icons.web),
+                        onPressed: btnClick,
+                        style: ElevatedButton.styleFrom(
+                          primary: modalColor,
+                          onPrimary: cardBtnTextColor,
+                          // onSurface: Colors.red,
+                        ),
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ],
           ),

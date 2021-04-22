@@ -10,8 +10,8 @@ class UserDetailsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     //mediaquery
     var size = MediaQuery.of(context).size;
-    final double itemHeight = (size.height - kToolbarHeight - 90) / 7;
-    final double itemWidth = size.width / 2.5;
+    final double itemHeight = (size.height - kToolbarHeight - 24) / 8;
+    final double itemWidth = size.width / 2;
     return Scaffold(
       appBar: AppBar(
         title: Text('pakage details'),
@@ -191,18 +191,19 @@ class CardWidget extends StatelessWidget {
                       style: GoogleFonts.openSans(
                         textStyle: TextStyle(
                             color: unavailableColor,
-                            fontSize: 15,
+                            fontSize: 10,
                             fontWeight: FontWeight.w600),
                       ),
                     ),
                   ),
                   Container(
+                    padding: EdgeInsets.only(bottom: 4.0),
                     child: Text(
                       notConnected,
                       style: GoogleFonts.openSans(
                         textStyle: TextStyle(
                             color: notConnectedColor,
-                            fontSize: 15,
+                            fontSize: 10,
                             fontWeight: FontWeight.w600),
                       ),
                     ),
@@ -212,11 +213,11 @@ class CardWidget extends StatelessWidget {
               Column(
                 children: <Widget>[
                   Container(
-                    padding: const EdgeInsets.all(0.0),
+                    // padding: const EdgeInsets.all(0.0),
                     child: Image.asset(
                       img,
-                      width: 135,
-                      height: 110,
+                      width: 130,
+                      height: 90,
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -229,4 +230,3 @@ class CardWidget extends StatelessWidget {
     );
   }
 }
-
