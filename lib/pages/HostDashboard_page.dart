@@ -25,7 +25,6 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
   void initState() {
     super.initState();
     getUserEmailAndId();
-    //OpenSettings.openMainSetting()
   }
 
   getUserEmailAndId() async {
@@ -39,7 +38,7 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
     });
   }
 
-  setUpHotspotConfig(BuildContext context) async {
+  setUpHotspotConfig(BuildContext context, String package) async {
     if (ssIDController.text != "") {
       if (hostPassword.text != "") {
         setState(() {
@@ -55,12 +54,27 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
               await usersRef.where("email", isEqualTo: userEmail).get();
           if (result.docs.length > 0) {
             await usersRef.doc(userId).update({
-              "ssid": ssIDController.text.trim(),
+              "ssid": ssIDController.text.trim().toLowerCase(),
               "hotspot_password":
                   encrypter.encrypt(hostPassword.text.trim(), iv: iv).base64,
+              "packages": {
+                "5": package == "5" ? true : false,
+                "10": package == "10" ? true : false,
+                "15": package == "15" ? true : false,
+                "20": package == "20" ? true : false,
+                "25": package == "25" ? true : false,
+                "30": package == "30" ? true : false,
+                "35": package == "35" ? true : false,
+                "40": package == "40" ? true : false,
+                "45": package == "45" ? true : false,
+                "50": package == "50" ? true : false,
+                "55": package == "55" ? true : false,
+                "60": package == "60" ? true : false,
+              }
             }).then((_) async => {
                   await prefs
-                      .setString("ssid", ssIDController.text.trim())
+                      .setString(
+                          "ssid", ssIDController.text.trim().toLowerCase())
                       .then((_) => {
                             Navigator.pop(context),
                             setState(() {
@@ -166,7 +180,7 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                   padding: EdgeInsets.symmetric(horizontal: 60),
                   child: ElevatedButton(
                     child: const Text('Submit'),
-                    onPressed: () => setUpHotspotConfig(context),
+                    onPressed: () => setUpHotspotConfig(context, package),
                   ),
                 ),
               ],
@@ -203,17 +217,12 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
             ),
           ),
           FlatButton(
-            onPressed: () => {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => PymantPage()),
-              ),
-            },
+            onPressed: () => {OpenSettings.openMainSetting()},
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Icon(Icons.settings),
-                Text("hotsport settings")
+                Icon(Icons.wifi_protected_setup),
+                Text("Turn on hotspot"),
               ],
             ),
           ),
@@ -242,134 +251,326 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                         CardWidget(
                           title: '5MB',
                           subTitle: 'LKR 2',
-                          notConnected: 'not Connected',
-                          unavailable: 'unavailable',
+                          notConnected:
+                              snapshot.data["packages"]["5"] == true &&
+                                      snapshot.data["isConnected"] == true
+                                  ? "Connected"
+                                  : "Not connected",
+                          unavailable: snapshot.data["packages"]["5"] == true
+                              ? "Available"
+                              : "Unavailable",
                           onClick: snapshot.data["merchantId"] != null &&
                                   snapshot.data["merchantSecret"] != null
                               ? () => modalWidget(context, "5")
-                              : null,
+                              : () => {
+                                    AwesomeDialog(
+                                      context: context,
+                                      dialogType: DialogType.WARNING,
+                                      animType: AnimType.BOTTOMSLIDE,
+                                      title: 'Info',
+                                      desc: "Payment details required!",
+                                      btnCancel: Text(""),
+                                      btnOk: Text(""),
+                                    )..show()
+                                  },
                           btnClick: () {},
                         ),
                         CardWidget(
                           title: '10MB',
                           subTitle: 'LKR 5',
-                          notConnected: '',
-                          unavailable: '',
+                          notConnected:
+                              snapshot.data["packages"]["10"] == true &&
+                                      snapshot.data["isConnected"] == true
+                                  ? "Connected"
+                                  : "Not connected",
+                          unavailable: snapshot.data["packages"]["10"] == true
+                              ? "Available"
+                              : "Unavailable",
                           onClick: snapshot.data["merchantId"] != null &&
                                   snapshot.data["merchantSecret"] != null
                               ? () => modalWidget(context, "10")
-                              : null,
+                              : () => {
+                                    AwesomeDialog(
+                                      context: context,
+                                      dialogType: DialogType.WARNING,
+                                      animType: AnimType.BOTTOMSLIDE,
+                                      title: 'Info',
+                                      desc: "Payment details required!",
+                                      btnCancel: Text(""),
+                                      btnOk: Text(""),
+                                    )..show()
+                                  },
                           btnClick: () {},
                         ),
                         CardWidget(
                           title: '15MB',
                           subTitle: 'LKR 7',
-                          notConnected: '',
-                          unavailable: '',
+                          notConnected:
+                              snapshot.data["packages"]["15"] == true &&
+                                      snapshot.data["isConnected"] == true
+                                  ? "Connected"
+                                  : "Not connected",
+                          unavailable: snapshot.data["packages"]["15"] == true
+                              ? "Available"
+                              : "Unavailable",
                           onClick: snapshot.data["merchantId"] != null &&
                                   snapshot.data["merchantSecret"] != null
                               ? () => modalWidget(context, "15")
-                              : null,
+                              : () => {
+                                    AwesomeDialog(
+                                      context: context,
+                                      dialogType: DialogType.WARNING,
+                                      animType: AnimType.BOTTOMSLIDE,
+                                      title: 'Info',
+                                      desc: "Payment details required!",
+                                      btnCancel: Text(""),
+                                      btnOk: Text(""),
+                                    )..show()
+                                  },
                           btnClick: () {},
                         ),
                         CardWidget(
                           title: '20MB',
                           subTitle: 'LKR 10',
-                          notConnected: '',
-                          unavailable: '',
+                          notConnected:
+                              snapshot.data["packages"]["20"] == true &&
+                                      snapshot.data["isConnected"] == true
+                                  ? "Connected"
+                                  : "Not connected",
+                          unavailable: snapshot.data["packages"]["20"] == true
+                              ? "Available"
+                              : "Unavailable",
                           onClick: snapshot.data["merchantId"] != null &&
                                   snapshot.data["merchantSecret"] != null
                               ? () => modalWidget(context, "20")
-                              : null,
+                              : () => {
+                                    AwesomeDialog(
+                                      context: context,
+                                      dialogType: DialogType.WARNING,
+                                      animType: AnimType.BOTTOMSLIDE,
+                                      title: 'Info',
+                                      desc: "Payment details required!",
+                                      btnCancel: Text(""),
+                                      btnOk: Text(""),
+                                    )..show()
+                                  },
                           btnClick: () {},
                         ),
                         CardWidget(
                           title: '25MB',
                           subTitle: 'LKR 5',
-                          notConnected: '',
-                          unavailable: '',
+                          notConnected:
+                              snapshot.data["packages"]["25"] == true &&
+                                      snapshot.data["isConnected"] == true
+                                  ? "Connected"
+                                  : "Not connected",
+                          unavailable: snapshot.data["packages"]["25"] == true
+                              ? "Available"
+                              : "Unavailable",
                           onClick: snapshot.data["merchantId"] != null &&
                                   snapshot.data["merchantSecret"] != null
                               ? () => modalWidget(context, "25")
-                              : null,
+                              : () => {
+                                    AwesomeDialog(
+                                      context: context,
+                                      dialogType: DialogType.WARNING,
+                                      animType: AnimType.BOTTOMSLIDE,
+                                      title: 'Info',
+                                      desc: "Payment details required!",
+                                      btnCancel: Text(""),
+                                      btnOk: Text(""),
+                                    )..show()
+                                  },
                           btnClick: () {},
                         ),
                         CardWidget(
                           title: '30MB',
                           subTitle: 'LKR 5',
-                          notConnected: '',
-                          unavailable: '',
+                          notConnected:
+                              snapshot.data["packages"]["30"] == true &&
+                                      snapshot.data["isConnected"] == true
+                                  ? "Connected"
+                                  : "Not connected",
+                          unavailable: snapshot.data["packages"]["30"] == true
+                              ? "Available"
+                              : "Unavailable",
                           onClick: snapshot.data["merchantId"] != null &&
                                   snapshot.data["merchantSecret"] != null
                               ? () => modalWidget(context, "30")
-                              : null,
+                              : () => {
+                                    AwesomeDialog(
+                                      context: context,
+                                      dialogType: DialogType.WARNING,
+                                      animType: AnimType.BOTTOMSLIDE,
+                                      title: 'Info',
+                                      desc: "Payment details required!",
+                                      btnCancel: Text(""),
+                                      btnOk: Text(""),
+                                    )..show()
+                                  },
                           btnClick: () {},
                         ),
                         CardWidget(
                           title: '35MB',
                           subTitle: 'LKR 5',
-                          notConnected: '',
-                          unavailable: '',
+                          notConnected:
+                              snapshot.data["packages"]["35"] == true &&
+                                      snapshot.data["isConnected"] == true
+                                  ? "Connected"
+                                  : "Not connected",
+                          unavailable: snapshot.data["packages"]["35"] == true
+                              ? "Available"
+                              : "Unavailable",
                           onClick: snapshot.data["merchantId"] != null &&
                                   snapshot.data["merchantSecret"] != null
                               ? () => modalWidget(context, "35")
-                              : null,
+                              : () => {
+                                    AwesomeDialog(
+                                      context: context,
+                                      dialogType: DialogType.WARNING,
+                                      animType: AnimType.BOTTOMSLIDE,
+                                      title: 'Info',
+                                      desc: "Payment details required!",
+                                      btnCancel: Text(""),
+                                      btnOk: Text(""),
+                                    )..show()
+                                  },
                           btnClick: () {},
                         ),
                         CardWidget(
                           title: '40MB',
                           subTitle: 'LKR 5',
-                          notConnected: '',
-                          unavailable: '',
+                          notConnected:
+                              snapshot.data["packages"]["40"] == true &&
+                                      snapshot.data["isConnected"] == true
+                                  ? "Connected"
+                                  : "Not connected",
+                          unavailable: snapshot.data["packages"]["40"] == true
+                              ? "Available"
+                              : "Unavailable",
                           onClick: snapshot.data["merchantId"] != null &&
                                   snapshot.data["merchantSecret"] != null
                               ? () => modalWidget(context, "40")
-                              : null,
+                              : () => {
+                                    AwesomeDialog(
+                                      context: context,
+                                      dialogType: DialogType.WARNING,
+                                      animType: AnimType.BOTTOMSLIDE,
+                                      title: 'Info',
+                                      desc: "Payment details required!",
+                                      btnCancel: Text(""),
+                                      btnOk: Text(""),
+                                    )..show()
+                                  },
                           btnClick: () {},
                         ),
                         CardWidget(
                           title: '45MB',
                           subTitle: 'LKR 5',
-                          notConnected: '',
-                          unavailable: '',
+                          notConnected:
+                              snapshot.data["packages"]["45"] == true &&
+                                      snapshot.data["isConnected"] == true
+                                  ? "Connected"
+                                  : "Not connected",
+                          unavailable: snapshot.data["packages"]["45"] == true
+                              ? "Available"
+                              : "Unavailable",
                           onClick: snapshot.data["merchantId"] != null &&
                                   snapshot.data["merchantSecret"] != null
                               ? () => modalWidget(context, "45")
-                              : null,
+                              : () => {
+                                    AwesomeDialog(
+                                      context: context,
+                                      dialogType: DialogType.WARNING,
+                                      animType: AnimType.BOTTOMSLIDE,
+                                      title: 'Info',
+                                      desc: "Payment details required!",
+                                      btnCancel: Text(""),
+                                      btnOk: Text(""),
+                                    )..show()
+                                  },
                           btnClick: () {},
                         ),
                         CardWidget(
                           title: '50MB',
                           subTitle: 'LKR 5',
-                          notConnected: '',
-                          unavailable: '',
+                          notConnected:
+                              snapshot.data["packages"]["50"] == true &&
+                                      snapshot.data["isConnected"] == true
+                                  ? "Connected"
+                                  : "Not connected",
+                          unavailable: snapshot.data["packages"]["50"] == true
+                              ? "Available"
+                              : "Unavailable",
                           onClick: snapshot.data["merchantId"] != null &&
                                   snapshot.data["merchantSecret"] != null
                               ? () => modalWidget(context, "50")
-                              : null,
+                              : () => {
+                                    AwesomeDialog(
+                                      context: context,
+                                      dialogType: DialogType.WARNING,
+                                      animType: AnimType.BOTTOMSLIDE,
+                                      title: 'Info',
+                                      desc: "Payment details required!",
+                                      btnCancel: Text(""),
+                                      btnOk: Text(""),
+                                    )..show()
+                                  },
                           btnClick: () {},
                         ),
                         CardWidget(
                           title: '55MB',
                           subTitle: 'LKR 5',
-                          notConnected: '',
-                          unavailable: '',
+                          notConnected:
+                              snapshot.data["packages"]["55"] == true &&
+                                      snapshot.data["isConnected"] == true
+                                  ? "Connected"
+                                  : "Not connected",
+                          unavailable: snapshot.data["packages"]["55"] == true
+                              ? "Available"
+                              : "Unavailable",
                           onClick: snapshot.data["merchantId"] != null &&
                                   snapshot.data["merchantSecret"] != null
                               ? () => modalWidget(context, "55")
-                              : null,
+                              : () => {
+                                    AwesomeDialog(
+                                      context: context,
+                                      dialogType: DialogType.WARNING,
+                                      animType: AnimType.BOTTOMSLIDE,
+                                      title: 'Info',
+                                      desc: "Payment details required!",
+                                      btnCancel: Text(""),
+                                      btnOk: Text(""),
+                                    )..show()
+                                  },
                           btnClick: () {},
                         ),
                         CardWidget(
                           title: '60MB',
                           subTitle: 'LKR 5',
-                          notConnected: '',
-                          unavailable: '',
+                          btnClick: () {},
+                          notConnected:
+                              snapshot.data["packages"]["60"] == true &&
+                                      snapshot.data["isConnected"] == true
+                                  ? "Connected"
+                                  : "Not connected",
+                          unavailable: snapshot.data["packages"]["60"] == true
+                              ? "Available"
+                              : "Unavailable",
                           onClick: snapshot.data["merchantId"] != null &&
                                   snapshot.data["merchantSecret"] != null
                               ? () => modalWidget(context, "60")
-                              : null,
-                          btnClick: () {},
+                              : () => {
+                                    AwesomeDialog(
+                                      context: context,
+                                      dialogType: DialogType.WARNING,
+                                      animType: AnimType.BOTTOMSLIDE,
+                                      title: 'Info',
+                                      desc: "Payment details required!",
+                                      btnCancel: Text(""),
+                                      btnOk: Text(""),
+                                    )..show()
+                                  },
                         ),
                       ],
                     ),
