@@ -4,7 +4,9 @@ import 'package:worthy_net/utils/Color.dart';
 
 class UserDetailsPage extends StatelessWidget {
   final int index;
-  UserDetailsPage(this.index);
+  final String email;
+  final String userId;
+  UserDetailsPage(this.index, this.email, this.userId);
 
   @override
   Widget build(BuildContext context) {

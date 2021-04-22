@@ -39,6 +39,18 @@ class _UserPageState extends State<UserPage> {
     });
   }
 
+  getUserDetailsFromSsidAndNavigate(String ssid, int index) async {
+    var result = await usersRef.where("ssid", isEqualTo: ssid).get();
+    if (result.docs.length > 0) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => UserDetailsPage(index,
+                result.docs[0].data()["email"], result.docs[0].data()["ssid"])),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -72,21 +84,16 @@ class _UserPageState extends State<UserPage> {
       itemCount: listWifi?.length,
       itemBuilder: (_, index) {
         return ListTile(
-          title: Text(listWifi[index]?.ssid),
-          subtitle: Text(listWifi[index]?.bssid.toString()),
-          leading: Icon(
-            Icons.wifi,
-            color: Colors.blue,
-            size: 40.0,
-          ),
-          trailing: Icon(Icons.arrow_forward),
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => UserDetailsPage(index)),
-            );
-          },
-        );
+            title: Text(listWifi[index]?.ssid),
+            subtitle: Text(listWifi[index]?.bssid.toString()),
+            leading: Icon(
+              Icons.wifi,
+              color: Colors.blue,
+              size: 40.0,
+            ),
+            trailing: Icon(Icons.arrow_forward),
+            onTap: () => getUserDetailsFromSsidAndNavigate(
+                listWifi[index]?.ssid, index));
       },
     );
   }
