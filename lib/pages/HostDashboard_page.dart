@@ -191,6 +191,29 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
     );
   }
 
+  disablePackage(String package, bool currentStatus) async {
+    await usersRef.doc(userId).update({
+      "packages": {
+        "5": package == "5" ? false : currentStatus,
+        "10": package == "10" ? false : currentStatus,
+        "15": package == "15" ? false : currentStatus,
+        "20": package == "20" ? false : currentStatus,
+        "25": package == "25" ? false : currentStatus,
+        "30": package == "30" ? false : currentStatus,
+        "35": package == "35" ? false : currentStatus,
+        "40": package == "40" ? false : currentStatus,
+        "45": package == "45" ? false : currentStatus,
+        "50": package == "50" ? false : currentStatus,
+        "55": package == "55" ? false : currentStatus,
+        "60": package == "60" ? false : currentStatus,
+      }
+    }).then((_) => {
+          setState(() {
+            isLoading = false;
+          })
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     // data package card media query
@@ -273,7 +296,8 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                                       btnOk: Text(""),
                                     )..show()
                                   },
-                          btnClick: () {},
+                          btnClick: () => disablePackage(
+                              "5", snapshot.data["packages"]["5"]),
                         ),
                         CardWidget(
                           title: '10MB',
@@ -300,7 +324,8 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                                       btnOk: Text(""),
                                     )..show()
                                   },
-                          btnClick: () {},
+                          btnClick: () => disablePackage(
+                              "10", snapshot.data["packages"]["10"]),
                         ),
                         CardWidget(
                           title: '15MB',
@@ -327,7 +352,8 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                                       btnOk: Text(""),
                                     )..show()
                                   },
-                          btnClick: () {},
+                          btnClick: () => disablePackage(
+                              "15", snapshot.data["packages"]["15"]),
                         ),
                         CardWidget(
                           title: '20MB',
@@ -354,7 +380,8 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                                       btnOk: Text(""),
                                     )..show()
                                   },
-                          btnClick: () {},
+                          btnClick: () => disablePackage(
+                              "20", snapshot.data["packages"]["20"]),
                         ),
                         CardWidget(
                           title: '25MB',
@@ -381,7 +408,8 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                                       btnOk: Text(""),
                                     )..show()
                                   },
-                          btnClick: () {},
+                          btnClick: () => disablePackage(
+                              "25", snapshot.data["packages"]["25"]),
                         ),
                         CardWidget(
                           title: '30MB',
@@ -408,7 +436,8 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                                       btnOk: Text(""),
                                     )..show()
                                   },
-                          btnClick: () {},
+                          btnClick: () => disablePackage(
+                              "30", snapshot.data["packages"]["30"]),
                         ),
                         CardWidget(
                           title: '35MB',
@@ -435,7 +464,8 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                                       btnOk: Text(""),
                                     )..show()
                                   },
-                          btnClick: () {},
+                          btnClick: () => disablePackage(
+                              "35", snapshot.data["packages"]["35"]),
                         ),
                         CardWidget(
                           title: '40MB',
@@ -462,7 +492,8 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                                       btnOk: Text(""),
                                     )..show()
                                   },
-                          btnClick: () {},
+                          btnClick: () => disablePackage(
+                              "40", snapshot.data["packages"]["40"]),
                         ),
                         CardWidget(
                           title: '45MB',
@@ -489,7 +520,8 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                                       btnOk: Text(""),
                                     )..show()
                                   },
-                          btnClick: () {},
+                          btnClick: () => disablePackage(
+                              "45", snapshot.data["packages"]["45"]),
                         ),
                         CardWidget(
                           title: '50MB',
@@ -516,7 +548,8 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                                       btnOk: Text(""),
                                     )..show()
                                   },
-                          btnClick: () {},
+                          btnClick: () => disablePackage(
+                              "50", snapshot.data["packages"]["50"]),
                         ),
                         CardWidget(
                           title: '55MB',
@@ -543,12 +576,14 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                                       btnOk: Text(""),
                                     )..show()
                                   },
-                          btnClick: () {},
+                          btnClick: () => disablePackage(
+                              "55", snapshot.data["packages"]["55"]),
                         ),
                         CardWidget(
                           title: '60MB',
                           subTitle: 'LKR 5',
-                          btnClick: () {},
+                          btnClick: () => disablePackage(
+                              "60", snapshot.data["packages"]["60"]),
                           notConnected:
                               snapshot.data["packages"]["60"] == true &&
                                       snapshot.data["isConnected"] == true
@@ -662,27 +697,29 @@ class CardWidget extends StatelessWidget {
                   ),
                 ],
               ),
-              Container(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Container(
-                      // margin: EdgeInsets.only(top: 30),
-                      padding: EdgeInsets.symmetric(horizontal: 20),
-                      child: ElevatedButton.icon(
-                        label: Text('Submit'),
-                        icon: Icon(Icons.web),
-                        onPressed: btnClick,
-                        style: ElevatedButton.styleFrom(
-                          primary: modalColor,
-                          onPrimary: cardBtnTextColor,
-                          // onSurface: Colors.red,
-                        ),
+              unavailable == "Available"
+                  ? Container(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Container(
+                            // margin: EdgeInsets.only(top: 30),
+                            padding: EdgeInsets.symmetric(horizontal: 20),
+                            child: ElevatedButton.icon(
+                              label: Text('Submit'),
+                              icon: Icon(Icons.web),
+                              onPressed: btnClick,
+                              style: ElevatedButton.styleFrom(
+                                primary: modalColor,
+                                onPrimary: cardBtnTextColor,
+                                // onSurface: Colors.red,
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
-                    ),
-                  ],
-                ),
-              ),
+                    )
+                  : null,
             ],
           ),
         ),
