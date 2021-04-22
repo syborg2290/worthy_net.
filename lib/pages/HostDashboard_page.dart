@@ -54,7 +54,7 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
               await usersRef.where("email", isEqualTo: userEmail).get();
           if (result.docs.length > 0) {
             await usersRef.doc(userId).update({
-              "ssid": ssIDController.text.trim(),
+              "ssid": ssIDController.text.trim().toLowerCase(),
               "hotspot_password":
                   encrypter.encrypt(hostPassword.text.trim(), iv: iv).base64,
               "packages": {
@@ -73,7 +73,8 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
               }
             }).then((_) async => {
                   await prefs
-                      .setString("ssid", ssIDController.text.trim())
+                      .setString(
+                          "ssid", ssIDController.text.trim().toLowerCase())
                       .then((_) => {
                             Navigator.pop(context),
                             setState(() {

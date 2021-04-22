@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wifi_iot/wifi_iot.dart';
+import 'package:worthy_net/config/collections.dart';
 import 'package:worthy_net/pages/UserDetails_page.dart';
 import 'package:simply_wifi/simply_wifi.dart';
 
@@ -22,8 +23,18 @@ class _UserPageState extends State<UserPage> {
   getListOfWifiAvailable() async {
     // To get the list of Wifis
     List<WifiNetwork> _wifiNetworks = await SimplyWifi.getListOfWifis();
+    List<WifiNetwork> _wifiFiltered = [];
+
+    for (var i = 0; i < _wifiNetworks.length; i++) {
+      var result = await usersRef
+          .where("ssid", isEqualTo: _wifiNetworks[i].ssid.toLowerCase())
+          .get();
+      if (result.docs.length > 0) {
+        _wifiFiltered.add(_wifiNetworks[i]);
+      }
+    }
     setState(() {
-      wifiNetworks = _wifiNetworks;
+      wifiNetworks = _wifiFiltered;
       isLoading = false;
     });
   }
@@ -38,7 +49,21 @@ class _UserPageState extends State<UserPage> {
       ),
       body: isLoading
           ? Center(child: Image.asset("assets/radar.gif"))
-          : buildListView(context, wifiNetworks),
+          : wifiNetworks.length <= 0
+              ? Center(
+                  child: Column(
+                  children: [
+                    Image.asset(
+                      "assets/empty_hosts.png",
+                    ),
+                    Text(""),
+                    Text(
+                      "Empty hosts",
+                      style: TextStyle(fontSize: 40, color: Colors.grey),
+                    )
+                  ],
+                ))
+              : buildListView(context, wifiNetworks),
     );
   }
 
