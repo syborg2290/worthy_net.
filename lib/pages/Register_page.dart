@@ -102,6 +102,8 @@ class _RegisterPageState extends State<RegisterPage> {
                           .encrypt(pwController.text.trim(), iv: iv)
                           .base64,
                       "isConnected": false,
+                      "host_ssid": null,
+                      "host_id": null,
                       "connectedCount": {
                         "5": 0,
                         "10": 0,
@@ -135,6 +137,20 @@ class _RegisterPageState extends State<RegisterPage> {
                         "50": false,
                         "55": false,
                         "60": false,
+                      },
+                      "packages_prices": {
+                        "5": 0,
+                        "10": 0,
+                        "15": 0,
+                        "20": 0,
+                        "25": 0,
+                        "30": 0,
+                        "35": 0,
+                        "40": 0,
+                        "45": 0,
+                        "50": 0,
+                        "55": 0,
+                        "60": 0,
                       }
                     }).then((_) async => {
                           await prefs
