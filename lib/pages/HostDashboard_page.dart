@@ -44,6 +44,7 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
         setState(() {
           isLoading = true;
         });
+
         final key = KeyGet.Key.fromUtf8('ghjklsgdferty27364uyrhjskytrghso');
         final iv = IV.fromLength(16);
 
@@ -294,7 +295,7 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                           connectedCount: snapshot.data["connectedCount"]["5"],
                           notConnected:
                               snapshot.data["packages"]["5"] == true &&
-                                      snapshot.data["isConnected"] == true
+                                      snapshot.data["connectedCount"]["5"] > 0
                                   ? "Connected"
                                   : "Not connected",
                           unavailable: snapshot.data["packages"]["5"] == true
@@ -324,7 +325,7 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                           connectedCount: snapshot.data["connectedCount"]["10"],
                           notConnected:
                               snapshot.data["packages"]["10"] == true &&
-                                      snapshot.data["isConnected"] == true
+                                      snapshot.data["connectedCount"]["10"] > 0
                                   ? "Connected"
                                   : "Not connected",
                           unavailable: snapshot.data["packages"]["10"] == true
@@ -353,7 +354,7 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                           connectedCount: snapshot.data["connectedCount"]["15"],
                           notConnected:
                               snapshot.data["packages"]["15"] == true &&
-                                      snapshot.data["isConnected"] == true
+                                      snapshot.data["connectedCount"]["15"] > 0
                                   ? "Connected"
                                   : "Not connected",
                           unavailable: snapshot.data["packages"]["15"] == true
@@ -382,7 +383,7 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                           connectedCount: snapshot.data["connectedCount"]["20"],
                           notConnected:
                               snapshot.data["packages"]["20"] == true &&
-                                      snapshot.data["isConnected"] == true
+                                      snapshot.data["connectedCount"]["20"] > 0
                                   ? "Connected"
                                   : "Not connected",
                           unavailable: snapshot.data["packages"]["20"] == true
@@ -411,7 +412,7 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                           connectedCount: snapshot.data["connectedCount"]["25"],
                           notConnected:
                               snapshot.data["packages"]["25"] == true &&
-                                      snapshot.data["isConnected"] == true
+                                      snapshot.data["connectedCount"]["25"] > 0
                                   ? "Connected"
                                   : "Not connected",
                           unavailable: snapshot.data["packages"]["25"] == true
@@ -440,7 +441,7 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                           connectedCount: snapshot.data["connectedCount"]["30"],
                           notConnected:
                               snapshot.data["packages"]["30"] == true &&
-                                      snapshot.data["isConnected"] == true
+                                      snapshot.data["connectedCount"]["30"] > 0
                                   ? "Connected"
                                   : "Not connected",
                           unavailable: snapshot.data["packages"]["30"] == true
@@ -469,7 +470,7 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                           connectedCount: snapshot.data["connectedCount"]["35"],
                           notConnected:
                               snapshot.data["packages"]["35"] == true &&
-                                      snapshot.data["isConnected"] == true
+                                      snapshot.data["connectedCount"]["35"] > 0
                                   ? "Connected"
                                   : "Not connected",
                           unavailable: snapshot.data["packages"]["35"] == true
@@ -498,7 +499,7 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                           connectedCount: snapshot.data["connectedCount"]["40"],
                           notConnected:
                               snapshot.data["packages"]["40"] == true &&
-                                      snapshot.data["isConnected"] == true
+                                      snapshot.data["connectedCount"]["40"] > 0
                                   ? "Connected"
                                   : "Not connected",
                           unavailable: snapshot.data["packages"]["40"] == true
@@ -527,7 +528,7 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                           connectedCount: snapshot.data["connectedCount"]["45"],
                           notConnected:
                               snapshot.data["packages"]["45"] == true &&
-                                      snapshot.data["isConnected"] == true
+                                      snapshot.data["connectedCount"]["45"] > 0
                                   ? "Connected"
                                   : "Not connected",
                           unavailable: snapshot.data["packages"]["45"] == true
@@ -556,7 +557,7 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                           connectedCount: snapshot.data["connectedCount"]["50"],
                           notConnected:
                               snapshot.data["packages"]["50"] == true &&
-                                      snapshot.data["isConnected"] == true
+                                      snapshot.data["connectedCount"]["50"] > 50
                                   ? "Connected"
                                   : "Not connected",
                           unavailable: snapshot.data["packages"]["50"] == true
@@ -585,7 +586,7 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                           connectedCount: snapshot.data["connectedCount"]["55"],
                           notConnected:
                               snapshot.data["packages"]["55"] == true &&
-                                      snapshot.data["isConnected"] == true
+                                      snapshot.data["connectedCount"]["55"] > 55
                                   ? "Connected"
                                   : "Not connected",
                           unavailable: snapshot.data["packages"]["55"] == true
@@ -616,7 +617,7 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                           connectedCount: snapshot.data["connectedCount"]["60"],
                           notConnected:
                               snapshot.data["packages"]["60"] == true &&
-                                      snapshot.data["isConnected"] == true
+                                      snapshot.data["connectedCount"]["60"] > 60
                                   ? "Connected"
                                   : "Not connected",
                           unavailable: snapshot.data["packages"]["60"] == true
@@ -710,14 +711,15 @@ class CardWidget extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    unavailable == "Available" && notConnected == "Connected"
+                    unavailable == "Available"
                         ? Container(
                             // margin: EdgeInsets.only(top: 30),
                             padding: EdgeInsets.symmetric(horizontal: 20),
                             child: ElevatedButton.icon(
                               label: Text('Disable'),
                               icon: Icon(Icons.web),
-                              onPressed: btnClick,
+                              onPressed:
+                                  notConnected == "Connected" ? null : btnClick,
                               style: ElevatedButton.styleFrom(
                                 primary: Colors.red,
                                 onPrimary: cardBtnTextColor,

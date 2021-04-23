@@ -65,6 +65,8 @@ class _UserPageState extends State<UserPage> {
             result.docs[0].id,
             ssid.toLowerCase(),
             result.docs[0].data()["hotspot_password"],
+            result.docs[0].data()["merchantId"],
+            result.docs[0].data()["merchantSecret"],
           ),
         ),
       );
