@@ -13,3 +13,5 @@ Color appbarColor = Color(0xffAB8000);
 Color unavailableColor = Color(0xff008000);
 Color notConnectedColor = Color(0xffC71585);
 Color cardBtnTextColor = Color(0xffFFFFFF);
+Color textSilverColor = Color(0xffd3d3d3);
+Color textGreenColor = Color(0xff32cd32);
