@@ -212,8 +212,54 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
     );
   }
 
+  updatePackagePrice(String package, double currentPrice) async {
+    if (priceChangeController.text != "") {
+      usersRef.doc(userId).update({
+        "packages_prices": {
+          "5": package == "5"
+              ? double.parse(priceChangeController.text.trim())
+              : currentPrice,
+          "10": package == "10"
+              ? double.parse(priceChangeController.text.trim())
+              : currentPrice,
+          "15": package == "15"
+              ? double.parse(priceChangeController.text.trim())
+              : currentPrice,
+          "20": package == "20"
+              ? double.parse(priceChangeController.text.trim())
+              : currentPrice,
+          "25": package == "25"
+              ? double.parse(priceChangeController.text.trim())
+              : currentPrice,
+          "30": package == "30"
+              ? double.parse(priceChangeController.text.trim())
+              : currentPrice,
+          "35": package == "35"
+              ? double.parse(priceChangeController.text.trim())
+              : currentPrice,
+          "40": package == "40"
+              ? double.parse(priceChangeController.text.trim())
+              : currentPrice,
+          "45": package == "45"
+              ? double.parse(priceChangeController.text.trim())
+              : currentPrice,
+          "50": package == "50"
+              ? double.parse(priceChangeController.text.trim())
+              : currentPrice,
+          "55": package == "55"
+              ? double.parse(priceChangeController.text.trim())
+              : currentPrice,
+          "60": package == "60"
+              ? double.parse(priceChangeController.text.trim())
+              : currentPrice,
+        }
+      }).then((value) => {Navigator.pop(context)});
+    }
+  }
+
   // Price change popup widget
-  modalPriceChengeWidget(BuildContext context) async {
+  modalPriceChengeWidget(
+      BuildContext context, String package, double currentPrice) async {
     showModalBottomSheet<void>(
       context: context,
       builder: (BuildContext context) {
@@ -232,24 +278,25 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                   padding: EdgeInsets.only(left: 10),
                   child: TextFormField(
                     controller: priceChangeController,
+                    keyboardType: TextInputType.number,
                     decoration: InputDecoration(
                         border: InputBorder.none,
-                        hintText: "Your price",
+                        hintText: "Enter package price",
                         prefixIcon: Icon(Icons.monetization_on_outlined)),
                   ),
                 ),
                 Container(
                   margin: EdgeInsets.only(top: 10),
-                  padding: EdgeInsets.symmetric(horizontal: 150),
-                  child:
-                      Text('Enter your price', style: TextStyle(fontSize: 20)),
+                  padding: EdgeInsets.symmetric(horizontal: 120),
+                  child: Text(package + "MB package",
+                      style: TextStyle(fontSize: 20)),
                 ),
                 Container(
                   margin: EdgeInsets.only(top: 30),
                   padding: EdgeInsets.symmetric(horizontal: 60),
                   child: ElevatedButton(
-                    child: const Text('Chencge price'),
-                    onPressed: () {},
+                    child: const Text('Submit price'),
+                    onPressed: () => updatePackagePrice(package, currentPrice),
                   ),
                 ),
               ],
@@ -342,7 +389,8 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                       children: <Widget>[
                         CardWidget(
                           title: '5MB',
-                          subTitle: 'LKR 2',
+                          subTitle: 'LKR ' +
+                              snapshot.data["packages_prices"]["5"].toString(),
                           connectedCount: snapshot.data["connectedCount"]["5"],
                           notConnected:
                               snapshot.data["packages"]["5"] == true &&
@@ -368,11 +416,13 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                                   },
                           btnClick: () =>
                               disablePackage("5", snapshot.data["packages"]),
-                          btnPriceChange: () => modalPriceChengeWidget(context),
+                          btnPriceChange: () => modalPriceChengeWidget(context,
+                              "5", snapshot.data["packages_prices"]["5"]),
                         ),
                         CardWidget(
                           title: '10MB',
-                          subTitle: 'LKR 5',
+                          subTitle: 'LKR ' +
+                              snapshot.data["packages_prices"]["10"].toString(),
                           connectedCount: snapshot.data["connectedCount"]["10"],
                           notConnected:
                               snapshot.data["packages"]["10"] == true &&
@@ -398,11 +448,13 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                                   },
                           btnClick: () =>
                               disablePackage("10", snapshot.data["packages"]),
-                          btnPriceChange: () => modalPriceChengeWidget(context),
+                          btnPriceChange: () => modalPriceChengeWidget(context,
+                              "10", snapshot.data["packages_prices"]["10"]),
                         ),
                         CardWidget(
                           title: '15MB',
-                          subTitle: 'LKR 7',
+                          subTitle: 'LKR ' +
+                              snapshot.data["packages_prices"]["15"].toString(),
                           connectedCount: snapshot.data["connectedCount"]["15"],
                           notConnected:
                               snapshot.data["packages"]["15"] == true &&
@@ -428,11 +480,13 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                                   },
                           btnClick: () =>
                               disablePackage("15", snapshot.data["packages"]),
-                          btnPriceChange: () => modalPriceChengeWidget(context),
+                          btnPriceChange: () => modalPriceChengeWidget(context,
+                              "15", snapshot.data["packages_prices"]["15"]),
                         ),
                         CardWidget(
                           title: '20MB',
-                          subTitle: 'LKR 10',
+                          subTitle: 'LKR ' +
+                              snapshot.data["packages_prices"]["20"].toString(),
                           connectedCount: snapshot.data["connectedCount"]["20"],
                           notConnected:
                               snapshot.data["packages"]["20"] == true &&
@@ -458,11 +512,13 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                                   },
                           btnClick: () =>
                               disablePackage("20", snapshot.data["packages"]),
-                          btnPriceChange: () => modalPriceChengeWidget(context),
+                          btnPriceChange: () => modalPriceChengeWidget(context,
+                              "20", snapshot.data["packages_prices"]["20"]),
                         ),
                         CardWidget(
                           title: '25MB',
-                          subTitle: 'LKR 5',
+                          subTitle: 'LKR ' +
+                              snapshot.data["packages_prices"]["25"].toString(),
                           connectedCount: snapshot.data["connectedCount"]["25"],
                           notConnected:
                               snapshot.data["packages"]["25"] == true &&
@@ -488,11 +544,13 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                                   },
                           btnClick: () =>
                               disablePackage("25", snapshot.data["packages"]),
-                          btnPriceChange: () => modalPriceChengeWidget(context),
+                          btnPriceChange: () => modalPriceChengeWidget(context,
+                              "25", snapshot.data["packages_prices"]["25"]),
                         ),
                         CardWidget(
                           title: '30MB',
-                          subTitle: 'LKR 5',
+                          subTitle: 'LKR ' +
+                              snapshot.data["packages_prices"]["30"].toString(),
                           connectedCount: snapshot.data["connectedCount"]["30"],
                           notConnected:
                               snapshot.data["packages"]["30"] == true &&
@@ -518,11 +576,13 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                                   },
                           btnClick: () =>
                               disablePackage("30", snapshot.data["packages"]),
-                          btnPriceChange: () => modalPriceChengeWidget(context),
+                          btnPriceChange: () => modalPriceChengeWidget(context,
+                              "30", snapshot.data["packages_prices"]["30"]),
                         ),
                         CardWidget(
                           title: '35MB',
-                          subTitle: 'LKR 5',
+                          subTitle: 'LKR ' +
+                              snapshot.data["packages_prices"]["35"].toString(),
                           connectedCount: snapshot.data["connectedCount"]["35"],
                           notConnected:
                               snapshot.data["packages"]["35"] == true &&
@@ -548,11 +608,13 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                                   },
                           btnClick: () =>
                               disablePackage("35", snapshot.data["packages"]),
-                          btnPriceChange: () => modalPriceChengeWidget(context),
+                          btnPriceChange: () => modalPriceChengeWidget(context,
+                              "35", snapshot.data["packages_prices"]["35"]),
                         ),
                         CardWidget(
                           title: '40MB',
-                          subTitle: 'LKR 5',
+                          subTitle: 'LKR ' +
+                              snapshot.data["packages_prices"]["40"].toString(),
                           connectedCount: snapshot.data["connectedCount"]["40"],
                           notConnected:
                               snapshot.data["packages"]["40"] == true &&
@@ -578,11 +640,13 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                                   },
                           btnClick: () =>
                               disablePackage("40", snapshot.data["packages"]),
-                          btnPriceChange: () => modalPriceChengeWidget(context),
+                          btnPriceChange: () => modalPriceChengeWidget(context,
+                              "40", snapshot.data["packages_prices"]["40"]),
                         ),
                         CardWidget(
                           title: '45MB',
-                          subTitle: 'LKR 5',
+                          subTitle: 'LKR ' +
+                              snapshot.data["packages_prices"]["45"].toString(),
                           connectedCount: snapshot.data["connectedCount"]["45"],
                           notConnected:
                               snapshot.data["packages"]["45"] == true &&
@@ -608,11 +672,13 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                                   },
                           btnClick: () =>
                               disablePackage("45", snapshot.data["packages"]),
-                          btnPriceChange: () => modalPriceChengeWidget(context),
+                          btnPriceChange: () => modalPriceChengeWidget(context,
+                              "45", snapshot.data["packages_prices"]["45"]),
                         ),
                         CardWidget(
                           title: '50MB',
-                          subTitle: 'LKR 5',
+                          subTitle: 'LKR ' +
+                              snapshot.data["packages_prices"]["50"].toString(),
                           connectedCount: snapshot.data["connectedCount"]["50"],
                           notConnected:
                               snapshot.data["packages"]["50"] == true &&
@@ -638,11 +704,13 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                                   },
                           btnClick: () =>
                               disablePackage("50", snapshot.data["packages"]),
-                          btnPriceChange: () => modalPriceChengeWidget(context),
+                          btnPriceChange: () => modalPriceChengeWidget(context,
+                              "50", snapshot.data["packages_prices"]["50"]),
                         ),
                         CardWidget(
                           title: '55MB',
-                          subTitle: 'LKR 5',
+                          subTitle: 'LKR ' +
+                              snapshot.data["packages_prices"]["55"].toString(),
                           connectedCount: snapshot.data["connectedCount"]["55"],
                           notConnected:
                               snapshot.data["packages"]["55"] == true &&
@@ -668,11 +736,13 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                                   },
                           btnClick: () =>
                               disablePackage("55", snapshot.data["packages"]),
-                          btnPriceChange: () => modalPriceChengeWidget(context),
+                          btnPriceChange: () => modalPriceChengeWidget(context,
+                              "55", snapshot.data["packages_prices"]["55"]),
                         ),
                         CardWidget(
                           title: '60MB',
-                          subTitle: 'LKR 5',
+                          subTitle: 'LKR ' +
+                              snapshot.data["packages_prices"]["60"].toString(),
                           btnClick: () =>
                               disablePackage("60", snapshot.data["packages"]),
                           connectedCount: snapshot.data["connectedCount"]["60"],
@@ -698,7 +768,8 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                                       btnOk: Text(""),
                                     )..show()
                                   },
-                          btnPriceChange: () => modalPriceChengeWidget(context),
+                          btnPriceChange: () => modalPriceChengeWidget(context,
+                              "60", snapshot.data["packages_prices"]["60"]),
                         ),
                       ],
                     ),
@@ -773,7 +844,7 @@ class CardWidget extends StatelessWidget {
                     // margin: EdgeInsets.only(top: 30),
                     padding: EdgeInsets.symmetric(horizontal: 20),
                     child: ElevatedButton.icon(
-                      label: Text('Price change'),
+                      label: Text('Change price'),
                       icon: Icon(Icons.monetization_on_outlined),
                       onPressed: btnPriceChange,
                       style: ElevatedButton.styleFrom(
