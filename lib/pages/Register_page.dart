@@ -87,12 +87,12 @@ class _RegisterPageState extends State<RegisterPage> {
                   } else {
                     SharedPreferences prefs =
                         await SharedPreferences.getInstance();
-                    final key = KeyGet.Key.fromUtf8(
-                        'ghjklsgdferty27364uyrhjskytrghso');
+                    final key =
+                        KeyGet.Key.fromUtf8('ghjklsgdferty27364uyrhjskytrghso');
                     final iv = IV.fromLength(16);
 
                     final encrypter = Encrypter(AES(key));
-                  
+
                     usersRef.add({
                       "fname": fNameController.text.trim(),
                       "lname": lNameController.text.trim(),
@@ -102,6 +102,22 @@ class _RegisterPageState extends State<RegisterPage> {
                           .encrypt(pwController.text.trim(), iv: iv)
                           .base64,
                       "isConnected": false,
+                      "connectedCount": {
+                        "5": 0,
+                        "10": 0,
+                        "15": 0,
+                        "20": 0,
+                        "25": 0,
+                        "30": 0,
+                        "35": 0,
+                        "40": 0,
+                        "45": 0,
+                        "50": 0,
+                        "55": 0,
+                        "60": 0,
+                      },
+                      "user": false,
+                      "host": false,
                       "merchantId": null,
                       "merchantSecret": null,
                       "ssid": null,
@@ -273,7 +289,11 @@ class _RegisterPageState extends State<RegisterPage> {
                           style: TextStyle(color: Colors.black)),
                       TextSpan(
                         text: "Login",
-                        style: TextStyle(color: blueColors,fontWeight: FontWeight.w600,fontSize:17,),
+                        style: TextStyle(
+                          color: blueColors,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 17,
+                        ),
                         recognizer: TapGestureRecognizer()
                           ..onTap = () => Navigator.pop(
                                 context,
@@ -295,7 +315,7 @@ class _RegisterPageState extends State<RegisterPage> {
   // input widget
   Widget textInput({controller, hint, icon}) {
     return Container(
-      margin: EdgeInsets.only(top:0.2),
+      margin: EdgeInsets.only(top: 0.2),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(20)),
         color: Colors.white,

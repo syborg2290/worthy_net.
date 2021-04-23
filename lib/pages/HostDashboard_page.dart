@@ -53,35 +53,52 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
           var result =
               await usersRef.where("email", isEqualTo: userEmail).get();
           if (result.docs.length > 0) {
-            await usersRef.doc(userId).update({
-              "ssid": ssIDController.text.trim(),
-              "hotspot_password":
-                  encrypter.encrypt(hostPassword.text.trim(), iv: iv).base64,
-              "packages": {
-                "5": package == "5" ? true : false,
-                "10": package == "10" ? true : false,
-                "15": package == "15" ? true : false,
-                "20": package == "20" ? true : false,
-                "25": package == "25" ? true : false,
-                "30": package == "30" ? true : false,
-                "35": package == "35" ? true : false,
-                "40": package == "40" ? true : false,
-                "45": package == "45" ? true : false,
-                "50": package == "50" ? true : false,
-                "55": package == "55" ? true : false,
-                "60": package == "60" ? true : false,
-              }
-            }).then((_) async => {
-                  await prefs
-                      .setString(
-                          "ssid", ssIDController.text.trim().toLowerCase())
-                      .then((_) => {
-                            Navigator.pop(context),
-                            setState(() {
-                              isLoading = false;
+            if (!result.docs[0].data()["user"]) {
+              await usersRef.doc(userId).update({
+                "ssid": ssIDController.text.trim(),
+                "host": true,
+                "hotspot_password":
+                    encrypter.encrypt(hostPassword.text.trim(), iv: iv).base64,
+                "packages": {
+                  "5": package == "5" ? true : false,
+                  "10": package == "10" ? true : false,
+                  "15": package == "15" ? true : false,
+                  "20": package == "20" ? true : false,
+                  "25": package == "25" ? true : false,
+                  "30": package == "30" ? true : false,
+                  "35": package == "35" ? true : false,
+                  "40": package == "40" ? true : false,
+                  "45": package == "45" ? true : false,
+                  "50": package == "50" ? true : false,
+                  "55": package == "55" ? true : false,
+                  "60": package == "60" ? true : false,
+                }
+              }).then((_) async => {
+                    await prefs
+                        .setString(
+                            "ssid", ssIDController.text.trim().toLowerCase())
+                        .then((_) => {
+                              Navigator.pop(context),
+                              setState(() {
+                                isLoading = false;
+                              })
                             })
-                          })
-                });
+                  });
+            } else {
+              setState(() {
+                isLoading = false;
+              });
+              AwesomeDialog(
+                context: context,
+                dialogType: DialogType.INFO,
+                animType: AnimType.BOTTOMSLIDE,
+                title: 'Info',
+                desc:
+                    "You can't continue without disconnect currently using package as a user",
+                btnCancel: Text(""),
+                btnOk: Text(""),
+              )..show();
+            }
           }
         } catch (e) {
           setState(() {
@@ -274,6 +291,7 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                         CardWidget(
                           title: '5MB',
                           subTitle: 'LKR 2',
+                          connectedCount: snapshot.data["connectedCount"]["5"],
                           notConnected:
                               snapshot.data["packages"]["5"] == true &&
                                       snapshot.data["isConnected"] == true
@@ -303,6 +321,7 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                         CardWidget(
                           title: '10MB',
                           subTitle: 'LKR 5',
+                          connectedCount: snapshot.data["connectedCount"]["10"],
                           notConnected:
                               snapshot.data["packages"]["10"] == true &&
                                       snapshot.data["isConnected"] == true
@@ -331,6 +350,7 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                         CardWidget(
                           title: '15MB',
                           subTitle: 'LKR 7',
+                          connectedCount: snapshot.data["connectedCount"]["15"],
                           notConnected:
                               snapshot.data["packages"]["15"] == true &&
                                       snapshot.data["isConnected"] == true
@@ -359,6 +379,7 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                         CardWidget(
                           title: '20MB',
                           subTitle: 'LKR 10',
+                          connectedCount: snapshot.data["connectedCount"]["20"],
                           notConnected:
                               snapshot.data["packages"]["20"] == true &&
                                       snapshot.data["isConnected"] == true
@@ -387,6 +408,7 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                         CardWidget(
                           title: '25MB',
                           subTitle: 'LKR 5',
+                          connectedCount: snapshot.data["connectedCount"]["25"],
                           notConnected:
                               snapshot.data["packages"]["25"] == true &&
                                       snapshot.data["isConnected"] == true
@@ -415,6 +437,7 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                         CardWidget(
                           title: '30MB',
                           subTitle: 'LKR 5',
+                          connectedCount: snapshot.data["connectedCount"]["30"],
                           notConnected:
                               snapshot.data["packages"]["30"] == true &&
                                       snapshot.data["isConnected"] == true
@@ -443,6 +466,7 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                         CardWidget(
                           title: '35MB',
                           subTitle: 'LKR 5',
+                          connectedCount: snapshot.data["connectedCount"]["35"],
                           notConnected:
                               snapshot.data["packages"]["35"] == true &&
                                       snapshot.data["isConnected"] == true
@@ -471,6 +495,7 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                         CardWidget(
                           title: '40MB',
                           subTitle: 'LKR 5',
+                          connectedCount: snapshot.data["connectedCount"]["40"],
                           notConnected:
                               snapshot.data["packages"]["40"] == true &&
                                       snapshot.data["isConnected"] == true
@@ -499,6 +524,7 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                         CardWidget(
                           title: '45MB',
                           subTitle: 'LKR 5',
+                          connectedCount: snapshot.data["connectedCount"]["45"],
                           notConnected:
                               snapshot.data["packages"]["45"] == true &&
                                       snapshot.data["isConnected"] == true
@@ -527,6 +553,7 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                         CardWidget(
                           title: '50MB',
                           subTitle: 'LKR 5',
+                          connectedCount: snapshot.data["connectedCount"]["50"],
                           notConnected:
                               snapshot.data["packages"]["50"] == true &&
                                       snapshot.data["isConnected"] == true
@@ -555,6 +582,7 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                         CardWidget(
                           title: '55MB',
                           subTitle: 'LKR 5',
+                          connectedCount: snapshot.data["connectedCount"]["55"],
                           notConnected:
                               snapshot.data["packages"]["55"] == true &&
                                       snapshot.data["isConnected"] == true
@@ -585,6 +613,7 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                           subTitle: 'LKR 5',
                           btnClick: () =>
                               disablePackage("60", snapshot.data["packages"]),
+                          connectedCount: snapshot.data["connectedCount"]["60"],
                           notConnected:
                               snapshot.data["packages"]["60"] == true &&
                                       snapshot.data["isConnected"] == true
@@ -622,6 +651,7 @@ class CardWidget extends StatelessWidget {
   final String title;
   final String unavailable;
   final String notConnected;
+  final int connectedCount;
   final onClick;
   final btnClick;
 
@@ -631,6 +661,7 @@ class CardWidget extends StatelessWidget {
       this.btnClick,
       this.title,
       this.notConnected,
+      this.connectedCount,
       this.unavailable});
 
   @override
@@ -679,7 +710,7 @@ class CardWidget extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    unavailable == "Available"
+                    unavailable == "Available" && notConnected == "Connected"
                         ? Container(
                             // margin: EdgeInsets.only(top: 30),
                             padding: EdgeInsets.symmetric(horizontal: 20),
@@ -718,6 +749,20 @@ class CardWidget extends StatelessWidget {
                         ),
                       ),
                     ),
+                    notConnected == "Connected"
+                        ? Container(
+                            // padding: EdgeInsets.only(bottom: 4.0),
+                            child: Text(
+                              "Connected count :" + connectedCount.toString(),
+                              style: GoogleFonts.openSans(
+                                textStyle: TextStyle(
+                                    color: Colors.black12,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w600),
+                              ),
+                            ),
+                          )
+                        : Text(""),
                   ],
                 ),
               ),
