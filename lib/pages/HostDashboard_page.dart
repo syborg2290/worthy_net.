@@ -17,6 +17,8 @@ class HostDashboardPage extends StatefulWidget {
 class _HostDashboardPageState extends State<HostDashboardPage> {
   final TextEditingController hostPassword = new TextEditingController();
   final TextEditingController ssIDController = new TextEditingController();
+  final TextEditingController priceChangeController =
+      new TextEditingController();
   bool isLoading = false;
   String userEmail = null;
   String userId = null;
@@ -144,6 +146,7 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
     }
   }
 
+// ssid and hotspot password popup widget
   modalWidget(BuildContext context, String package) async {
     showModalBottomSheet<void>(
       context: context,
@@ -198,6 +201,54 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                   child: ElevatedButton(
                     child: const Text('Submit'),
                     onPressed: () => setUpHotspotConfig(context, package),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  // Price change popup widget
+  modalPriceChengeWidget(BuildContext context) async {
+    showModalBottomSheet<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return Container(
+          height: MediaQuery.of(context).size.height / 3,
+          color: modalColor,
+          child: Center(
+            child: ListView(
+              children: <Widget>[
+                Container(
+                  margin: EdgeInsets.only(left: 20, right: 20, top: 30),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(20)),
+                    color: Colors.white,
+                  ),
+                  padding: EdgeInsets.only(left: 10),
+                  child: TextFormField(
+                    controller: priceChangeController,
+                    decoration: InputDecoration(
+                        border: InputBorder.none,
+                        hintText: "Your price",
+                        prefixIcon: Icon(Icons.monetization_on_outlined)),
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.only(top: 10),
+                  padding: EdgeInsets.symmetric(horizontal: 150),
+                  child:
+                      Text('Enter your price', style: TextStyle(fontSize: 20)),
+                ),
+                Container(
+                  margin: EdgeInsets.only(top: 30),
+                  padding: EdgeInsets.symmetric(horizontal: 60),
+                  child: ElevatedButton(
+                    child: const Text('Chencge price'),
+                    onPressed: () {},
                   ),
                 ),
               ],
@@ -316,8 +367,8 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                                   },
                           btnClick: () =>
                               disablePackage("5", snapshot.data["packages"]),
+                          btnPriceChange: () => modalPriceChengeWidget(context),
                         ),
-                        //////////////////////////////////////////////////////////////
                         CardWidget(
                           title: '10MB',
                           subTitle: 'LKR 5',
@@ -346,6 +397,7 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                                   },
                           btnClick: () =>
                               disablePackage("10", snapshot.data["packages"]),
+                          btnPriceChange: () => modalPriceChengeWidget(context),
                         ),
                         CardWidget(
                           title: '15MB',
@@ -375,6 +427,7 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                                   },
                           btnClick: () =>
                               disablePackage("15", snapshot.data["packages"]),
+                          btnPriceChange: () => modalPriceChengeWidget(context),
                         ),
                         CardWidget(
                           title: '20MB',
@@ -404,6 +457,7 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                                   },
                           btnClick: () =>
                               disablePackage("20", snapshot.data["packages"]),
+                          btnPriceChange: () => modalPriceChengeWidget(context),
                         ),
                         CardWidget(
                           title: '25MB',
@@ -433,6 +487,7 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                                   },
                           btnClick: () =>
                               disablePackage("25", snapshot.data["packages"]),
+                          btnPriceChange: () => modalPriceChengeWidget(context),
                         ),
                         CardWidget(
                           title: '30MB',
@@ -462,6 +517,7 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                                   },
                           btnClick: () =>
                               disablePackage("30", snapshot.data["packages"]),
+                          btnPriceChange: () => modalPriceChengeWidget(context),
                         ),
                         CardWidget(
                           title: '35MB',
@@ -491,6 +547,7 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                                   },
                           btnClick: () =>
                               disablePackage("35", snapshot.data["packages"]),
+                          btnPriceChange: () => modalPriceChengeWidget(context),
                         ),
                         CardWidget(
                           title: '40MB',
@@ -520,6 +577,7 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                                   },
                           btnClick: () =>
                               disablePackage("40", snapshot.data["packages"]),
+                          btnPriceChange: () => modalPriceChengeWidget(context),
                         ),
                         CardWidget(
                           title: '45MB',
@@ -549,6 +607,7 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                                   },
                           btnClick: () =>
                               disablePackage("45", snapshot.data["packages"]),
+                          btnPriceChange: () => modalPriceChengeWidget(context),
                         ),
                         CardWidget(
                           title: '50MB',
@@ -578,6 +637,7 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                                   },
                           btnClick: () =>
                               disablePackage("50", snapshot.data["packages"]),
+                          btnPriceChange: () => modalPriceChengeWidget(context),
                         ),
                         CardWidget(
                           title: '55MB',
@@ -607,6 +667,7 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                                   },
                           btnClick: () =>
                               disablePackage("55", snapshot.data["packages"]),
+                          btnPriceChange: () => modalPriceChengeWidget(context),
                         ),
                         CardWidget(
                           title: '60MB',
@@ -636,6 +697,7 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                                       btnOk: Text(""),
                                     )..show()
                                   },
+                          btnPriceChange: () => modalPriceChengeWidget(context),
                         ),
                       ],
                     ),
@@ -654,11 +716,13 @@ class CardWidget extends StatelessWidget {
   final int connectedCount;
   final onClick;
   final btnClick;
+  final btnPriceChange;
 
   CardWidget(
       {this.subTitle,
       this.onClick,
       this.btnClick,
+      this.btnPriceChange,
       this.title,
       this.notConnected,
       this.connectedCount,
@@ -688,7 +752,7 @@ class CardWidget extends StatelessWidget {
                       style: GoogleFonts.openSans(
                         textStyle: TextStyle(
                             color: textColors,
-                            fontSize: 50,
+                            fontSize: 35,
                             fontWeight: FontWeight.w600),
                       ),
                     ),
@@ -699,11 +763,25 @@ class CardWidget extends StatelessWidget {
                       style: GoogleFonts.openSans(
                         textStyle: TextStyle(
                             color: textColors,
-                            fontSize: 25,
+                            fontSize: 18,
                             fontWeight: FontWeight.w600),
                       ),
                     ),
                   ),
+                  Container(
+                    // margin: EdgeInsets.only(top: 30),
+                    padding: EdgeInsets.symmetric(horizontal: 20),
+                    child: ElevatedButton.icon(
+                      label: Text('Price change'),
+                      icon: Icon(Icons.monetization_on_outlined),
+                      onPressed: btnPriceChange,
+                      style: ElevatedButton.styleFrom(
+                        primary: Colors.yellow,
+                        onPrimary: Colors.black,
+                        // onSurface: Colors.red,
+                      ),
+                    ),
+                  )
                 ],
               ),
               Container(
