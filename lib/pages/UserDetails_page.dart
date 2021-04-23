@@ -206,7 +206,8 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
                   children: <Widget>[
                     CardWidget(
                       title: '5MB',
-                      subTitle: 'LKR 2',
+                      subTitle: 'LKR ' +
+                          snapshot.data["packages_prices"]["5"].toString(),
                       connectedCount: snapshot.data["connectedCount"]["5"],
                       notConnected: snapshot.data["packages"]["5"] == true &&
                               snapshot.data["connectedCount"]["5"] > 0
@@ -215,13 +216,17 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
                       unavailable: snapshot.data["packages"]["5"] == true
                           ? "Available"
                           : "Unavailable",
-                      onClick: () => {},
+                      onClick: () => makePayment(
+                          "5",
+                          snapshot.data["connectedCount"]["5"],
+                          snapshot.data["packages_prices"]["5"]),
                       btnClick: () => {},
                     ),
                     //////////////////////////////////////////////////////////////
                     CardWidget(
                       title: '10MB',
-                      subTitle: 'LKR 5',
+                      subTitle: 'LKR ' +
+                          snapshot.data["packages_prices"]["10"].toString(),
                       connectedCount: snapshot.data["connectedCount"]["10"],
                       notConnected: snapshot.data["packages"]["10"] == true &&
                               snapshot.data["connectedCount"]["10"] > 0
@@ -230,12 +235,16 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
                       unavailable: snapshot.data["packages"]["10"] == true
                           ? "Available"
                           : "Unavailable",
-                      onClick: () => {},
+                      onClick: () => makePayment(
+                          "10",
+                          snapshot.data["connectedCount"]["10"],
+                          snapshot.data["packages_prices"]["10"]),
                       btnClick: () => {},
                     ),
                     CardWidget(
                       title: '15MB',
-                      subTitle: 'LKR 7',
+                      subTitle: 'LKR ' +
+                          snapshot.data["packages_prices"]["15"].toString(),
                       connectedCount: snapshot.data["connectedCount"]["15"],
                       notConnected: snapshot.data["packages"]["15"] == true &&
                               snapshot.data["connectedCount"]["15"] > 0
@@ -244,12 +253,16 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
                       unavailable: snapshot.data["packages"]["15"] == true
                           ? "Available"
                           : "Unavailable",
-                      onClick: () => {},
+                      onClick: () => makePayment(
+                          "15",
+                          snapshot.data["connectedCount"]["15"],
+                          snapshot.data["packages_prices"]["15"]),
                       btnClick: () => {},
                     ),
                     CardWidget(
                       title: '20MB',
-                      subTitle: 'LKR 10',
+                      subTitle: 'LKR ' +
+                          snapshot.data["packages_prices"]["20"].toString(),
                       connectedCount: snapshot.data["connectedCount"]["20"],
                       notConnected: snapshot.data["packages"]["20"] == true &&
                               snapshot.data["connectedCount"]["20"] > 0
@@ -258,12 +271,16 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
                       unavailable: snapshot.data["packages"]["20"] == true
                           ? "Available"
                           : "Unavailable",
-                      onClick: () => {},
+                      onClick: () => makePayment(
+                          "20",
+                          snapshot.data["connectedCount"]["20"],
+                          snapshot.data["packages_prices"]["20"]),
                       btnClick: () => {},
                     ),
                     CardWidget(
                       title: '25MB',
-                      subTitle: 'LKR 5',
+                      subTitle: 'LKR ' +
+                          snapshot.data["packages_prices"]["25"].toString(),
                       connectedCount: snapshot.data["connectedCount"]["25"],
                       notConnected: snapshot.data["packages"]["25"] == true &&
                               snapshot.data["connectedCount"]["25"] > 0
@@ -272,12 +289,16 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
                       unavailable: snapshot.data["packages"]["25"] == true
                           ? "Available"
                           : "Unavailable",
-                      onClick: () => {},
+                      onClick: () => makePayment(
+                          "25",
+                          snapshot.data["connectedCount"]["25"],
+                          snapshot.data["packages_prices"]["25"]),
                       btnClick: () => {},
                     ),
                     CardWidget(
                       title: '30MB',
-                      subTitle: 'LKR 5',
+                      subTitle: 'LKR ' +
+                          snapshot.data["packages_prices"]["30"].toString(),
                       connectedCount: snapshot.data["connectedCount"]["30"],
                       notConnected: snapshot.data["packages"]["30"] == true &&
                               snapshot.data["connectedCount"]["30"] > 0
@@ -286,12 +307,16 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
                       unavailable: snapshot.data["packages"]["30"] == true
                           ? "Available"
                           : "Unavailable",
-                      onClick: () => {},
+                      onClick: () => makePayment(
+                          "30",
+                          snapshot.data["connectedCount"]["30"],
+                          snapshot.data["packages_prices"]["30"]),
                       btnClick: () => {},
                     ),
                     CardWidget(
                       title: '35MB',
-                      subTitle: 'LKR 5',
+                      subTitle: 'LKR ' +
+                          snapshot.data["packages_prices"]["35"].toString(),
                       connectedCount: snapshot.data["connectedCount"]["35"],
                       notConnected: snapshot.data["packages"]["35"] == true &&
                               snapshot.data["connectedCount"]["35"] > 0
@@ -300,12 +325,16 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
                       unavailable: snapshot.data["packages"]["35"] == true
                           ? "Available"
                           : "Unavailable",
-                      onClick: () => {},
+                      onClick: () => makePayment(
+                          "35",
+                          snapshot.data["connectedCount"]["35"],
+                          snapshot.data["packages_prices"]["35"]),
                       btnClick: () => {},
                     ),
                     CardWidget(
                       title: '40MB',
-                      subTitle: 'LKR 5',
+                      subTitle: 'LKR ' +
+                          snapshot.data["packages_prices"]["40"].toString(),
                       connectedCount: snapshot.data["connectedCount"]["40"],
                       notConnected: snapshot.data["packages"]["40"] == true &&
                               snapshot.data["connectedCount"]["40"] > 0
@@ -314,12 +343,16 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
                       unavailable: snapshot.data["packages"]["40"] == true
                           ? "Available"
                           : "Unavailable",
-                      onClick: () => {},
+                      onClick: () => makePayment(
+                          "40",
+                          snapshot.data["connectedCount"]["40"],
+                          snapshot.data["packages_prices"]["40"]),
                       btnClick: () => {},
                     ),
                     CardWidget(
                       title: '45MB',
-                      subTitle: 'LKR 5',
+                      subTitle: 'LKR ' +
+                          snapshot.data["packages_prices"]["45"].toString(),
                       connectedCount: snapshot.data["connectedCount"]["45"],
                       notConnected: snapshot.data["packages"]["45"] == true &&
                               snapshot.data["connectedCount"]["45"] > 0
@@ -328,12 +361,16 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
                       unavailable: snapshot.data["packages"]["45"] == true
                           ? "Available"
                           : "Unavailable",
-                      onClick: () => {},
+                      onClick: () => makePayment(
+                          "45",
+                          snapshot.data["connectedCount"]["45"],
+                          snapshot.data["packages_prices"]["45"]),
                       btnClick: () => {},
                     ),
                     CardWidget(
                       title: '50MB',
-                      subTitle: 'LKR 5',
+                      subTitle: 'LKR ' +
+                          snapshot.data["packages_prices"]["50"].toString(),
                       connectedCount: snapshot.data["connectedCount"]["50"],
                       notConnected: snapshot.data["packages"]["50"] == true &&
                               snapshot.data["connectedCount"]["50"] > 50
@@ -342,12 +379,16 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
                       unavailable: snapshot.data["packages"]["50"] == true
                           ? "Available"
                           : "Unavailable",
-                      onClick: () => {},
+                      onClick: () => makePayment(
+                          "50",
+                          snapshot.data["connectedCount"]["50"],
+                          snapshot.data["packages_prices"]["50"]),
                       btnClick: () => {},
                     ),
                     CardWidget(
                       title: '55MB',
-                      subTitle: 'LKR 5',
+                      subTitle: 'LKR ' +
+                          snapshot.data["packages_prices"]["55"].toString(),
                       connectedCount: snapshot.data["connectedCount"]["55"],
                       notConnected: snapshot.data["packages"]["55"] == true &&
                               snapshot.data["connectedCount"]["55"] > 55
@@ -356,12 +397,16 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
                       unavailable: snapshot.data["packages"]["55"] == true
                           ? "Available"
                           : "Unavailable",
-                      onClick: () => {},
+                      onClick: () => makePayment(
+                          "55",
+                          snapshot.data["connectedCount"]["55"],
+                          snapshot.data["packages_prices"]["55"]),
                       btnClick: () => {},
                     ),
                     CardWidget(
                       title: '60MB',
-                      subTitle: 'LKR 5',
+                      subTitle: 'LKR ' +
+                          snapshot.data["packages_prices"]["60"].toString(),
                       btnClick: () => {},
                       connectedCount: snapshot.data["connectedCount"]["60"],
                       notConnected: snapshot.data["packages"]["60"] == true &&
@@ -371,7 +416,10 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
                       unavailable: snapshot.data["packages"]["60"] == true
                           ? "Available"
                           : "Unavailable",
-                      onClick: () => {},
+                      onClick: () => makePayment(
+                          "60",
+                          snapshot.data["connectedCount"]["60"],
+                          snapshot.data["packages_prices"]["60"]),
                     ),
                   ],
                 ),
