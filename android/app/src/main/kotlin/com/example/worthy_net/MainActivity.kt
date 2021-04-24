@@ -1,6 +1,10 @@
 package com.example.worthy_net
 
-import io.flutter.embedding.android.FlutterActivity
+import android.app.Activity
+import android.content.Intent
+import android.os.Bundle
+import android.view.View
 
-class MainActivity: FlutterActivity() {
+class MainActivity : Activity() {
+   
 }

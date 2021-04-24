@@ -1,13 +1,35 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:worthy_net/pages/Login_page.dart';
 import 'package:worthy_net/utils/Color.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:worthy_net/widgets/GridDashbord.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:worthy_net/pages/Login_page.dart';
 import 'package:worthy_net/widgets/Header_container.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  getBackgroundTask() async {
+    // final cron = Cron()
+    //   ..schedule(Schedule.parse('*/1 * * * * *'), () async {
+    //     int downF = await getDownSpeed();
+    //     int uploadF = await getUploadSpeed();
+    //     print("Download rate " + (downF / 1000).toString());
+    //     print("Upload rate " + (uploadF / 1000).toString());
+    //   });
+    // await Future.delayed(Duration(seconds: 2));
+    // await cron.close();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

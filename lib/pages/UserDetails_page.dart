@@ -2,12 +2,14 @@ import 'dart:convert';
 import 'dart:math';
 
 import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:cron/cron.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:payhere/payhere.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:simply_wifi/simply_wifi.dart';
 import 'package:worthy_net/config/collections.dart';
+import 'package:worthy_net/pages/Home_page.dart';
 import 'package:worthy_net/utils/Color.dart';
 import 'package:encrypt/encrypt.dart' as KeyGet;
 import 'package:encrypt/encrypt.dart';
@@ -157,23 +159,119 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
                       "60":
                           package == "60" ? connectedCount + 1 : connectedCount,
                     }
-                  }).then((_) => {currentUserIsConnected()}),
+                  }).then((_) async =>
+                      {await currentUserIsConnected(widget.userId, package)}),
                 }
             });
   }
 
-  currentUserIsConnected() async {
+  currentUserIsConnected(String hostuserIdF, String package) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString("host_userId", hostuserIdF);
+    await prefs.setString("package", package);
     var result = await usersRef
         .where("email", isEqualTo: prefs.getString("email"))
         .get();
     if (result.docs.length > 0) {
-      await usersRef.doc(result.docs[0].id).update({
+      usersRef.doc(result.docs[0].id).update({
         "isConnected": true,
         "user": true,
         "host_ssid": widget.ssid,
         "host_id": widget.userId,
-      });
+      }).then((_) => {
+            prefs.setString("connected_ssid", widget.ssid).then((_) => {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => HomePage()))
+                }),
+          });
+    }
+  }
+
+  cronJob(int packageTime) async {
+    final cron = Cron()..schedule(Schedule.parse('*/1 * * * * *'), () async {});
+  }
+
+  dicoconnectPackage() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var connectedSsid = prefs.getString("connected_ssid");
+    var connectedPackage = prefs.getString("package");
+    var hostuserIdShared = prefs.getString("host_userId");
+    int count = 0;
+    var result = await usersRef
+        .where("email", isEqualTo: prefs.getString("email"))
+        .get();
+    if (result.docs.length > 0) {
+      usersRef.doc(result.docs[0].id).update({
+        "isConnected": false,
+        "user": false,
+        "host_ssid": null,
+        "host_id": null,
+      }).then((_) async => {
+            await usersRef.doc(hostuserIdShared).get().then((resultGet) => {
+                  count = resultGet.data()["connectedCount"]["5"] +
+                      resultGet.data()["connectedCount"]["10"] +
+                      resultGet.data()["connectedCount"]["15"] +
+                      resultGet.data()["connectedCount"]["20"] +
+                      resultGet.data()["connectedCount"]["25"] +
+                      resultGet.data()["connectedCount"]["30"] +
+                      resultGet.data()["connectedCount"]["35"] +
+                      resultGet.data()["connectedCount"]["40"] +
+                      resultGet.data()["connectedCount"]["45"] +
+                      resultGet.data()["connectedCount"]["50"] +
+                      resultGet.data()["connectedCount"]["55"] +
+                      resultGet.data()["connectedCount"]["60"],
+                  prefs.setString("connected_ssid", null).then((_) async => {
+                        await usersRef.doc(hostuserIdShared).update({
+                          "isConnected": count > 1 ? true : false,
+                          "host": count > 1 ? true : false,
+                          "connectedCount": {
+                            "5": connectedPackage == "5"
+                                ? resultGet.data()["connectedCount"]["5"] - 1
+                                : resultGet.data()["connectedCount"]["5"],
+                            "10": connectedPackage == "10"
+                                ? resultGet.data()["connectedCount"]["10"] - 1
+                                : resultGet.data()["connectedCount"]["10"],
+                            "15": connectedPackage == "15"
+                                ? resultGet.data()["connectedCount"]["15"] - 1
+                                : resultGet.data()["connectedCount"]["15"],
+                            "20": connectedPackage == "20"
+                                ? resultGet.data()["connectedCount"]["20"] - 1
+                                : resultGet.data()["connectedCount"]["20"],
+                            "25": connectedPackage == "25"
+                                ? resultGet.data()["connectedCount"]["25"] - 1
+                                : resultGet.data()["connectedCount"]["25"],
+                            "30": connectedPackage == "30"
+                                ? resultGet.data()["connectedCount"]["30"] - 1
+                                : resultGet.data()["connectedCount"]["30"],
+                            "35": connectedPackage == "35"
+                                ? resultGet.data()["connectedCount"]["35"] - 1
+                                : resultGet.data()["connectedCount"]["35"],
+                            "40": connectedPackage == "40"
+                                ? resultGet.data()["connectedCount"]["40"] - 1
+                                : resultGet.data()["connectedCount"]["40"],
+                            "45": connectedPackage == "45"
+                                ? resultGet.data()["connectedCount"]["45"] - 1
+                                : resultGet.data()["connectedCount"]["45"],
+                            "50": connectedPackage == "50"
+                                ? resultGet.data()["connectedCount"]["50"] - 1
+                                : resultGet.data()["connectedCount"]["50"],
+                            "55": connectedPackage == "55"
+                                ? resultGet.data()["connectedCount"]["55"] - 1
+                                : resultGet.data()["connectedCount"]["55"],
+                            "60": connectedPackage == "60"
+                                ? resultGet.data()["connectedCount"]["60"] - 1
+                                : resultGet.data()["connectedCount"]["60"],
+                          }
+                        }).then((_) async => {
+                              SimplyWifi.disconnectWifi(),
+                              SimplyWifi.forgetWifiByWifiName(connectedSsid),
+                              SimplyWifi.turnOffWifi(),
+                              await prefs.setString("package", null),
+                              await prefs.setString("host_userId", null),
+                            }),
+                      }),
+                }),
+          });
     }
   }
 
@@ -220,7 +318,7 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
                           "5",
                           snapshot.data["connectedCount"]["5"],
                           snapshot.data["packages_prices"]["5"]),
-                      btnClick: () => {},
+                      btnClick: () => dicoconnectPackage(),
                     ),
                     //////////////////////////////////////////////////////////////
                     CardWidget(
