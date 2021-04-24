@@ -17,8 +17,8 @@ class HostDashboardPage extends StatefulWidget {
 class _HostDashboardPageState extends State<HostDashboardPage> {
   final TextEditingController hostPassword = new TextEditingController();
   final TextEditingController ssIDController = new TextEditingController();
-  final TextEditingController priceChangeController =
-      new TextEditingController();
+  final TextEditingController priceChangeController =new TextEditingController();
+  final TextEditingController timeController =new TextEditingController();
   bool isLoading = false;
   String userEmail = null;
   String userId = null;
@@ -257,14 +257,14 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
     }
   }
 
-  // Price change popup widget
+  // Price and time  change popup widget
   modalPriceChengeWidget(
       BuildContext context, String package, double currentPrice) async {
     showModalBottomSheet<void>(
       context: context,
       builder: (BuildContext context) {
         return Container(
-          height: MediaQuery.of(context).size.height / 3,
+          height: MediaQuery.of(context).size.height / 2.5,
           color: modalColor,
           child: Center(
             child: ListView(
@@ -286,6 +286,22 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                   ),
                 ),
                 Container(
+                  margin: EdgeInsets.only(left: 20, right: 20, top: 30),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(20)),
+                    color: Colors.white,
+                  ),
+                  padding: EdgeInsets.only(left: 10),
+                  child: TextFormField(
+                    controller: timeController,
+                    keyboardType: TextInputType.number,
+                    decoration: InputDecoration(
+                        border: InputBorder.none,
+                        hintText: "Enter package Time(minit)",
+                        prefixIcon: Icon(Icons.timer)),
+                  ),
+                ),
+                Container(
                   margin: EdgeInsets.only(top: 10),
                   padding: EdgeInsets.symmetric(horizontal: 120),
                   child: Text(package + "MB package",
@@ -295,7 +311,7 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                   margin: EdgeInsets.only(top: 30),
                   padding: EdgeInsets.symmetric(horizontal: 60),
                   child: ElevatedButton(
-                    child: const Text('Submit price'),
+                    child: const Text('Submit'),
                     onPressed: () => updatePackagePrice(package, currentPrice),
                   ),
                 ),
@@ -388,6 +404,7 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                       childAspectRatio: (itemWidth / itemHeight),
                       children: <Widget>[
                         CardWidget(
+                          packagetime: '',
                           title: '5MB',
                           subTitle: 'LKR ' +
                               snapshot.data["packages_prices"]["5"].toString(),
@@ -420,6 +437,7 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                               "5", snapshot.data["packages_prices"]["5"]),
                         ),
                         CardWidget(
+                          packagetime: '',
                           title: '10MB',
                           subTitle: 'LKR ' +
                               snapshot.data["packages_prices"]["10"].toString(),
@@ -452,6 +470,7 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                               "10", snapshot.data["packages_prices"]["10"]),
                         ),
                         CardWidget(
+                          packagetime: '',
                           title: '15MB',
                           subTitle: 'LKR ' +
                               snapshot.data["packages_prices"]["15"].toString(),
@@ -484,6 +503,7 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                               "15", snapshot.data["packages_prices"]["15"]),
                         ),
                         CardWidget(
+                          packagetime: '',
                           title: '20MB',
                           subTitle: 'LKR ' +
                               snapshot.data["packages_prices"]["20"].toString(),
@@ -516,6 +536,7 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                               "20", snapshot.data["packages_prices"]["20"]),
                         ),
                         CardWidget(
+                          packagetime: '',
                           title: '25MB',
                           subTitle: 'LKR ' +
                               snapshot.data["packages_prices"]["25"].toString(),
@@ -548,6 +569,7 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                               "25", snapshot.data["packages_prices"]["25"]),
                         ),
                         CardWidget(
+                          packagetime: '',
                           title: '30MB',
                           subTitle: 'LKR ' +
                               snapshot.data["packages_prices"]["30"].toString(),
@@ -580,6 +602,7 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                               "30", snapshot.data["packages_prices"]["30"]),
                         ),
                         CardWidget(
+                          packagetime: '',
                           title: '35MB',
                           subTitle: 'LKR ' +
                               snapshot.data["packages_prices"]["35"].toString(),
@@ -612,6 +635,7 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                               "35", snapshot.data["packages_prices"]["35"]),
                         ),
                         CardWidget(
+                          packagetime: '',
                           title: '40MB',
                           subTitle: 'LKR ' +
                               snapshot.data["packages_prices"]["40"].toString(),
@@ -644,6 +668,7 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                               "40", snapshot.data["packages_prices"]["40"]),
                         ),
                         CardWidget(
+                          packagetime: '',
                           title: '45MB',
                           subTitle: 'LKR ' +
                               snapshot.data["packages_prices"]["45"].toString(),
@@ -676,6 +701,7 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                               "45", snapshot.data["packages_prices"]["45"]),
                         ),
                         CardWidget(
+                          packagetime: '',
                           title: '50MB',
                           subTitle: 'LKR ' +
                               snapshot.data["packages_prices"]["50"].toString(),
@@ -708,6 +734,7 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                               "50", snapshot.data["packages_prices"]["50"]),
                         ),
                         CardWidget(
+                          packagetime: '',
                           title: '55MB',
                           subTitle: 'LKR ' +
                               snapshot.data["packages_prices"]["55"].toString(),
@@ -740,6 +767,7 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                               "55", snapshot.data["packages_prices"]["55"]),
                         ),
                         CardWidget(
+                          packagetime: '',
                           title: '60MB',
                           subTitle: 'LKR ' +
                               snapshot.data["packages_prices"]["60"].toString(),
@@ -782,6 +810,7 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
 
 class CardWidget extends StatelessWidget {
   final String subTitle;
+  final String packagetime;
   final String title;
   final String unavailable;
   final String notConnected;
@@ -790,8 +819,9 @@ class CardWidget extends StatelessWidget {
   final btnClick;
   final btnPriceChange;
 
-  CardWidget(
-      {this.subTitle,
+  CardWidget({
+      this.subTitle,
+      this.packagetime,
       this.onClick,
       this.btnClick,
       this.btnPriceChange,
@@ -824,7 +854,7 @@ class CardWidget extends StatelessWidget {
                       style: GoogleFonts.openSans(
                         textStyle: TextStyle(
                             color: textColors,
-                            fontSize: 35,
+                            fontSize: 30,
                             fontWeight: FontWeight.w600),
                       ),
                     ),
@@ -841,11 +871,22 @@ class CardWidget extends StatelessWidget {
                     ),
                   ),
                   Container(
+                    child: Text(
+                      packagetime,
+                      style: GoogleFonts.openSans(
+                        textStyle: TextStyle(
+                            color: textColors,
+                            fontSize: 18,
+                            fontWeight: FontWeight.w600),
+                      ),
+                    ),
+                  ),
+                  Container(
                     // margin: EdgeInsets.only(top: 30),
-                    padding: EdgeInsets.symmetric(horizontal: 20),
+                    padding: EdgeInsets.symmetric(horizontal: 15),
                     child: ElevatedButton.icon(
-                      label: Text('Change price'),
-                      icon: Icon(Icons.monetization_on_outlined),
+                      label: Text('Price and time'),
+                      icon: Icon(Icons.credit_card_outlined),
                       onPressed: btnPriceChange,
                       style: ElevatedButton.styleFrom(
                         primary: Colors.yellow,

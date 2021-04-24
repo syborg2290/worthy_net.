@@ -477,17 +477,6 @@ class CardWidget extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Container(
-                    child: Text(
-                      subTitle,
-                      style: GoogleFonts.openSans(
-                        textStyle: TextStyle(
-                            color: textColors,
-                            fontSize: 25,
-                            fontWeight: FontWeight.w600),
-                      ),
-                    ),
-                  ),
                 ],
               ),
               Container(
