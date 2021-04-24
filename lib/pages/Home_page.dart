@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:cron/cron.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:worthy_net/pages/Login_page.dart';
@@ -13,22 +14,34 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final String duration = "555221";
-  final String receieved = "11445";
+  int down = 0;
+  int up = 0;
+  int packageTime = 0;
+  String ssid = "Not connected";
 
   @override
   void initState() {
     super.initState();
+    getBackgroundTask();
   }
 
   getBackgroundTask() async {
-    // final cron = Cron()
-    //   ..schedule(Schedule.parse('*/1 * * * * *'), () async {
-    //     int downF = await getDownSpeed();
-    //     int uploadF = await getUploadSpeed();
-    //     print("Download rate " + (downF / 1000).toString());
-    //     print("Upload rate " + (uploadF / 1000).toString());
-    //   });
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    if (prefs.getString("connected_ssid") != null) {
+      final cron = Cron()
+        ..schedule(Schedule.parse('*/1 * * * * *'), () async {
+          int packageTimel = prefs.getInt("package_time");
+          int upl = prefs.getInt("random_up");
+          int downl = prefs.getInt("random_down");
+          setState(() {
+            ssid = prefs.getString("connected_ssid");
+            up = upl;
+            down = downl;
+            packageTime = packageTimel;
+          });
+        });
+    }
+
     // await Future.delayed(Duration(seconds: 2));
     // await cron.close();
   }
@@ -59,7 +72,31 @@ class _HomePageState extends State<HomePage> {
                         padding: EdgeInsets.all(
                             MediaQuery.of(context).size.width / 60),
                         child: Text(
-                          "Duration :",
+                          "Connected SSID :",
+                          style: GoogleFonts.openSans(
+                              textStyle: TextStyle(
+                                  color: textSilverColor,
+                                  fontSize: 25,
+                                  fontWeight: FontWeight.normal)),
+                        ),
+                      ),
+                      Container(
+                        padding: EdgeInsets.all(
+                            MediaQuery.of(context).size.width / 60),
+                        child: Text(
+                          "⏳ Duration :",
+                          style: GoogleFonts.openSans(
+                              textStyle: TextStyle(
+                                  color: textSilverColor,
+                                  fontSize: 25,
+                                  fontWeight: FontWeight.normal)),
+                        ),
+                      ),
+                      Container(
+                        padding: EdgeInsets.all(
+                            MediaQuery.of(context).size.width / 60),
+                        child: Text(
+                          "⬆ Upload Speed :",
                           style: GoogleFonts.openSans(
                               textStyle: TextStyle(
                                   color: textSilverColor,
@@ -69,7 +106,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                       Container(
                         child: Text(
-                          "Received :",
+                          "⬇ Download speed :",
                           style: GoogleFonts.openSans(
                               textStyle: TextStyle(
                                   color: textSilverColor,
@@ -86,7 +123,32 @@ class _HomePageState extends State<HomePage> {
                         padding: EdgeInsets.all(
                             MediaQuery.of(context).size.width / 60),
                         child: Text(
-                          duration,
+                          ssid,
+                          style: GoogleFonts.openSans(
+                              textStyle: TextStyle(
+                                  color: textGreenColor,
+                                  fontSize: 25,
+                                  fontWeight: FontWeight.normal)),
+                        ),
+                      ),
+                      Container(
+                        padding: EdgeInsets.all(
+                            MediaQuery.of(context).size.width / 60),
+                        child: Text(
+                          double.parse(packageTime.toString()).toString() +
+                              " Min",
+                          style: GoogleFonts.openSans(
+                              textStyle: TextStyle(
+                                  color: textGreenColor,
+                                  fontSize: 25,
+                                  fontWeight: FontWeight.normal)),
+                        ),
+                      ),
+                      Container(
+                        padding: EdgeInsets.all(
+                            MediaQuery.of(context).size.width / 60),
+                        child: Text(
+                          double.parse(up.toString()).toString() + " KPS",
                           style: GoogleFonts.openSans(
                               textStyle: TextStyle(
                                   color: textGreenColor,
@@ -96,7 +158,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                       Container(
                         child: Text(
-                          receieved,
+                          double.parse(down.toString()).toString() + " KPS",
                           style: GoogleFonts.openSans(
                               textStyle: TextStyle(
                                   color: textGreenColor,

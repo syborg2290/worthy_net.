@@ -1,4 +1,5 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:connectivity/connectivity.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -33,199 +34,213 @@ class _RegisterPageState extends State<RegisterPage> {
 
 //register function
   register() async {
-    if (fNameController.text == "") {
-      setState(() {
-        valFirstName = "Enter your first name";
-      });
-    } else {
-      if (lNameController.text == "") {
+    var connectivityResult = await (Connectivity().checkConnectivity());
+    if (connectivityResult == ConnectivityResult.wifi ||
+        connectivityResult == ConnectivityResult.mobile) {
+      if (fNameController.text == "") {
         setState(() {
-          valLastName = "Enter your last name";
+          valFirstName = "Enter your first name";
         });
       } else {
-        if (emailController.text == "") {
+        if (lNameController.text == "") {
           setState(() {
-            valEmail = "Enter your email";
+            valLastName = "Enter your last name";
           });
         } else {
-          if (phoneController.text == "") {
+          if (emailController.text == "") {
             setState(() {
-              valPhone = "Enter your phone number";
+              valEmail = "Enter your email";
             });
           } else {
-            if (pwController.text == "") {
+            if (phoneController.text == "") {
               setState(() {
-                valPW = "Enter your password";
+                valPhone = "Enter your phone number";
               });
             } else {
-              if (pwController.text != cpwController.text) {
+              if (pwController.text == "") {
                 setState(() {
-                  valCPW = "Passwords are not matched";
+                  valPW = "Enter your password";
                 });
               } else {
-                try {
+                if (pwController.text != cpwController.text) {
                   setState(() {
-                    isLoading = true;
+                    valCPW = "Passwords are not matched";
                   });
-                  var result = await usersRef
-                      .where("email", isEqualTo: emailController.text.trim())
-                      .get();
-                  if (result.docs.length > 0) {
+                } else {
+                  try {
+                    setState(() {
+                      isLoading = true;
+                    });
+                    var result = await usersRef
+                        .where("email", isEqualTo: emailController.text.trim())
+                        .get();
+                    if (result.docs.length > 0) {
+                      AwesomeDialog(
+                        context: context,
+                        dialogType: DialogType.INFO,
+                        animType: AnimType.BOTTOMSLIDE,
+                        title: 'Info',
+                        desc: 'Email address already in used!',
+                        btnCancel: Text(""),
+                        btnOk: Text(""),
+                      )..show();
+
+                      setState(() {
+                        isLoading = false;
+                      });
+                    } else {
+                      SharedPreferences prefs =
+                          await SharedPreferences.getInstance();
+                      final key = KeyGet.Key.fromUtf8(
+                          'ghjklsgdferty27364uyrhjskytrghso');
+                      final iv = IV.fromLength(16);
+
+                      final encrypter = Encrypter(AES(key));
+
+                      usersRef.add({
+                        "fname": fNameController.text.trim(),
+                        "lname": lNameController.text.trim(),
+                        "email": emailController.text.trim(),
+                        "phonenumber": phoneController.text.trim(),
+                        "password": encrypter
+                            .encrypt(pwController.text.trim(), iv: iv)
+                            .base64,
+                        "isConnected": false,
+                        "host_ssid": null,
+                        "host_id": null,
+                        "connectedCount": {
+                          "5": 0,
+                          "10": 0,
+                          "15": 0,
+                          "20": 0,
+                          "25": 0,
+                          "30": 0,
+                          "35": 0,
+                          "40": 0,
+                          "45": 0,
+                          "50": 0,
+                          "55": 0,
+                          "60": 0,
+                        },
+                        "user": false,
+                        "host": false,
+                        "merchantId": null,
+                        "merchantSecret": null,
+                        "ssid": null,
+                        "hotspot_password": null,
+                        "packages": {
+                          "5": false,
+                          "10": false,
+                          "15": false,
+                          "20": false,
+                          "25": false,
+                          "30": false,
+                          "35": false,
+                          "40": false,
+                          "45": false,
+                          "50": false,
+                          "55": false,
+                          "60": false,
+                        },
+                        "packages_prices": {
+                          "5": 0.0,
+                          "10": 0.0,
+                          "15": 0.0,
+                          "20": 0.0,
+                          "25": 0.0,
+                          "30": 0.0,
+                          "35": 0.0,
+                          "40": 0.0,
+                          "45": 0.0,
+                          "50": 0.0,
+                          "55": 0.0,
+                          "60": 0.0,
+                        },
+                        "packages_times": {
+                          "5": 0,
+                          "10": 0,
+                          "15": 0,
+                          "20": 0,
+                          "25": 0,
+                          "30": 0,
+                          "35": 0,
+                          "40": 0,
+                          "45": 0,
+                          "50": 0,
+                          "55": 0,
+                          "60": 0,
+                        }
+                      }).then((_) async => {
+                            await prefs
+                                .setString("email", emailController.text)
+                                .then((_) => {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => HomePage()))
+                                    })
+                          });
+                    }
+                  } catch (e) {
                     AwesomeDialog(
                       context: context,
                       dialogType: DialogType.INFO,
                       animType: AnimType.BOTTOMSLIDE,
                       title: 'Info',
-                      desc: 'Email address already in used!',
+                      desc: e.toString(),
                       btnCancel: Text(""),
                       btnOk: Text(""),
                     )..show();
-
                     setState(() {
                       isLoading = false;
                     });
-                  } else {
-                    SharedPreferences prefs =
-                        await SharedPreferences.getInstance();
-                    final key =
-                        KeyGet.Key.fromUtf8('ghjklsgdferty27364uyrhjskytrghso');
-                    final iv = IV.fromLength(16);
-
-                    final encrypter = Encrypter(AES(key));
-
-                    usersRef.add({
-                      "fname": fNameController.text.trim(),
-                      "lname": lNameController.text.trim(),
-                      "email": emailController.text.trim(),
-                      "phonenumber": phoneController.text.trim(),
-                      "password": encrypter
-                          .encrypt(pwController.text.trim(), iv: iv)
-                          .base64,
-                      "isConnected": false,
-                      "host_ssid": null,
-                      "host_id": null,
-                      "connectedCount": {
-                        "5": 0,
-                        "10": 0,
-                        "15": 0,
-                        "20": 0,
-                        "25": 0,
-                        "30": 0,
-                        "35": 0,
-                        "40": 0,
-                        "45": 0,
-                        "50": 0,
-                        "55": 0,
-                        "60": 0,
-                      },
-                      "user": false,
-                      "host": false,
-                      "merchantId": null,
-                      "merchantSecret": null,
-                      "ssid": null,
-                      "hotspot_password": null,
-                      "packages": {
-                        "5": false,
-                        "10": false,
-                        "15": false,
-                        "20": false,
-                        "25": false,
-                        "30": false,
-                        "35": false,
-                        "40": false,
-                        "45": false,
-                        "50": false,
-                        "55": false,
-                        "60": false,
-                      },
-                      "packages_prices": {
-                        "5": 0.0,
-                        "10": 0.0,
-                        "15": 0.0,
-                        "20": 0.0,
-                        "25": 0.0,
-                        "30": 0.0,
-                        "35": 0.0,
-                        "40": 0.0,
-                        "45": 0.0,
-                        "50": 0.0,
-                        "55": 0.0,
-                        "60": 0.0,
-                      },
-                      "packages_times": {
-                        "5": 0,
-                        "10": 0,
-                        "15": 0,
-                        "20": 0,
-                        "25": 0,
-                        "30": 0,
-                        "35": 0,
-                        "40": 0,
-                        "45": 0,
-                        "50": 0,
-                        "55": 0,
-                        "60": 0,
-                      }
-                    }).then((_) async => {
-                          await prefs
-                              .setString("email", emailController.text)
-                              .then((_) => {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => HomePage()))
-                                  })
-                        });
                   }
-                } catch (e) {
-                  AwesomeDialog(
-                    context: context,
-                    dialogType: DialogType.INFO,
-                    animType: AnimType.BOTTOMSLIDE,
-                    title: 'Info',
-                    desc: e.toString(),
-                    btnCancel: Text(""),
-                    btnOk: Text(""),
-                  )..show();
-                  setState(() {
-                    isLoading = false;
-                  });
                 }
               }
             }
           }
         }
       }
-    }
-    if (fNameController.text != "") {
-      setState(() {
-        valFirstName = "";
-      });
-    }
-    if (lNameController.text != "") {
-      setState(() {
-        valLastName = "";
-      });
-    }
-    if (emailController.text != "") {
-      setState(() {
-        valEmail = "";
-      });
-    }
-    if (phoneController.text != "") {
-      setState(() {
-        valPhone = "";
-      });
-    }
-    if (pwController.text != "") {
-      setState(() {
-        valPW = "";
-      });
-    }
-    if (pwController.text == cpwController.text && cpwController.text != "") {
-      setState(() {
-        valCPW = "";
-      });
+      if (fNameController.text != "") {
+        setState(() {
+          valFirstName = "";
+        });
+      }
+      if (lNameController.text != "") {
+        setState(() {
+          valLastName = "";
+        });
+      }
+      if (emailController.text != "") {
+        setState(() {
+          valEmail = "";
+        });
+      }
+      if (phoneController.text != "") {
+        setState(() {
+          valPhone = "";
+        });
+      }
+      if (pwController.text != "") {
+        setState(() {
+          valPW = "";
+        });
+      }
+      if (pwController.text == cpwController.text && cpwController.text != "") {
+        setState(() {
+          valCPW = "";
+        });
+      }
+    } else {
+      AwesomeDialog(
+        context: context,
+        dialogType: DialogType.INFO,
+        animType: AnimType.BOTTOMSLIDE,
+        title: 'Info',
+        desc: "Please check your internet connection!",
+        btnCancel: Text(""),
+        btnOk: Text(""),
+      )..show();
     }
   }
 

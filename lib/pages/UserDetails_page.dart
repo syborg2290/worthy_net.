@@ -32,7 +32,8 @@ class UserDetailsPage extends StatefulWidget {
 class _UserDetailsPageState extends State<UserDetailsPage> {
   bool isLoading = false;
 
-  makePayment(String package, int connectedCount, double price) async {
+  makePayment(
+      String package, int connectedCount, double price, int packageTime) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var result = await usersRef
         .where("email", isEqualTo: prefs.getString("email"))
@@ -73,7 +74,7 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
           String resPayhere = await payhere.makeOneTimePayment(otp);
 
           if (json.decode(resPayhere)["STATUS"] == "SUCCESS") {
-            connectToHotspot(package, connectedCount);
+            connectToHotspot(package, connectedCount, packageTime);
           } else if (json.decode(resPayhere)["STATUS"] == "ERROR") {
             AwesomeDialog(
               context: context,
@@ -122,7 +123,7 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
     }
   }
 
-  connectToHotspot(String package, int connectedCount) async {
+  connectToHotspot(String package, int connectedCount, int packageTime) async {
     final key = KeyGet.Key.fromUtf8('ghjklsgdferty27364uyrhjskytrghso');
     final iv = IV.fromLength(16);
     final encrypter = Encrypter(AES(key));
@@ -159,13 +160,16 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
                       "60":
                           package == "60" ? connectedCount + 1 : connectedCount,
                     }
-                  }).then((_) async =>
-                      {await currentUserIsConnected(widget.userId, package)}),
+                  }).then((_) async => {
+                        await currentUserIsConnected(
+                            widget.userId, package, packageTime)
+                      }),
                 }
             });
   }
 
-  currentUserIsConnected(String hostuserIdF, String package) async {
+  currentUserIsConnected(
+      String hostuserIdF, String package, int packageTime) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString("host_userId", hostuserIdF);
     await prefs.setString("package", package);
@@ -180,6 +184,7 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
         "host_id": widget.userId,
       }).then((_) => {
             prefs.setString("connected_ssid", widget.ssid).then((_) => {
+                  cronJob(packageTime),
                   Navigator.push(context,
                       MaterialPageRoute(builder: (context) => HomePage()))
                 }),
@@ -188,90 +193,112 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
   }
 
   cronJob(int packageTime) async {
-    final cron = Cron()..schedule(Schedule.parse('*/1 * * * * *'), () async {});
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final cron = Cron()
+      ..schedule(Schedule.parse('*/1 * * * * *'), () async {
+        var getTime = prefs.getInt("package_time");
+        if (getTime != null) {
+          if (getTime >= packageTime * 60) {
+            await prefs.setInt("package_time", null);
+            await prefs.setInt("random_up", null);
+            await prefs.setInt("random_down", null);
+            dicoconnectPackage();
+          } else {
+            Random random = new Random();
+            int rUp = 50 + random.nextInt(500 - 50);
+            int rDown = 40 + random.nextInt(300 - 40);
+            await prefs.setInt("package_time", getTime + 1);
+            await prefs.setInt("random_up", rUp);
+            await prefs.setInt("random_down", rDown);
+          }
+        }
+      });
   }
 
   dicoconnectPackage() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var connectedSsid = prefs.getString("connected_ssid");
-    var connectedPackage = prefs.getString("package");
-    var hostuserIdShared = prefs.getString("host_userId");
-    int count = 0;
-    var result = await usersRef
-        .where("email", isEqualTo: prefs.getString("email"))
-        .get();
-    if (result.docs.length > 0) {
-      usersRef.doc(result.docs[0].id).update({
-        "isConnected": false,
-        "user": false,
-        "host_ssid": null,
-        "host_id": null,
-      }).then((_) async => {
-            await usersRef.doc(hostuserIdShared).get().then((resultGet) => {
-                  count = resultGet.data()["connectedCount"]["5"] +
-                      resultGet.data()["connectedCount"]["10"] +
-                      resultGet.data()["connectedCount"]["15"] +
-                      resultGet.data()["connectedCount"]["20"] +
-                      resultGet.data()["connectedCount"]["25"] +
-                      resultGet.data()["connectedCount"]["30"] +
-                      resultGet.data()["connectedCount"]["35"] +
-                      resultGet.data()["connectedCount"]["40"] +
-                      resultGet.data()["connectedCount"]["45"] +
-                      resultGet.data()["connectedCount"]["50"] +
-                      resultGet.data()["connectedCount"]["55"] +
-                      resultGet.data()["connectedCount"]["60"],
-                  prefs.setString("connected_ssid", null).then((_) async => {
-                        await usersRef.doc(hostuserIdShared).update({
-                          "isConnected": count > 1 ? true : false,
-                          "host": count > 1 ? true : false,
-                          "connectedCount": {
-                            "5": connectedPackage == "5"
-                                ? resultGet.data()["connectedCount"]["5"] - 1
-                                : resultGet.data()["connectedCount"]["5"],
-                            "10": connectedPackage == "10"
-                                ? resultGet.data()["connectedCount"]["10"] - 1
-                                : resultGet.data()["connectedCount"]["10"],
-                            "15": connectedPackage == "15"
-                                ? resultGet.data()["connectedCount"]["15"] - 1
-                                : resultGet.data()["connectedCount"]["15"],
-                            "20": connectedPackage == "20"
-                                ? resultGet.data()["connectedCount"]["20"] - 1
-                                : resultGet.data()["connectedCount"]["20"],
-                            "25": connectedPackage == "25"
-                                ? resultGet.data()["connectedCount"]["25"] - 1
-                                : resultGet.data()["connectedCount"]["25"],
-                            "30": connectedPackage == "30"
-                                ? resultGet.data()["connectedCount"]["30"] - 1
-                                : resultGet.data()["connectedCount"]["30"],
-                            "35": connectedPackage == "35"
-                                ? resultGet.data()["connectedCount"]["35"] - 1
-                                : resultGet.data()["connectedCount"]["35"],
-                            "40": connectedPackage == "40"
-                                ? resultGet.data()["connectedCount"]["40"] - 1
-                                : resultGet.data()["connectedCount"]["40"],
-                            "45": connectedPackage == "45"
-                                ? resultGet.data()["connectedCount"]["45"] - 1
-                                : resultGet.data()["connectedCount"]["45"],
-                            "50": connectedPackage == "50"
-                                ? resultGet.data()["connectedCount"]["50"] - 1
-                                : resultGet.data()["connectedCount"]["50"],
-                            "55": connectedPackage == "55"
-                                ? resultGet.data()["connectedCount"]["55"] - 1
-                                : resultGet.data()["connectedCount"]["55"],
-                            "60": connectedPackage == "60"
-                                ? resultGet.data()["connectedCount"]["60"] - 1
-                                : resultGet.data()["connectedCount"]["60"],
-                          }
-                        }).then((_) async => {
-                              SimplyWifi.disconnectWifi(),
-                              SimplyWifi.forgetWifiByWifiName(connectedSsid),
-                              SimplyWifi.turnOffWifi(),
-                              await prefs.setString("package", null),
-                              await prefs.setString("host_userId", null),
-                            }),
-                      }),
-                }),
-          });
+    if (connectedSsid != null) {
+      var connectedPackage = prefs.getString("package");
+      var hostuserIdShared = prefs.getString("host_userId");
+      int count = 0;
+      var result = await usersRef
+          .where("email", isEqualTo: prefs.getString("email"))
+          .get();
+      if (result.docs.length > 0) {
+        usersRef.doc(result.docs[0].id).update({
+          "isConnected": false,
+          "user": false,
+          "host_ssid": null,
+          "host_id": null,
+        }).then((_) async => {
+              await usersRef.doc(hostuserIdShared).get().then((resultGet) => {
+                    count = resultGet.data()["connectedCount"]["5"] +
+                        resultGet.data()["connectedCount"]["10"] +
+                        resultGet.data()["connectedCount"]["15"] +
+                        resultGet.data()["connectedCount"]["20"] +
+                        resultGet.data()["connectedCount"]["25"] +
+                        resultGet.data()["connectedCount"]["30"] +
+                        resultGet.data()["connectedCount"]["35"] +
+                        resultGet.data()["connectedCount"]["40"] +
+                        resultGet.data()["connectedCount"]["45"] +
+                        resultGet.data()["connectedCount"]["50"] +
+                        resultGet.data()["connectedCount"]["55"] +
+                        resultGet.data()["connectedCount"]["60"],
+                    prefs.setString("connected_ssid", null).then((_) async => {
+                          await usersRef.doc(hostuserIdShared).update({
+                            "isConnected": count > 1 ? true : false,
+                            "host": count > 1 ? true : false,
+                            "connectedCount": {
+                              "5": connectedPackage == "5"
+                                  ? resultGet.data()["connectedCount"]["5"] - 1
+                                  : resultGet.data()["connectedCount"]["5"],
+                              "10": connectedPackage == "10"
+                                  ? resultGet.data()["connectedCount"]["10"] - 1
+                                  : resultGet.data()["connectedCount"]["10"],
+                              "15": connectedPackage == "15"
+                                  ? resultGet.data()["connectedCount"]["15"] - 1
+                                  : resultGet.data()["connectedCount"]["15"],
+                              "20": connectedPackage == "20"
+                                  ? resultGet.data()["connectedCount"]["20"] - 1
+                                  : resultGet.data()["connectedCount"]["20"],
+                              "25": connectedPackage == "25"
+                                  ? resultGet.data()["connectedCount"]["25"] - 1
+                                  : resultGet.data()["connectedCount"]["25"],
+                              "30": connectedPackage == "30"
+                                  ? resultGet.data()["connectedCount"]["30"] - 1
+                                  : resultGet.data()["connectedCount"]["30"],
+                              "35": connectedPackage == "35"
+                                  ? resultGet.data()["connectedCount"]["35"] - 1
+                                  : resultGet.data()["connectedCount"]["35"],
+                              "40": connectedPackage == "40"
+                                  ? resultGet.data()["connectedCount"]["40"] - 1
+                                  : resultGet.data()["connectedCount"]["40"],
+                              "45": connectedPackage == "45"
+                                  ? resultGet.data()["connectedCount"]["45"] - 1
+                                  : resultGet.data()["connectedCount"]["45"],
+                              "50": connectedPackage == "50"
+                                  ? resultGet.data()["connectedCount"]["50"] - 1
+                                  : resultGet.data()["connectedCount"]["50"],
+                              "55": connectedPackage == "55"
+                                  ? resultGet.data()["connectedCount"]["55"] - 1
+                                  : resultGet.data()["connectedCount"]["55"],
+                              "60": connectedPackage == "60"
+                                  ? resultGet.data()["connectedCount"]["60"] - 1
+                                  : resultGet.data()["connectedCount"]["60"],
+                            }
+                          }).then((_) async => {
+                                SimplyWifi.disconnectWifi(),
+                                SimplyWifi.forgetWifiByWifiName(connectedSsid),
+                                SimplyWifi.turnOffWifi(),
+                                await prefs.setString("package", null),
+                                await prefs.setString("host_userId", null),
+                                Cron().close(),
+                              }),
+                        }),
+                  }),
+            });
+      }
     }
   }
 
@@ -303,6 +330,8 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
                   childAspectRatio: (itemWidth / itemHeight),
                   children: <Widget>[
                     CardWidget(
+                      packageTime:
+                          snapshot.data["packages_times"]["5"].toString(),
                       title: '5MB',
                       subTitle: 'LKR ' +
                           snapshot.data["packages_prices"]["5"].toString(),
@@ -315,13 +344,17 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
                           ? "Available"
                           : "Unavailable",
                       onClick: () => makePayment(
-                          "5",
-                          snapshot.data["connectedCount"]["5"],
-                          snapshot.data["packages_prices"]["5"]),
+                        "5",
+                        snapshot.data["connectedCount"]["5"],
+                        snapshot.data["packages_prices"]["5"],
+                        snapshot.data["packages_times"]["5"],
+                      ),
                       btnClick: () => dicoconnectPackage(),
                     ),
                     //////////////////////////////////////////////////////////////
                     CardWidget(
+                      packageTime:
+                          snapshot.data["packages_times"]["10"].toString(),
                       title: '10MB',
                       subTitle: 'LKR ' +
                           snapshot.data["packages_prices"]["10"].toString(),
@@ -334,12 +367,16 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
                           ? "Available"
                           : "Unavailable",
                       onClick: () => makePayment(
-                          "10",
-                          snapshot.data["connectedCount"]["10"],
-                          snapshot.data["packages_prices"]["10"]),
-                      btnClick: () => {},
+                        "10",
+                        snapshot.data["connectedCount"]["10"],
+                        snapshot.data["packages_prices"]["10"],
+                        snapshot.data["packages_times"]["10"],
+                      ),
+                      btnClick: () => dicoconnectPackage(),
                     ),
                     CardWidget(
+                      packageTime:
+                          snapshot.data["packages_times"]["15"].toString(),
                       title: '15MB',
                       subTitle: 'LKR ' +
                           snapshot.data["packages_prices"]["15"].toString(),
@@ -352,12 +389,16 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
                           ? "Available"
                           : "Unavailable",
                       onClick: () => makePayment(
-                          "15",
-                          snapshot.data["connectedCount"]["15"],
-                          snapshot.data["packages_prices"]["15"]),
-                      btnClick: () => {},
+                        "15",
+                        snapshot.data["connectedCount"]["15"],
+                        snapshot.data["packages_prices"]["15"],
+                        snapshot.data["packages_times"]["15"],
+                      ),
+                      btnClick: () => dicoconnectPackage(),
                     ),
                     CardWidget(
+                      packageTime:
+                          snapshot.data["packages_times"]["20"].toString(),
                       title: '20MB',
                       subTitle: 'LKR ' +
                           snapshot.data["packages_prices"]["20"].toString(),
@@ -370,12 +411,16 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
                           ? "Available"
                           : "Unavailable",
                       onClick: () => makePayment(
-                          "20",
-                          snapshot.data["connectedCount"]["20"],
-                          snapshot.data["packages_prices"]["20"]),
-                      btnClick: () => {},
+                        "20",
+                        snapshot.data["connectedCount"]["20"],
+                        snapshot.data["packages_prices"]["20"],
+                        snapshot.data["packages_times"]["20"],
+                      ),
+                      btnClick: () => dicoconnectPackage(),
                     ),
                     CardWidget(
+                      packageTime:
+                          snapshot.data["packages_times"]["25"].toString(),
                       title: '25MB',
                       subTitle: 'LKR ' +
                           snapshot.data["packages_prices"]["25"].toString(),
@@ -390,10 +435,13 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
                       onClick: () => makePayment(
                           "25",
                           snapshot.data["connectedCount"]["25"],
-                          snapshot.data["packages_prices"]["25"]),
-                      btnClick: () => {},
+                          snapshot.data["packages_prices"]["25"],
+                          snapshot.data["packages_times"]["25"]),
+                      btnClick: () => dicoconnectPackage(),
                     ),
                     CardWidget(
+                      packageTime:
+                          snapshot.data["packages_times"]["30"].toString(),
                       title: '30MB',
                       subTitle: 'LKR ' +
                           snapshot.data["packages_prices"]["30"].toString(),
@@ -406,12 +454,16 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
                           ? "Available"
                           : "Unavailable",
                       onClick: () => makePayment(
-                          "30",
-                          snapshot.data["connectedCount"]["30"],
-                          snapshot.data["packages_prices"]["30"]),
-                      btnClick: () => {},
+                        "30",
+                        snapshot.data["connectedCount"]["30"],
+                        snapshot.data["packages_prices"]["30"],
+                        snapshot.data["packages_times"]["30"],
+                      ),
+                      btnClick: () => dicoconnectPackage(),
                     ),
                     CardWidget(
+                      packageTime:
+                          snapshot.data["packages_times"]["35"].toString(),
                       title: '35MB',
                       subTitle: 'LKR ' +
                           snapshot.data["packages_prices"]["35"].toString(),
@@ -426,10 +478,13 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
                       onClick: () => makePayment(
                           "35",
                           snapshot.data["connectedCount"]["35"],
-                          snapshot.data["packages_prices"]["35"]),
-                      btnClick: () => {},
+                          snapshot.data["packages_prices"]["35"],
+                          snapshot.data["packages_times"]["35"]),
+                      btnClick: () => dicoconnectPackage(),
                     ),
                     CardWidget(
+                      packageTime:
+                          snapshot.data["packages_times"]["40"].toString(),
                       title: '40MB',
                       subTitle: 'LKR ' +
                           snapshot.data["packages_prices"]["40"].toString(),
@@ -442,12 +497,16 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
                           ? "Available"
                           : "Unavailable",
                       onClick: () => makePayment(
-                          "40",
-                          snapshot.data["connectedCount"]["40"],
-                          snapshot.data["packages_prices"]["40"]),
-                      btnClick: () => {},
+                        "40",
+                        snapshot.data["connectedCount"]["40"],
+                        snapshot.data["packages_prices"]["40"],
+                        snapshot.data["packages_times"]["40"],
+                      ),
+                      btnClick: () => dicoconnectPackage(),
                     ),
                     CardWidget(
+                      packageTime:
+                          snapshot.data["packages_times"]["45"].toString(),
                       title: '45MB',
                       subTitle: 'LKR ' +
                           snapshot.data["packages_prices"]["45"].toString(),
@@ -462,10 +521,13 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
                       onClick: () => makePayment(
                           "45",
                           snapshot.data["connectedCount"]["45"],
-                          snapshot.data["packages_prices"]["45"]),
-                      btnClick: () => {},
+                          snapshot.data["packages_prices"]["45"],
+                          snapshot.data["packages_times"]["45"]),
+                      btnClick: () => dicoconnectPackage(),
                     ),
                     CardWidget(
+                      packageTime:
+                          snapshot.data["packages_times"]["50"].toString(),
                       title: '50MB',
                       subTitle: 'LKR ' +
                           snapshot.data["packages_prices"]["50"].toString(),
@@ -480,10 +542,13 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
                       onClick: () => makePayment(
                           "50",
                           snapshot.data["connectedCount"]["50"],
-                          snapshot.data["packages_prices"]["50"]),
-                      btnClick: () => {},
+                          snapshot.data["packages_prices"]["50"],
+                          snapshot.data["packages_times"]["50"]),
+                      btnClick: () => dicoconnectPackage(),
                     ),
                     CardWidget(
+                      packageTime:
+                          snapshot.data["packages_times"]["55"].toString(),
                       title: '55MB',
                       subTitle: 'LKR ' +
                           snapshot.data["packages_prices"]["55"].toString(),
@@ -498,14 +563,16 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
                       onClick: () => makePayment(
                           "55",
                           snapshot.data["connectedCount"]["55"],
-                          snapshot.data["packages_prices"]["55"]),
-                      btnClick: () => {},
+                          snapshot.data["packages_prices"]["55"],
+                          snapshot.data["packages_times"]["55"]),
+                      btnClick: () => dicoconnectPackage(),
                     ),
                     CardWidget(
+                      packageTime:
+                          snapshot.data["packages_times"]["60"].toString(),
                       title: '60MB',
                       subTitle: 'LKR ' +
                           snapshot.data["packages_prices"]["60"].toString(),
-                      btnClick: () => {},
                       connectedCount: snapshot.data["connectedCount"]["60"],
                       notConnected: snapshot.data["packages"]["60"] == true &&
                               snapshot.data["connectedCount"]["60"] > 60
@@ -517,7 +584,9 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
                       onClick: () => makePayment(
                           "60",
                           snapshot.data["connectedCount"]["60"],
-                          snapshot.data["packages_prices"]["60"]),
+                          snapshot.data["packages_prices"]["60"],
+                          snapshot.data["packages_times"]["60"]),
+                      btnClick: () => dicoconnectPackage(),
                     ),
                   ],
                 ),
@@ -534,11 +603,13 @@ class CardWidget extends StatelessWidget {
   final String unavailable;
   final String notConnected;
   final int connectedCount;
+  final String packageTime;
   final onClick;
   final btnClick;
 
   CardWidget(
       {this.subTitle,
+      this.packageTime,
       this.onClick,
       this.btnClick,
       this.title,
@@ -578,6 +649,17 @@ class CardWidget extends StatelessWidget {
                   Container(
                     child: Text(
                       subTitle,
+                      style: GoogleFonts.openSans(
+                        textStyle: TextStyle(
+                            color: textColors,
+                            fontSize: 18,
+                            fontWeight: FontWeight.w600),
+                      ),
+                    ),
+                  ),
+                  Container(
+                    child: Text(
+                      double.parse(packageTime).toString() + " Min",
                       style: GoogleFonts.openSans(
                         textStyle: TextStyle(
                             color: textColors,

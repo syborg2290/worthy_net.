@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:connectivity/connectivity.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -28,61 +29,81 @@ class _LoginPageState extends State<LoginPage> {
 
 //login function
   login() async {
-    if (emailController.text == "") {
-      setState(() {
-        valEmail = "Email is required.";
-      });
-    } else {
-      if (passwordController.text == "") {
+    var connectivityResult = await (Connectivity().checkConnectivity());
+    if (connectivityResult == ConnectivityResult.wifi ||
+        connectivityResult == ConnectivityResult.mobile) {
+      if (emailController.text == "") {
         setState(() {
-          valPassword = "Password is required.";
+          valEmail = "Email is required.";
         });
       } else {
-        if (emailController.text != "") {
+        if (passwordController.text == "") {
           setState(() {
-            // print(emailController.text);
-            valEmail = "";
+            valPassword = "Password is required.";
           });
-        }
-        if (passwordController.text != "") {
-          setState(() {
-            // print(passwordController.text);
-            valPassword = "";
-          });
-        }
+        } else {
+          if (emailController.text != "") {
+            setState(() {
+              // print(emailController.text);
+              valEmail = "";
+            });
+          }
+          if (passwordController.text != "") {
+            setState(() {
+              // print(passwordController.text);
+              valPassword = "";
+            });
+          }
 
-        try {
-          setState(() {
-            isLoading = true;
-          });
-          var result = await usersRef
-              .where("email", isEqualTo: emailController.text.trim())
-              .get();
-
-          if (result.docs.length > 0) {
-            final key = KeyGet.Key.fromUtf8('ghjklsgdferty27364uyrhjskytrghso');
-            final iv = IV.fromLength(16);
-
-            final encrypter = Encrypter(AES(key));
-            var resultPass = await usersRef
-                .where("password",
-                    isEqualTo: encrypter
-                        .encrypt(passwordController.text.trim(), iv: iv)
-                        .base64)
+          try {
+            setState(() {
+              isLoading = true;
+            });
+            var result = await usersRef
+                .where("email", isEqualTo: emailController.text.trim())
                 .get();
-            if (resultPass.docs.length > 0) {
-              SharedPreferences prefs = await SharedPreferences.getInstance();
-              await prefs.setString("email", emailController.text).then((_) => {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => HomePage()))
-                  });
+
+            if (result.docs.length > 0) {
+              final key =
+                  KeyGet.Key.fromUtf8('ghjklsgdferty27364uyrhjskytrghso');
+              final iv = IV.fromLength(16);
+
+              final encrypter = Encrypter(AES(key));
+              var resultPass = await usersRef
+                  .where("password",
+                      isEqualTo: encrypter
+                          .encrypt(passwordController.text.trim(), iv: iv)
+                          .base64)
+                  .get();
+              if (resultPass.docs.length > 0) {
+                SharedPreferences prefs = await SharedPreferences.getInstance();
+                await prefs.setString("email", emailController.text).then((_) =>
+                    {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => HomePage()))
+                    });
+              } else {
+                AwesomeDialog(
+                  context: context,
+                  dialogType: DialogType.INFO,
+                  animType: AnimType.BOTTOMSLIDE,
+                  title: 'Info',
+                  desc: 'Password not matched with any email address!',
+                  btnCancel: Text(""),
+                  btnOk: Text(""),
+                )..show();
+
+                setState(() {
+                  isLoading = false;
+                });
+              }
             } else {
               AwesomeDialog(
                 context: context,
                 dialogType: DialogType.INFO,
                 animType: AnimType.BOTTOMSLIDE,
                 title: 'Info',
-                desc: 'Password not matched with any email address!',
+                desc: 'Email address not matched with any account!',
                 btnCancel: Text(""),
                 btnOk: Text(""),
               )..show();
@@ -91,36 +112,32 @@ class _LoginPageState extends State<LoginPage> {
                 isLoading = false;
               });
             }
-          } else {
+          } catch (e) {
             AwesomeDialog(
               context: context,
               dialogType: DialogType.INFO,
               animType: AnimType.BOTTOMSLIDE,
               title: 'Info',
-              desc: 'Email address not matched with any account!',
+              desc: e.toString(),
               btnCancel: Text(""),
               btnOk: Text(""),
             )..show();
-
             setState(() {
               isLoading = false;
             });
           }
-        } catch (e) {
-          AwesomeDialog(
-            context: context,
-            dialogType: DialogType.INFO,
-            animType: AnimType.BOTTOMSLIDE,
-            title: 'Info',
-            desc: e.toString(),
-            btnCancel: Text(""),
-            btnOk: Text(""),
-          )..show();
-          setState(() {
-            isLoading = false;
-          });
         }
       }
+    } else {
+      AwesomeDialog(
+        context: context,
+        dialogType: DialogType.INFO,
+        animType: AnimType.BOTTOMSLIDE,
+        title: 'Info',
+        desc: "Please check your internet connection!",
+        btnCancel: Text(""),
+        btnOk: Text(""),
+      )..show();
     }
   }
 
@@ -188,7 +205,11 @@ class _LoginPageState extends State<LoginPage> {
                             style: TextStyle(color: Colors.black)),
                         TextSpan(
                           text: "Register",
-                          style: TextStyle(color: blueColors,fontWeight: FontWeight.w600,fontSize:17,),
+                          style: TextStyle(
+                            color: blueColors,
+                            fontWeight: FontWeight.w600,
+                            fontSize: 17,
+                          ),
                           recognizer: TapGestureRecognizer()
                             ..onTap = () => Navigator.push(
                                   context,
