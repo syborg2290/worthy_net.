@@ -151,6 +151,20 @@ class _RegisterPageState extends State<RegisterPage> {
                         "50": 0.0,
                         "55": 0.0,
                         "60": 0.0,
+                      },
+                      "packages_times": {
+                        "5": 0,
+                        "10": 0,
+                        "15": 0,
+                        "20": 0,
+                        "25": 0,
+                        "30": 0,
+                        "35": 0,
+                        "40": 0,
+                        "45": 0,
+                        "50": 0,
+                        "55": 0,
+                        "60": 0,
                       }
                     }).then((_) async => {
                           await prefs
