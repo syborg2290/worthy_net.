@@ -447,7 +447,8 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                       childAspectRatio: (itemWidth / itemHeight),
                       children: <Widget>[
                         CardWidget(
-                          packagetime: snapshot.data["packages_times"]["5"],
+                          packagetime:
+                              snapshot.data["packages_times"]["5"].toString(),
                           title: '5MB',
                           subTitle: 'LKR ' +
                               snapshot.data["packages_prices"]["5"].toString(),
@@ -484,7 +485,8 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                           ),
                         ),
                         CardWidget(
-                          packagetime: snapshot.data["packages_times"]["10"],
+                          packagetime:
+                              snapshot.data["packages_times"]["10"].toString(),
                           title: '10MB',
                           subTitle: 'LKR ' +
                               snapshot.data["packages_prices"]["10"].toString(),
@@ -521,7 +523,8 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                           ),
                         ),
                         CardWidget(
-                          packagetime: snapshot.data["packages_times"]["15"],
+                          packagetime:
+                              snapshot.data["packages_times"]["15"].toString(),
                           title: '15MB',
                           subTitle: 'LKR ' +
                               snapshot.data["packages_prices"]["15"].toString(),
@@ -558,7 +561,8 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                           ),
                         ),
                         CardWidget(
-                          packagetime: snapshot.data["packages_times"]["20"],
+                          packagetime:
+                              snapshot.data["packages_times"]["20"].toString(),
                           title: '20MB',
                           subTitle: 'LKR ' +
                               snapshot.data["packages_prices"]["20"].toString(),
@@ -595,7 +599,8 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                           ),
                         ),
                         CardWidget(
-                          packagetime: snapshot.data["packages_times"]["25"],
+                          packagetime:
+                              snapshot.data["packages_times"]["25"].toString(),
                           title: '25MB',
                           subTitle: 'LKR ' +
                               snapshot.data["packages_prices"]["25"].toString(),
@@ -632,7 +637,8 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                           ),
                         ),
                         CardWidget(
-                          packagetime: snapshot.data["packages_times"]["30"],
+                          packagetime:
+                              snapshot.data["packages_times"]["30"].toString(),
                           title: '30MB',
                           subTitle: 'LKR ' +
                               snapshot.data["packages_prices"]["30"].toString(),
@@ -669,7 +675,8 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                           ),
                         ),
                         CardWidget(
-                          packagetime: snapshot.data["packages_times"]["35"],
+                          packagetime:
+                              snapshot.data["packages_times"]["35"].toString(),
                           title: '35MB',
                           subTitle: 'LKR ' +
                               snapshot.data["packages_prices"]["35"].toString(),
@@ -706,7 +713,8 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                           ),
                         ),
                         CardWidget(
-                          packagetime: snapshot.data["packages_times"]["40"],
+                          packagetime:
+                              snapshot.data["packages_times"]["40"].toString(),
                           title: '40MB',
                           subTitle: 'LKR ' +
                               snapshot.data["packages_prices"]["40"].toString(),
@@ -743,7 +751,8 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                           ),
                         ),
                         CardWidget(
-                          packagetime: snapshot.data["packages_times"]["45"],
+                          packagetime:
+                              snapshot.data["packages_times"]["45"].toString(),
                           title: '45MB',
                           subTitle: 'LKR ' +
                               snapshot.data["packages_prices"]["45"].toString(),
@@ -780,7 +789,8 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                           ),
                         ),
                         CardWidget(
-                          packagetime: snapshot.data["packages_times"]["50"],
+                          packagetime:
+                              snapshot.data["packages_times"]["50"].toString(),
                           title: '50MB',
                           subTitle: 'LKR ' +
                               snapshot.data["packages_prices"]["50"].toString(),
@@ -817,7 +827,8 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                           ),
                         ),
                         CardWidget(
-                          packagetime: snapshot.data["packages_times"]["55"],
+                          packagetime:
+                              snapshot.data["packages_times"]["55"].toString(),
                           title: '55MB',
                           subTitle: 'LKR ' +
                               snapshot.data["packages_prices"]["55"].toString(),
@@ -854,7 +865,8 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                           ),
                         ),
                         CardWidget(
-                          packagetime: snapshot.data["packages_times"]["60"],
+                          packagetime:
+                              snapshot.data["packages_times"]["60"].toString(),
                           title: '60MB',
                           subTitle: 'LKR ' +
                               snapshot.data["packages_prices"]["60"].toString(),
@@ -963,7 +975,7 @@ class CardWidget extends StatelessWidget {
                   ),
                   Container(
                     child: Text(
-                      packagetime,
+                      double.parse(packagetime).toString()+" Min",
                       style: GoogleFonts.openSans(
                         textStyle: TextStyle(
                             color: textColors,
