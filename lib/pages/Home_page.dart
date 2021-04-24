@@ -49,16 +49,21 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: PreferredSize(
+          preferredSize: Size.fromHeight(3.0), // here the desired height
+          child: AppBar(
+            automaticallyImplyLeading: false,
+          )),
       backgroundColor: dashbordColor,
       body: WillPopScope(
         onWillPop: () async {
           exit(0);
         },
-        child: Column(
+        child: ListView(
           children: <Widget>[
             HeaderContainer("Dashbord"),
             SizedBox(
-              height: 30,
+              height: 5,
             ),
             Padding(
               padding: EdgeInsets.only(left: 16, right: 16),
@@ -67,50 +72,53 @@ class _HomePageState extends State<HomePage> {
                 children: <Widget>[
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Container(
                         padding: EdgeInsets.all(
-                            MediaQuery.of(context).size.width / 60),
+                            MediaQuery.of(context).size.width / 70),
                         child: Text(
-                          "Connected SSID :",
+                          "Connected SSID : ",
                           style: GoogleFonts.openSans(
                               textStyle: TextStyle(
                                   color: textSilverColor,
-                                  fontSize: 25,
+                                  fontSize: 18,
                                   fontWeight: FontWeight.normal)),
                         ),
                       ),
                       Container(
                         padding: EdgeInsets.all(
-                            MediaQuery.of(context).size.width / 60),
+                            MediaQuery.of(context).size.width / 70),
                         child: Text(
-                          "⏳ Duration :",
+                          "Duration :",
                           style: GoogleFonts.openSans(
                               textStyle: TextStyle(
                                   color: textSilverColor,
-                                  fontSize: 25,
+                                  fontSize: 18,
                                   fontWeight: FontWeight.normal)),
                         ),
                       ),
                       Container(
                         padding: EdgeInsets.all(
-                            MediaQuery.of(context).size.width / 60),
+                            MediaQuery.of(context).size.width / 70),
                         child: Text(
-                          "⬆ Upload Speed :",
+                          "Upload Speed :",
                           style: GoogleFonts.openSans(
                               textStyle: TextStyle(
                                   color: textSilverColor,
-                                  fontSize: 25,
+                                  fontSize: 18,
                                   fontWeight: FontWeight.normal)),
                         ),
                       ),
                       Container(
+                        padding: EdgeInsets.all(
+                            MediaQuery.of(context).size.width / 70),
                         child: Text(
-                          "⬇ Download speed :",
+                          "Download speed :",
                           style: GoogleFonts.openSans(
                               textStyle: TextStyle(
                                   color: textSilverColor,
-                                  fontSize: 25,
+                                  fontSize: 18,
                                   fontWeight: FontWeight.normal)),
                         ),
                       ),
@@ -127,7 +135,7 @@ class _HomePageState extends State<HomePage> {
                           style: GoogleFonts.openSans(
                               textStyle: TextStyle(
                                   color: textGreenColor,
-                                  fontSize: 25,
+                                  fontSize: 18,
                                   fontWeight: FontWeight.normal)),
                         ),
                       ),
@@ -140,7 +148,7 @@ class _HomePageState extends State<HomePage> {
                           style: GoogleFonts.openSans(
                               textStyle: TextStyle(
                                   color: textGreenColor,
-                                  fontSize: 25,
+                                  fontSize: 18,
                                   fontWeight: FontWeight.normal)),
                         ),
                       ),
@@ -152,7 +160,7 @@ class _HomePageState extends State<HomePage> {
                           style: GoogleFonts.openSans(
                               textStyle: TextStyle(
                                   color: textGreenColor,
-                                  fontSize: 25,
+                                  fontSize: 18,
                                   fontWeight: FontWeight.normal)),
                         ),
                       ),
@@ -162,40 +170,54 @@ class _HomePageState extends State<HomePage> {
                           style: GoogleFonts.openSans(
                               textStyle: TextStyle(
                                   color: textGreenColor,
-                                  fontSize: 25,
+                                  fontSize: 18,
                                   fontWeight: FontWeight.normal)),
                         ),
                       ),
                     ],
                   ),
-                  Container(
-                    child: TextButton(
-                      child: Text('Logout'),
-                      style: TextButton.styleFrom(
-                        primary: textColors,
-                        backgroundColor: blueLightColors,
-                      ),
-                      onPressed: () async {
-                        SharedPreferences prefs =
-                            await SharedPreferences.getInstance();
-                        prefs.remove("email").then((con) => {
-                              if (con)
-                                {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => LoginPage()))
-                                }
-                            });
-                      },
-                    ),
-                  ),
                 ],
               ),
             ),
-            SizedBox(
-              height: 40,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: <Widget>[
+                Padding(
+                  padding:
+                      EdgeInsets.all(MediaQuery.of(context).size.width / 20),
+                  child: Column(
+                    children: <Widget>[
+                      Container(
+                        child: TextButton(
+                          child: Text('Logout'),
+                          style: TextButton.styleFrom(
+                            primary: textColors,
+                            backgroundColor: blueLightColors,
+                          ),
+                          onPressed: () async {
+                            SharedPreferences prefs =
+                                await SharedPreferences.getInstance();
+                            prefs.remove("email").then((con) => {
+                                  if (con)
+                                    {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  LoginPage()))
+                                    }
+                                });
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
+            // SizedBox(
+            //   height: 10,
+            // ),
             GridDashbor(),
           ],
         ),
