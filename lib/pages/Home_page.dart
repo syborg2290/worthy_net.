@@ -13,6 +13,9 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final String duration = "555221";
+  final String receieved = "11445";
+
   @override
   void initState() {
     super.initState();
@@ -42,7 +45,7 @@ class _HomePageState extends State<HomePage> {
           children: <Widget>[
             HeaderContainer("Dashbord"),
             SizedBox(
-              height: 60,
+              height: 30,
             ),
             Padding(
               padding: EdgeInsets.only(left: 16, right: 16),
@@ -50,40 +53,80 @@ class _HomePageState extends State<HomePage> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      Text(
-                        "Worthy Net",
-                        style: GoogleFonts.openSans(
-                            textStyle: TextStyle(
-                                color: textColors,
-                                fontSize: 28,
-                                fontWeight: FontWeight.bold)),
+                      Container(
+                        padding: EdgeInsets.all(
+                            MediaQuery.of(context).size.width / 60),
+                        child: Text(
+                          "Duration :",
+                          style: GoogleFonts.openSans(
+                              textStyle: TextStyle(
+                                  color: textSilverColor,
+                                  fontSize: 25,
+                                  fontWeight: FontWeight.normal)),
+                        ),
                       ),
-                      // SizedBox(
-                      //   height: 4,
-                      // ),
+                      Container(
+                        child: Text(
+                          "Received :",
+                          style: GoogleFonts.openSans(
+                              textStyle: TextStyle(
+                                  color: textSilverColor,
+                                  fontSize: 25,
+                                  fontWeight: FontWeight.normal)),
+                        ),
+                      ),
                     ],
                   ),
-                  TextButton(
-                    child: Text('Logout'),
-                    style: TextButton.styleFrom(
-                      primary: textColors,
-                      backgroundColor: blueLightColors,
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      Container(
+                        padding: EdgeInsets.all(
+                            MediaQuery.of(context).size.width / 60),
+                        child: Text(
+                          duration,
+                          style: GoogleFonts.openSans(
+                              textStyle: TextStyle(
+                                  color: textGreenColor,
+                                  fontSize: 25,
+                                  fontWeight: FontWeight.normal)),
+                        ),
+                      ),
+                      Container(
+                        child: Text(
+                          receieved,
+                          style: GoogleFonts.openSans(
+                              textStyle: TextStyle(
+                                  color: textGreenColor,
+                                  fontSize: 25,
+                                  fontWeight: FontWeight.normal)),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Container(
+                    child: TextButton(
+                      child: Text('Logout'),
+                      style: TextButton.styleFrom(
+                        primary: textColors,
+                        backgroundColor: blueLightColors,
+                      ),
+                      onPressed: () async {
+                        SharedPreferences prefs =
+                            await SharedPreferences.getInstance();
+                        prefs.remove("email").then((con) => {
+                              if (con)
+                                {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => LoginPage()))
+                                }
+                            });
+                      },
                     ),
-                    onPressed: () async {
-                      SharedPreferences prefs =
-                          await SharedPreferences.getInstance();
-                      prefs.remove("email").then((con) => {
-                            if (con)
-                              {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => LoginPage()))
-                              }
-                          });
-                    },
                   ),
                 ],
               ),

@@ -570,7 +570,7 @@ class CardWidget extends StatelessWidget {
                       style: GoogleFonts.openSans(
                         textStyle: TextStyle(
                             color: textColors,
-                            fontSize: 50,
+                            fontSize: 30,
                             fontWeight: FontWeight.w600),
                       ),
                     ),
@@ -581,7 +581,7 @@ class CardWidget extends StatelessWidget {
                       style: GoogleFonts.openSans(
                         textStyle: TextStyle(
                             color: textColors,
-                            fontSize: 25,
+                            fontSize: 18,
                             fontWeight: FontWeight.w600),
                       ),
                     ),
