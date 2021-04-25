@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:worthy_net/config/collections.dart';
+import 'package:worthy_net/pages/Help_page.dart';
 import 'package:worthy_net/utils/Color.dart';
 import 'package:worthy_net/widgets/Button_widget.dart';
 import 'package:encrypt/encrypt.dart';
@@ -95,6 +96,23 @@ class _PymantPageState extends State<PymantPage> {
         appBar: AppBar(
           backgroundColor: appbarColor,
           title: Text(''),
+          actions: <Widget>[
+            FlatButton(
+            onPressed: () => {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => HelpPage()),
+              ),
+            },
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Icon(Icons.help_outline_sharp),
+                Text("Help")
+              ],
+            ),
+          ),
+          ],
         ),
         body: ListView(
           padding: const EdgeInsets.all(0),

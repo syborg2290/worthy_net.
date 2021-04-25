@@ -67,6 +67,10 @@ flutter:
     - assets/payhere.png
     - assets/empty_hosts.png
     - assets/radar.gif
+    - assets/screenshot1.png
+    - assets/screenshot2.png
+    - assets/screenshot3.png
+    - assets/screenshot4.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
