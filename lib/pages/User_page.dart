@@ -47,7 +47,12 @@ class _UserPageState extends State<UserPage> {
             await usersRef.where("ssid", isEqualTo: wifiNetworksRe.ssid).get();
 
         if (result.docs.length > 0) {
-          wifiNetworks.add(wifiNetworksRe);
+          if (wifiNetworks
+              .where((ele) => ele.ssid == wifiNetworksRe.ssid)
+              .toList()
+              .isEmpty) {
+            wifiNetworks.add(wifiNetworksRe);
+          }
         }
 
         setState(() {
@@ -118,31 +123,25 @@ class _UserPageState extends State<UserPage> {
           );
         },
         strokeWidth: 4.0,
-        child: ListView(
-          shrinkWrap: true,
-          children: [
-            Container(
-              child: isLoading
-                  ? Center(child: Image.asset("assets/radar.gif"))
-                  : wifiNetworks.length <= 0
-                      ? Center(
-                          child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Image.asset(
-                              "assets/empty_hosts.png",
-                            ),
-                            Text(""),
-                            Text(
-                              "Empty hosts",
-                              style:
-                                  TextStyle(fontSize: 40, color: Colors.grey),
-                            )
-                          ],
-                        ))
-                      : buildListView(context, wifiNetworks),
-            ),
-          ],
+        child: Container(
+          child: isLoading
+              ? Center(child: Image.asset("assets/radar.gif"))
+              : wifiNetworks.length <= 0
+                  ? Center(
+                      child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Image.asset(
+                          "assets/empty_hosts.png",
+                        ),
+                        Text(""),
+                        Text(
+                          "Empty hosts",
+                          style: TextStyle(fontSize: 40, color: Colors.grey),
+                        )
+                      ],
+                    ))
+                  : buildListView(context, wifiNetworks),
         ),
       ),
     );
