@@ -120,7 +120,7 @@ class _UserPageState extends State<UserPage> {
         strokeWidth: 4.0,
         child: ListView(
           shrinkWrap: true,
-          children: [
+          children: <Widget>[
             Container(
               child: isLoading
                   ? Center(child: Image.asset("assets/radar.gif"))
@@ -141,6 +141,20 @@ class _UserPageState extends State<UserPage> {
                           ],
                         ))
                       : buildListView(context, wifiNetworks),
+            ),
+            Container(
+              // margin: EdgeInsets.only(top: 30),
+              padding: EdgeInsets.symmetric(horizontal: 15),
+              child: ElevatedButton.icon(
+                label: Text(''),
+                icon: Icon(Icons.refresh),
+                onPressed: () {},
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.yellow,
+                  onPrimary: Colors.black,
+                  // onSurface: Colors.red,
+                ),
+              ),
             ),
           ],
         ),
