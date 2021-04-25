@@ -393,7 +393,7 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
   Widget build(BuildContext context) {
     //mediaquery
     var size = MediaQuery.of(context).size;
-    final double itemHeight = (size.height - kToolbarHeight - 24) / 8;
+    final double itemHeight = (size.height - kToolbarHeight - 24) / 6;
     final double itemWidth = size.width / 2;
     return Scaffold(
       appBar: AppBar(
@@ -448,7 +448,6 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
                             : null,
                         btnClick: () => dicoconnectPackage(),
                       ),
-                      //////////////////////////////////////////////////////////////
                       CardWidget(
                         packageTime:
                             snapshot.data["packages_times"]["10"].toString(),
@@ -831,6 +830,18 @@ class CardWidget extends StatelessWidget {
                               fontSize: 20,
                               fontWeight: FontWeight.w600),
                         ),
+                      ),
+                    ),
+                    Container(
+                      padding: EdgeInsets.all(
+                          MediaQuery.of(context).size.width / 70),
+                      child: Text(
+                        notConnected,
+                        style: GoogleFonts.openSans(
+                            textStyle: TextStyle(
+                                color: Colors.red,
+                                fontSize: 18,
+                                fontWeight: FontWeight.normal)),
                       ),
                     ),
                   ],
