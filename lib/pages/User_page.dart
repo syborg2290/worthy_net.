@@ -148,30 +148,22 @@ class _UserPageState extends State<UserPage> {
     );
   }
 
-  Widget buildListView(BuildContext context, List<WifiNetwork> listWifi) {
-    return RefreshIndicator(
-      onRefresh: () async {
-        SimplyWifi.turnOnWifi().then(
-          (value) => {getListOfWifiAvailable()},
-        );
+  ListView buildListView(BuildContext context, List<WifiNetwork> listWifi) {
+    return ListView.builder(
+      itemCount: listWifi?.length,
+      itemBuilder: (_, index) {
+        return ListTile(
+            title: Text(listWifi[index]?.ssid),
+            subtitle: Text(listWifi[index]?.bssid.toString()),
+            leading: Icon(
+              Icons.wifi,
+              color: Colors.blue,
+              size: 40.0,
+            ),
+            trailing: Icon(Icons.arrow_forward),
+            onTap: () => getUserDetailsFromSsidAndNavigate(
+                listWifi[index]?.ssid, index));
       },
-      strokeWidth: 4.0,
-      child: ListView.builder(
-        itemCount: listWifi?.length,
-        itemBuilder: (_, index) {
-          return ListTile(
-              title: Text(listWifi[index]?.ssid),
-              subtitle: Text(listWifi[index]?.bssid.toString()),
-              leading: Icon(
-                Icons.wifi,
-                color: Colors.blue,
-                size: 40.0,
-              ),
-              trailing: Icon(Icons.arrow_forward),
-              onTap: () => getUserDetailsFromSsidAndNavigate(
-                  listWifi[index]?.ssid, index));
-        },
-      ),
     );
   }
 }
