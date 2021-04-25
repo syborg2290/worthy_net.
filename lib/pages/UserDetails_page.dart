@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:math';
 
 import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:connectivity/connectivity.dart';
 import 'package:cron/cron.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -34,64 +35,80 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
 
   makePayment(
       String package, int connectedCount, double price, int packageTime) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    var result = await usersRef
-        .where("email", isEqualTo: prefs.getString("email"))
-        .get();
-    if (result.docs.length > 0) {
-      if (result.docs[0].data()["host"] != true) {
-        if (result.docs[0].data()["user"] != true) {
-          final key = KeyGet.Key.fromUtf8('ghjklsgdferty27364uyrhjskytrghso');
-          final iv = IV.fromLength(16);
-          final encrypter = Encrypter(AES(key));
-          var random = new Random();
+    var connectivityResult = await (Connectivity().checkConnectivity());
+    if (connectivityResult == ConnectivityResult.wifi ||
+        connectivityResult == ConnectivityResult.mobile) {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      var result = await usersRef
+          .where("email", isEqualTo: prefs.getString("email"))
+          .get();
+      if (result.docs.length > 0) {
+        if (result.docs[0].data()["host"] != true) {
+          if (result.docs[0].data()["user"] != true) {
+            final key = KeyGet.Key.fromUtf8('ghjklsgdferty27364uyrhjskytrghso');
+            final iv = IV.fromLength(16);
+            final encrypter = Encrypter(AES(key));
+            var random = new Random();
 
-          Payhere payhere = new Payhere();
+            Payhere payhere = new Payhere();
 
-          OneTimePayment otp = new OneTimePayment(
-              merchantID: encrypter.decrypt64(widget.merchantId, iv: iv),
-              merchantSecret: encrypter.decrypt64(widget.merchantSec, iv: iv),
-              notifyUrl: "",
-              currency: "LKR", //Currency code LKR/USD/GBP/EUR/AUD
-              totalamount: price, // Final Amount to be charged.
-              orderID: random.nextInt(100000).toString(), // Unique Reference ID
-              itemDesc: package, // Item description title
-              cM1: "CM1",
-              cM2: "CM2",
-              fName: result.docs[0].data()["fname"],
-              lName: result.docs[0].data()["lname"],
-              email: result.docs[0].data()["email"],
-              phone: result.docs[0].data()["phonenumber"],
-              address: "Address",
-              city: "Colombo",
-              country: "Sri Lanka",
-              //following are optional values as stated in the Payhere android SDK.
-              //you can avoid setting them if you wanted to.
-              deliveryAddress: "deliveryAddress",
-              deliveryCity: "deliveryAddress",
-              deliveryCountry: "deliveryAddress");
+            OneTimePayment otp = new OneTimePayment(
+                merchantID: encrypter.decrypt64(widget.merchantId, iv: iv),
+                merchantSecret: encrypter.decrypt64(widget.merchantSec, iv: iv),
+                notifyUrl: "",
+                currency: "LKR", //Currency code LKR/USD/GBP/EUR/AUD
+                totalamount: price, // Final Amount to be charged.
+                orderID:
+                    random.nextInt(100000).toString(), // Unique Reference ID
+                itemDesc: package, // Item description title
+                cM1: "CM1",
+                cM2: "CM2",
+                fName: result.docs[0].data()["fname"],
+                lName: result.docs[0].data()["lname"],
+                email: result.docs[0].data()["email"],
+                phone: result.docs[0].data()["phonenumber"],
+                address: "Address",
+                city: "Colombo",
+                country: "Sri Lanka",
+                //following are optional values as stated in the Payhere android SDK.
+                //you can avoid setting them if you wanted to.
+                deliveryAddress: "deliveryAddress",
+                deliveryCity: "deliveryAddress",
+                deliveryCountry: "deliveryAddress");
 
-          String resPayhere = await payhere.makeOneTimePayment(otp);
+            String resPayhere = await payhere.makeOneTimePayment(otp);
 
-          if (json.decode(resPayhere)["STATUS"] == "SUCCESS") {
-            connectToHotspot(package, connectedCount, packageTime);
-          } else if (json.decode(resPayhere)["STATUS"] == "ERROR") {
+            if (json.decode(resPayhere)["STATUS"] == "SUCCESS") {
+              connectToHotspot(package, connectedCount, packageTime);
+            } else if (json.decode(resPayhere)["STATUS"] == "ERROR") {
+              AwesomeDialog(
+                context: context,
+                dialogType: DialogType.WARNING,
+                animType: AnimType.BOTTOMSLIDE,
+                title: 'Info',
+                desc: "Payment encountered an Error",
+                btnCancel: Text(""),
+                btnOk: Text(""),
+              )..show();
+            } else if (json.decode(resPayhere)["STATUS"] == "CANCELED") {
+              AwesomeDialog(
+                context: context,
+                dialogType: DialogType.WARNING,
+                animType: AnimType.BOTTOMSLIDE,
+                title: 'Info',
+                desc: "Payment is Canceled",
+                btnCancel: Text(""),
+                btnOk: Text(""),
+              )..show();
+            }
+          } else {
             AwesomeDialog(
               context: context,
-              dialogType: DialogType.WARNING,
+              dialogType: DialogType.INFO,
               animType: AnimType.BOTTOMSLIDE,
               title: 'Info',
-              desc: "Payment encountered an Error",
-              btnCancel: Text(""),
-              btnOk: Text(""),
-            )..show();
-          } else if (json.decode(resPayhere)["STATUS"] == "CANCELED") {
-            AwesomeDialog(
-              context: context,
-              dialogType: DialogType.WARNING,
-              animType: AnimType.BOTTOMSLIDE,
-              title: 'Info',
-              desc: "Payment is Canceled",
+              desc:
+                  "You can't continue without diconnect currently using package as a user",
               btnCancel: Text(""),
               btnOk: Text(""),
             )..show();
@@ -103,23 +120,22 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
             animType: AnimType.BOTTOMSLIDE,
             title: 'Info',
             desc:
-                "You can't continue without diconnect currently using package as a user",
+                "You can't continue without disable currently using package as a host",
             btnCancel: Text(""),
             btnOk: Text(""),
           )..show();
         }
-      } else {
-        AwesomeDialog(
-          context: context,
-          dialogType: DialogType.INFO,
-          animType: AnimType.BOTTOMSLIDE,
-          title: 'Info',
-          desc:
-              "You can't continue without disable currently using package as a host",
-          btnCancel: Text(""),
-          btnOk: Text(""),
-        )..show();
       }
+    } else {
+      AwesomeDialog(
+        context: context,
+        dialogType: DialogType.INFO,
+        animType: AnimType.BOTTOMSLIDE,
+        title: 'Info',
+        desc: "Please check your internet connection!",
+        btnCancel: Text(""),
+        btnOk: Text(""),
+      )..show();
     }
   }
 
@@ -177,6 +193,7 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
         .where("email", isEqualTo: prefs.getString("email"))
         .get();
     if (result.docs.length > 0) {
+      await prefs.setInt("initial_packageTime", packageTime);
       usersRef.doc(result.docs[0].id).update({
         "isConnected": true,
         "user": true,
@@ -184,7 +201,7 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
         "host_id": widget.userId,
       }).then((_) => {
             prefs.setString("connected_ssid", widget.ssid).then((_) => {
-                  cronJob(packageTime),
+                  cronJob(),
                   Navigator.push(context,
                       MaterialPageRoute(builder: (context) => HomePage()))
                 }),
@@ -192,13 +209,15 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
     }
   }
 
-  cronJob(int packageTime) async {
+  cronJob() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final cron = Cron()
       ..schedule(Schedule.parse('*/1 * * * * *'), () async {
         var getTime = prefs.getInt("package_time");
+        var getInitTime = prefs.getInt("initial_packageTime");
+
         if (getTime != null) {
-          if (getTime >= packageTime * 60) {
+          if (getTime >= getInitTime * 60) {
             await prefs.setInt("package_time", null);
             await prefs.setInt("random_up", null);
             await prefs.setInt("random_down", null);
@@ -216,89 +235,117 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
   }
 
   dicoconnectPackage() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    var connectedSsid = prefs.getString("connected_ssid");
-    if (connectedSsid != null) {
-      var connectedPackage = prefs.getString("package");
-      var hostuserIdShared = prefs.getString("host_userId");
-      int count = 0;
-      var result = await usersRef
-          .where("email", isEqualTo: prefs.getString("email"))
-          .get();
-      if (result.docs.length > 0) {
-        usersRef.doc(result.docs[0].id).update({
-          "isConnected": false,
-          "user": false,
-          "host_ssid": null,
-          "host_id": null,
-        }).then((_) async => {
-              await usersRef.doc(hostuserIdShared).get().then((resultGet) => {
-                    count = resultGet.data()["connectedCount"]["5"] +
-                        resultGet.data()["connectedCount"]["10"] +
-                        resultGet.data()["connectedCount"]["15"] +
-                        resultGet.data()["connectedCount"]["20"] +
-                        resultGet.data()["connectedCount"]["25"] +
-                        resultGet.data()["connectedCount"]["30"] +
-                        resultGet.data()["connectedCount"]["35"] +
-                        resultGet.data()["connectedCount"]["40"] +
-                        resultGet.data()["connectedCount"]["45"] +
-                        resultGet.data()["connectedCount"]["50"] +
-                        resultGet.data()["connectedCount"]["55"] +
-                        resultGet.data()["connectedCount"]["60"],
-                    prefs.setString("connected_ssid", null).then((_) async => {
-                          await usersRef.doc(hostuserIdShared).update({
-                            "isConnected": count > 1 ? true : false,
-                            "host": count > 1 ? true : false,
-                            "connectedCount": {
-                              "5": connectedPackage == "5"
-                                  ? resultGet.data()["connectedCount"]["5"] - 1
-                                  : resultGet.data()["connectedCount"]["5"],
-                              "10": connectedPackage == "10"
-                                  ? resultGet.data()["connectedCount"]["10"] - 1
-                                  : resultGet.data()["connectedCount"]["10"],
-                              "15": connectedPackage == "15"
-                                  ? resultGet.data()["connectedCount"]["15"] - 1
-                                  : resultGet.data()["connectedCount"]["15"],
-                              "20": connectedPackage == "20"
-                                  ? resultGet.data()["connectedCount"]["20"] - 1
-                                  : resultGet.data()["connectedCount"]["20"],
-                              "25": connectedPackage == "25"
-                                  ? resultGet.data()["connectedCount"]["25"] - 1
-                                  : resultGet.data()["connectedCount"]["25"],
-                              "30": connectedPackage == "30"
-                                  ? resultGet.data()["connectedCount"]["30"] - 1
-                                  : resultGet.data()["connectedCount"]["30"],
-                              "35": connectedPackage == "35"
-                                  ? resultGet.data()["connectedCount"]["35"] - 1
-                                  : resultGet.data()["connectedCount"]["35"],
-                              "40": connectedPackage == "40"
-                                  ? resultGet.data()["connectedCount"]["40"] - 1
-                                  : resultGet.data()["connectedCount"]["40"],
-                              "45": connectedPackage == "45"
-                                  ? resultGet.data()["connectedCount"]["45"] - 1
-                                  : resultGet.data()["connectedCount"]["45"],
-                              "50": connectedPackage == "50"
-                                  ? resultGet.data()["connectedCount"]["50"] - 1
-                                  : resultGet.data()["connectedCount"]["50"],
-                              "55": connectedPackage == "55"
-                                  ? resultGet.data()["connectedCount"]["55"] - 1
-                                  : resultGet.data()["connectedCount"]["55"],
-                              "60": connectedPackage == "60"
-                                  ? resultGet.data()["connectedCount"]["60"] - 1
-                                  : resultGet.data()["connectedCount"]["60"],
-                            }
-                          }).then((_) async => {
-                                SimplyWifi.disconnectWifi(),
-                                SimplyWifi.forgetWifiByWifiName(connectedSsid),
-                                SimplyWifi.turnOffWifi(),
-                                await prefs.setString("package", null),
-                                await prefs.setString("host_userId", null),
-                                Cron().close(),
-                              }),
-                        }),
-                  }),
-            });
+    var connectivityResult = await (Connectivity().checkConnectivity());
+    if (connectivityResult == ConnectivityResult.wifi ||
+        connectivityResult == ConnectivityResult.mobile) {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      var connectedSsid = prefs.getString("connected_ssid");
+      if (connectedSsid != null) {
+        var connectedPackage = prefs.getString("package");
+        var hostuserIdShared = prefs.getString("host_userId");
+        int count = 0;
+        var result = await usersRef
+            .where("email", isEqualTo: prefs.getString("email"))
+            .get();
+        if (result.docs.length > 0) {
+          usersRef.doc(result.docs[0].id).update({
+            "isConnected": false,
+            "user": false,
+            "host_ssid": null,
+            "host_id": null,
+          }).then((_) async => {
+                await usersRef.doc(hostuserIdShared).get().then((resultGet) => {
+                      count = resultGet.data()["connectedCount"]["5"] +
+                          resultGet.data()["connectedCount"]["10"] +
+                          resultGet.data()["connectedCount"]["15"] +
+                          resultGet.data()["connectedCount"]["20"] +
+                          resultGet.data()["connectedCount"]["25"] +
+                          resultGet.data()["connectedCount"]["30"] +
+                          resultGet.data()["connectedCount"]["35"] +
+                          resultGet.data()["connectedCount"]["40"] +
+                          resultGet.data()["connectedCount"]["45"] +
+                          resultGet.data()["connectedCount"]["50"] +
+                          resultGet.data()["connectedCount"]["55"] +
+                          resultGet.data()["connectedCount"]["60"],
+                      prefs.setString("connected_ssid", null).then((_) async =>
+                          {
+                            await usersRef.doc(hostuserIdShared).update({
+                              "isConnected": count > 1 ? true : false,
+                              "host": count > 1 ? true : false,
+                              "connectedCount": {
+                                "5": connectedPackage == "5"
+                                    ? resultGet.data()["connectedCount"]["5"] -
+                                        1
+                                    : resultGet.data()["connectedCount"]["5"],
+                                "10": connectedPackage == "10"
+                                    ? resultGet.data()["connectedCount"]["10"] -
+                                        1
+                                    : resultGet.data()["connectedCount"]["10"],
+                                "15": connectedPackage == "15"
+                                    ? resultGet.data()["connectedCount"]["15"] -
+                                        1
+                                    : resultGet.data()["connectedCount"]["15"],
+                                "20": connectedPackage == "20"
+                                    ? resultGet.data()["connectedCount"]["20"] -
+                                        1
+                                    : resultGet.data()["connectedCount"]["20"],
+                                "25": connectedPackage == "25"
+                                    ? resultGet.data()["connectedCount"]["25"] -
+                                        1
+                                    : resultGet.data()["connectedCount"]["25"],
+                                "30": connectedPackage == "30"
+                                    ? resultGet.data()["connectedCount"]["30"] -
+                                        1
+                                    : resultGet.data()["connectedCount"]["30"],
+                                "35": connectedPackage == "35"
+                                    ? resultGet.data()["connectedCount"]["35"] -
+                                        1
+                                    : resultGet.data()["connectedCount"]["35"],
+                                "40": connectedPackage == "40"
+                                    ? resultGet.data()["connectedCount"]["40"] -
+                                        1
+                                    : resultGet.data()["connectedCount"]["40"],
+                                "45": connectedPackage == "45"
+                                    ? resultGet.data()["connectedCount"]["45"] -
+                                        1
+                                    : resultGet.data()["connectedCount"]["45"],
+                                "50": connectedPackage == "50"
+                                    ? resultGet.data()["connectedCount"]["50"] -
+                                        1
+                                    : resultGet.data()["connectedCount"]["50"],
+                                "55": connectedPackage == "55"
+                                    ? resultGet.data()["connectedCount"]["55"] -
+                                        1
+                                    : resultGet.data()["connectedCount"]["55"],
+                                "60": connectedPackage == "60"
+                                    ? resultGet.data()["connectedCount"]["60"] -
+                                        1
+                                    : resultGet.data()["connectedCount"]["60"],
+                              }
+                            }).then((_) async => {
+                                  SimplyWifi.disconnectWifi(),
+                                  SimplyWifi.forgetWifiByWifiName(
+                                      connectedSsid),
+                                  SimplyWifi.turnOffWifi(),
+                                  await prefs.setString("package", null),
+                                  await prefs.setString("host_userId", null),
+                                  Cron().close(),
+                                }),
+                          }),
+                    }),
+              });
+        }
       }
+    } else {
+      AwesomeDialog(
+        context: context,
+        dialogType: DialogType.INFO,
+        animType: AnimType.BOTTOMSLIDE,
+        title: 'Info',
+        desc: "Please check your internet connection!",
+        btnCancel: Text(""),
+        btnOk: Text(""),
+      )..show();
     }
   }
 
@@ -347,7 +394,8 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
                         "5",
                         snapshot.data["connectedCount"]["5"],
                         snapshot.data["packages_prices"]["5"],
-                        snapshot.data["packages_times"]["5"],
+                        int.parse(
+                            snapshot.data["packages_times"]["5"].toString()),
                       ),
                       btnClick: () => dicoconnectPackage(),
                     ),
@@ -370,7 +418,8 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
                         "10",
                         snapshot.data["connectedCount"]["10"],
                         snapshot.data["packages_prices"]["10"],
-                        snapshot.data["packages_times"]["10"],
+                        int.parse(
+                            snapshot.data["packages_times"]["10"].toString()),
                       ),
                       btnClick: () => dicoconnectPackage(),
                     ),
@@ -392,7 +441,8 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
                         "15",
                         snapshot.data["connectedCount"]["15"],
                         snapshot.data["packages_prices"]["15"],
-                        snapshot.data["packages_times"]["15"],
+                        int.parse(
+                            snapshot.data["packages_times"]["15"].toString()),
                       ),
                       btnClick: () => dicoconnectPackage(),
                     ),
@@ -414,7 +464,8 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
                         "20",
                         snapshot.data["connectedCount"]["20"],
                         snapshot.data["packages_prices"]["20"],
-                        snapshot.data["packages_times"]["20"],
+                        int.parse(
+                            snapshot.data["packages_times"]["20"].toString()),
                       ),
                       btnClick: () => dicoconnectPackage(),
                     ),
@@ -436,7 +487,8 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
                           "25",
                           snapshot.data["connectedCount"]["25"],
                           snapshot.data["packages_prices"]["25"],
-                          snapshot.data["packages_times"]["25"]),
+                          int.parse(snapshot.data["packages_times"]["25"]
+                              .toString())),
                       btnClick: () => dicoconnectPackage(),
                     ),
                     CardWidget(
@@ -457,7 +509,8 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
                         "30",
                         snapshot.data["connectedCount"]["30"],
                         snapshot.data["packages_prices"]["30"],
-                        snapshot.data["packages_times"]["30"],
+                        int.parse(
+                            snapshot.data["packages_times"]["30"].toString()),
                       ),
                       btnClick: () => dicoconnectPackage(),
                     ),
@@ -479,7 +532,8 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
                           "35",
                           snapshot.data["connectedCount"]["35"],
                           snapshot.data["packages_prices"]["35"],
-                          snapshot.data["packages_times"]["35"]),
+                          int.parse(snapshot.data["packages_times"]["35"]
+                              .toString())),
                       btnClick: () => dicoconnectPackage(),
                     ),
                     CardWidget(
@@ -500,7 +554,8 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
                         "40",
                         snapshot.data["connectedCount"]["40"],
                         snapshot.data["packages_prices"]["40"],
-                        snapshot.data["packages_times"]["40"],
+                        int.parse(
+                            snapshot.data["packages_times"]["40"].toString()),
                       ),
                       btnClick: () => dicoconnectPackage(),
                     ),
@@ -522,7 +577,8 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
                           "45",
                           snapshot.data["connectedCount"]["45"],
                           snapshot.data["packages_prices"]["45"],
-                          snapshot.data["packages_times"]["45"]),
+                          int.parse(snapshot.data["packages_times"]["45"]
+                              .toString())),
                       btnClick: () => dicoconnectPackage(),
                     ),
                     CardWidget(
@@ -543,7 +599,8 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
                           "50",
                           snapshot.data["connectedCount"]["50"],
                           snapshot.data["packages_prices"]["50"],
-                          snapshot.data["packages_times"]["50"]),
+                          int.parse(snapshot.data["packages_times"]["50"]
+                              .toString())),
                       btnClick: () => dicoconnectPackage(),
                     ),
                     CardWidget(
@@ -564,7 +621,8 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
                           "55",
                           snapshot.data["connectedCount"]["55"],
                           snapshot.data["packages_prices"]["55"],
-                          snapshot.data["packages_times"]["55"]),
+                          int.parse(snapshot.data["packages_times"]["55"]
+                              .toString())),
                       btnClick: () => dicoconnectPackage(),
                     ),
                     CardWidget(
@@ -585,7 +643,8 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
                           "60",
                           snapshot.data["connectedCount"]["60"],
                           snapshot.data["packages_prices"]["60"],
-                          snapshot.data["packages_times"]["60"]),
+                          int.parse(snapshot.data["packages_times"]["60"]
+                              .toString())),
                       btnClick: () => dicoconnectPackage(),
                     ),
                   ],

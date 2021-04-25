@@ -1,3 +1,5 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:wifi_iot/wifi_iot.dart';
 import 'package:worthy_net/config/collections.dart';
@@ -37,39 +39,67 @@ class _UserPageState extends State<UserPage> {
   }
 
   getUserDocUsingSsid(WifiNetwork wifiNetworksRe) async {
-    try {
-      var result =
-          await usersRef.where("ssid", isEqualTo: wifiNetworksRe.ssid).get();
+    var connectivityResult = await (Connectivity().checkConnectivity());
+    if (connectivityResult == ConnectivityResult.wifi ||
+        connectivityResult == ConnectivityResult.mobile) {
+      try {
+        var result =
+            await usersRef.where("ssid", isEqualTo: wifiNetworksRe.ssid).get();
 
-      if (result.docs.length > 0) {
-        wifiNetworks.add(wifiNetworksRe);
+        if (result.docs.length > 0) {
+          wifiNetworks.add(wifiNetworksRe);
+        }
+
+        setState(() {
+          isLoading = false;
+        });
+      } catch (e) {
+        print(e);
       }
-
-      setState(() {
-        isLoading = false;
-      });
-    } catch (e) {
-      print(e);
+    } else {
+      AwesomeDialog(
+        context: context,
+        dialogType: DialogType.INFO,
+        animType: AnimType.BOTTOMSLIDE,
+        title: 'Info',
+        desc: "Please check your internet connection!",
+        btnCancel: Text(""),
+        btnOk: Text(""),
+      )..show();
     }
   }
 
   getUserDetailsFromSsidAndNavigate(String ssid, int index) async {
-    var result = await usersRef.where("ssid", isEqualTo: ssid).get();
-    if (result.docs.length > 0) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => UserDetailsPage(
-            index,
-            result.docs[0].data()["email"],
-            result.docs[0].id,
-            ssid.toLowerCase(),
-            result.docs[0].data()["hotspot_password"],
-            result.docs[0].data()["merchantId"],
-            result.docs[0].data()["merchantSecret"],
+    var connectivityResult = await (Connectivity().checkConnectivity());
+    if (connectivityResult == ConnectivityResult.wifi ||
+        connectivityResult == ConnectivityResult.mobile) {
+      var result = await usersRef.where("ssid", isEqualTo: ssid).get();
+      if (result.docs.length > 0) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => UserDetailsPage(
+              index,
+              result.docs[0].data()["email"],
+              result.docs[0].id,
+              ssid.toLowerCase(),
+              result.docs[0].data()["hotspot_password"],
+              result.docs[0].data()["merchantId"],
+              result.docs[0].data()["merchantSecret"],
+            ),
           ),
-        ),
-      );
+        );
+      }
+    } else {
+      AwesomeDialog(
+        context: context,
+        dialogType: DialogType.INFO,
+        animType: AnimType.BOTTOMSLIDE,
+        title: 'Info',
+        desc: "Please check your internet connection!",
+        btnCancel: Text(""),
+        btnOk: Text(""),
+      )..show();
     }
   }
 
@@ -81,43 +111,67 @@ class _UserPageState extends State<UserPage> {
           'List of all hosts',
         ),
       ),
-      body: isLoading
-          ? Center(child: Image.asset("assets/radar.gif"))
-          : wifiNetworks.length <= 0
-              ? Center(
-                  child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Image.asset(
-                      "assets/empty_hosts.png",
-                    ),
-                    Text(""),
-                    Text(
-                      "Empty hosts",
-                      style: TextStyle(fontSize: 40, color: Colors.grey),
-                    )
-                  ],
-                ))
-              : buildListView(context, wifiNetworks),
+      body: RefreshIndicator(
+        onRefresh: () async {
+          SimplyWifi.turnOnWifi().then(
+            (value) => {getListOfWifiAvailable()},
+          );
+        },
+        strokeWidth: 4.0,
+        child: ListView(
+          shrinkWrap: true,
+          children: [
+            Container(
+              child: isLoading
+                  ? Center(child: Image.asset("assets/radar.gif"))
+                  : wifiNetworks.length <= 0
+                      ? Center(
+                          child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Image.asset(
+                              "assets/empty_hosts.png",
+                            ),
+                            Text(""),
+                            Text(
+                              "Empty hosts",
+                              style:
+                                  TextStyle(fontSize: 40, color: Colors.grey),
+                            )
+                          ],
+                        ))
+                      : buildListView(context, wifiNetworks),
+            ),
+          ],
+        ),
+      ),
     );
   }
 
-  ListView buildListView(BuildContext context, List<WifiNetwork> listWifi) {
-    return ListView.builder(
-      itemCount: listWifi?.length,
-      itemBuilder: (_, index) {
-        return ListTile(
-            title: Text(listWifi[index]?.ssid),
-            subtitle: Text(listWifi[index]?.bssid.toString()),
-            leading: Icon(
-              Icons.wifi,
-              color: Colors.blue,
-              size: 40.0,
-            ),
-            trailing: Icon(Icons.arrow_forward),
-            onTap: () => getUserDetailsFromSsidAndNavigate(
-                listWifi[index]?.ssid, index));
+  Widget buildListView(BuildContext context, List<WifiNetwork> listWifi) {
+    return RefreshIndicator(
+      onRefresh: () async {
+        SimplyWifi.turnOnWifi().then(
+          (value) => {getListOfWifiAvailable()},
+        );
       },
+      strokeWidth: 4.0,
+      child: ListView.builder(
+        itemCount: listWifi?.length,
+        itemBuilder: (_, index) {
+          return ListTile(
+              title: Text(listWifi[index]?.ssid),
+              subtitle: Text(listWifi[index]?.bssid.toString()),
+              leading: Icon(
+                Icons.wifi,
+                color: Colors.blue,
+                size: 40.0,
+              ),
+              trailing: Icon(Icons.arrow_forward),
+              onTap: () => getUserDetailsFromSsidAndNavigate(
+                  listWifi[index]?.ssid, index));
+        },
+      ),
     );
   }
 }
