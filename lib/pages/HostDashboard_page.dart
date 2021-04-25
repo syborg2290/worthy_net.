@@ -456,7 +456,7 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
   Widget build(BuildContext context) {
     // data package card media query
     var size = MediaQuery.of(context).size;
-    final double itemHeight = (size.height - kToolbarHeight - 24) / 7;
+    final double itemHeight = (size.height - kToolbarHeight - 24) / 6;
     final double itemWidth = size.width / 2;
     return Scaffold(
       appBar: AppBar(
@@ -1045,9 +1045,11 @@ class CardWidget extends StatelessWidget {
         onTap: onClick,
         child: Container(
           padding: EdgeInsets.all(MediaQuery.of(context).size.width / 25),
+          // alignment: Alignment.center,
           child: Row(
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            // crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Column(
                 mainAxisSize: MainAxisSize.min,
@@ -1100,7 +1102,7 @@ class CardWidget extends StatelessWidget {
                         // onSurface: Colors.red,
                       ),
                     ),
-                  )
+                  ),
                 ],
               ),
               Container(
@@ -1114,8 +1116,9 @@ class CardWidget extends StatelessWidget {
                             child: ElevatedButton.icon(
                               label: Text('Disable'),
                               icon: Icon(Icons.web),
-                              onPressed:
-                                  notConnected == "Connected" ? null : btnClick,
+                              onPressed: notConnected == "Connected"
+                                  ? null
+                                  : btnClick,
                               style: ElevatedButton.styleFrom(
                                 primary: Colors.red,
                                 onPrimary: cardBtnTextColor,
@@ -1151,7 +1154,8 @@ class CardWidget extends StatelessWidget {
                         ? Container(
                             // padding: EdgeInsets.only(bottom: 4.0),
                             child: Text(
-                              "Connected count :" + connectedCount.toString(),
+                              "Connected count :" +
+                                  connectedCount.toString(),
                               style: GoogleFonts.openSans(
                                 textStyle: TextStyle(
                                     color: Colors.black12,
