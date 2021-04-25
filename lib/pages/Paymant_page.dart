@@ -1,4 +1,5 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -19,57 +20,71 @@ class _PymantPageState extends State<PymantPage> {
   bool isLoading = false;
 
   setPaymentDetails() async {
-    if (merchantId.text != "") {
-      if (merchantSec.text != "") {
-        final key = KeyGet.Key.fromUtf8('ghjklsgdferty27364uyrhjskytrghso');
-        final iv = IV.fromLength(16);
+    var connectivityResult = await (Connectivity().checkConnectivity());
+    if (connectivityResult == ConnectivityResult.wifi ||
+        connectivityResult == ConnectivityResult.mobile) {
+      if (merchantId.text != "") {
+        if (merchantSec.text != "") {
+          final key = KeyGet.Key.fromUtf8('ghjklsgdferty27364uyrhjskytrghso');
+          final iv = IV.fromLength(16);
 
-        final encrypter = Encrypter(AES(key));
-        try {
-          setState(() {
-            isLoading = true;
-          });
-          SharedPreferences prefs = await SharedPreferences.getInstance();
-          var result = await usersRef
-              .where("email", isEqualTo: prefs.getString("email"))
-              .get();
+          final encrypter = Encrypter(AES(key));
+          try {
+            setState(() {
+              isLoading = true;
+            });
+            SharedPreferences prefs = await SharedPreferences.getInstance();
+            var result = await usersRef
+                .where("email", isEqualTo: prefs.getString("email"))
+                .get();
 
-          if (result.docs.length > 0) {
-            await usersRef.doc(result.docs[0].id).update({
-              "merchantId":
-                  encrypter.encrypt(merchantId.text.trim(), iv: iv).base64,
-              "merchantSecret":
-                  encrypter.encrypt(merchantSec.text.trim(), iv: iv).base64,
-            }).then((_) async => {
-                  await prefs
-                      .setString(
-                          "merchantId",
-                          encrypter
-                              .encrypt(merchantId.text.trim(), iv: iv)
-                              .base64)
-                      .then((_) => {
-                            setState(() {
-                              isLoading = false;
-                            }),
-                            Navigator.pop(context)
-                          })
-                });
+            if (result.docs.length > 0) {
+              await usersRef.doc(result.docs[0].id).update({
+                "merchantId":
+                    encrypter.encrypt(merchantId.text.trim(), iv: iv).base64,
+                "merchantSecret":
+                    encrypter.encrypt(merchantSec.text.trim(), iv: iv).base64,
+              }).then((_) async => {
+                    await prefs
+                        .setString(
+                            "merchantId",
+                            encrypter
+                                .encrypt(merchantId.text.trim(), iv: iv)
+                                .base64)
+                        .then((_) => {
+                              setState(() {
+                                isLoading = false;
+                              }),
+                              Navigator.pop(context)
+                            })
+                  });
+            }
+          } catch (e) {
+            setState(() {
+              isLoading = false;
+            });
+            AwesomeDialog(
+              context: context,
+              dialogType: DialogType.INFO,
+              animType: AnimType.BOTTOMSLIDE,
+              title: 'Info',
+              desc: e.toString(),
+              btnCancel: Text(""),
+              btnOk: Text(""),
+            )..show();
           }
-        } catch (e) {
-          setState(() {
-            isLoading = false;
-          });
-          AwesomeDialog(
-            context: context,
-            dialogType: DialogType.INFO,
-            animType: AnimType.BOTTOMSLIDE,
-            title: 'Info',
-            desc: e.toString(),
-            btnCancel: Text(""),
-            btnOk: Text(""),
-          )..show();
         }
       }
+    } else {
+      AwesomeDialog(
+        context: context,
+        dialogType: DialogType.INFO,
+        animType: AnimType.BOTTOMSLIDE,
+        title: 'Info',
+        desc: "Please check your internet connection!",
+        btnCancel: Text(""),
+        btnOk: Text(""),
+      )..show();
     }
   }
 
