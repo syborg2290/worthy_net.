@@ -28,18 +28,24 @@ class _HomePageState extends State<HomePage> {
   getBackgroundTask() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     if (prefs.getString("connected_ssid") != null) {
-      final cron = Cron()
-        ..schedule(Schedule.parse('*/1 * * * * *'), () async {
-          int packageTimel = prefs.getInt("package_time");
-          int upl = prefs.getInt("random_up");
-          int downl = prefs.getInt("random_down");
-          setState(() {
-            ssid = prefs.getString("connected_ssid");
-            up = upl;
-            down = downl;
-            packageTime = packageTimel;
-          });
-        });
+      if (prefs.getString("package_time") != null) {
+        if (prefs.getString("random_up") != null) {
+          if (prefs.getString("random_down") != null) {
+            final cron = Cron()
+              ..schedule(Schedule.parse('*/1 * * * * *'), () async {
+                int packageTimel = prefs.getInt("package_time");
+                int upl = prefs.getInt("random_up");
+                int downl = prefs.getInt("random_down");
+                setState(() {
+                  ssid = prefs.getString("connected_ssid");
+                  up = upl;
+                  down = downl;
+                  packageTime = packageTimel;
+                });
+              });
+          }
+        }
+      }
     }
 
     // await Future.delayed(Duration(seconds: 2));
