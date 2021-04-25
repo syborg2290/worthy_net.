@@ -87,7 +87,7 @@ class _UserPageState extends State<UserPage> {
               index,
               result.docs[0].data()["email"],
               result.docs[0].id,
-              ssid.toLowerCase(),
+              ssid,
               result.docs[0].data()["hotspot_password"],
               result.docs[0].data()["merchantId"],
               result.docs[0].data()["merchantSecret"],
@@ -123,53 +123,45 @@ class _UserPageState extends State<UserPage> {
           );
         },
         strokeWidth: 4.0,
-        child: Column(
-          children:<Widget> [
-            Row(
-              children:<Widget> [
-                Container(
-                  child: isLoading
-                      ? Center(child: Image.asset("assets/radar.gif"))
-                      : wifiNetworks.length <= 0
-                          ? Center(
-                              child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Image.asset(
-                                  "assets/empty_hosts.png",
-                                ),
-                                Text(""),
-                                Text(
-                                  "Empty hosts",
-                                  style: TextStyle(fontSize: 40, color: Colors.grey),
-                                )
-                              ],
-                            ))
-                          : buildListView(context, wifiNetworks),
-                ),
-              ],
-            ),
-            Row(
-              children: <Widget>[
-                 Container(
-                    // margin: EdgeInsets.only(top: 30),
-                    padding: EdgeInsets.symmetric(horizontal: 15),
-                    child: ElevatedButton.icon(
-                      label: Text(''),
-                      icon: Icon(Icons.refresh),
-                      onPressed: (){},
-                      style: ElevatedButton.styleFrom(
-                        primary: Colors.yellow,
-                        onPrimary: Colors.black,
-                        // onSurface: Colors.red,
-                      ),
-                    ),
-                  ),
-              ],
-            ),
-          ],
+        child: Container(
+          child: isLoading
+              ? Center(child: Image.asset("assets/radar.gif"))
+              : wifiNetworks.length <= 0
+                  ? Center(
+                      child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Image.asset(
+                          "assets/empty_hosts.png",
+                        ),
+                        Text(""),
+                        Text(
+                          "Empty hosts",
+                          style: TextStyle(fontSize: 40, color: Colors.grey),
+                        ),
+                        Text(""),
+                        Container(
+                          // margin: EdgeInsets.only(top: 30),
+                          padding: EdgeInsets.symmetric(horizontal: 15),
+                          child: ElevatedButton.icon(
+                            label: Text(''),
+                            icon: Icon(Icons.refresh),
+                            onPressed: () async {
+                              SimplyWifi.turnOnWifi().then(
+                                (value) => {getListOfWifiAvailable()},
+                              );
+                            },
+                            style: ElevatedButton.styleFrom(
+                              primary: Colors.yellow,
+                              onPrimary: Colors.black,
+                              // onSurface: Colors.red,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ))
+                  : buildListView(context, wifiNetworks),
         ),
-      
       ),
     );
   }
