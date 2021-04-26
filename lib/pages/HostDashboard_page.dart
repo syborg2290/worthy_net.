@@ -1125,7 +1125,7 @@ class CardWidget extends StatelessWidget {
       elevation: 10,
       color: blueLightColors,
       child: InkWell(
-        onTap: isConnected == true ? null : onClick,
+        onTap: onClick,
         child: Container(
           padding: EdgeInsets.all(MediaQuery.of(context).size.width / 25),
           child: Row(
