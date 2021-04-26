@@ -36,40 +36,37 @@ class _HomePageState extends State<HomePage> {
       if (prefs.getInt("package_time") != null) {
         if (prefs.getInt("random_up") != null) {
           if (prefs.getInt("random_down") != null) {
+            SharedPreferences prefs = await SharedPreferences.getInstance();
             final cron = Cron()
               ..schedule(Schedule.parse('*/1 * * * * *'), () async {
-                SharedPreferences prefs = await SharedPreferences.getInstance();
-                final cron = Cron()
-                  ..schedule(Schedule.parse('*/1 * * * * *'), () async {
-                    var getTime = prefs.getInt("package_time");
-                    var getInitTime = prefs.getInt("initial_packageTime");
+                var getTime = prefs.getInt("package_time");
+                var getInitTime = prefs.getInt("initial_packageTime");
 
-                    if (getTime != null) {
-                      if (getTime >= getInitTime * 60) {
-                        await prefs.setInt("package_time", null);
-                        await prefs.setInt("random_up", null);
-                        await prefs.setInt("random_down", null);
-                        dicoconnectPackage();
-                      } else {
-                        Random random = new Random();
-                        int rUp = 50 + random.nextInt(500 - 50);
-                        int rDown = 40 + random.nextInt(300 - 40);
-                        await prefs.setInt("package_time", getTime + 1);
-                        await prefs.setInt("random_up", rUp);
-                        await prefs.setInt("random_down", rDown);
-                      }
-                    }
-                  });
-                int packageTimel = prefs.getInt("package_time");
-                int upl = prefs.getInt("random_up");
-                int downl = prefs.getInt("random_down");
-                setState(() {
-                  ssid = prefs.getString("connected_ssid");
-                  up = upl;
-                  down = downl;
-                  packageTime = packageTimel;
-                });
+                if (getTime != null) {
+                  if (getTime >= getInitTime * 60) {
+                    await prefs.setInt("package_time", null);
+                    await prefs.setInt("random_up", null);
+                    await prefs.setInt("random_down", null);
+                    dicoconnectPackage();
+                  } else {
+                    Random random = new Random();
+                    int rUp = 50 + random.nextInt(500 - 50);
+                    int rDown = 40 + random.nextInt(300 - 40);
+                    await prefs.setInt("package_time", getTime + 1);
+                    await prefs.setInt("random_up", rUp);
+                    await prefs.setInt("random_down", rDown);
+                  }
+                }
               });
+            int packageTimel = prefs.getInt("package_time");
+            int upl = prefs.getInt("random_up");
+            int downl = prefs.getInt("random_down");
+            setState(() {
+              ssid = prefs.getString("connected_ssid");
+              up = upl;
+              down = downl;
+              packageTime = packageTimel;
+            });
           }
         }
       }
