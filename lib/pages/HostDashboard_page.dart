@@ -523,7 +523,7 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                           childAspectRatio: (itemWidth / itemHeight),
                           children: <Widget>[
                             CardWidget(
-                              isConnected: snapshot.data["isConnected"],
+                              isConnected: snapshot.data["isConnected"] == true,
                               packagetime: snapshot.data["packages_times"]["5"]
                                   .toString(),
                               title: '5MB',
@@ -555,8 +555,10 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                                           btnOk: Text(""),
                                         )..show()
                                       },
-                              btnClick: () => disablePackage(
-                                  "5", snapshot.data["packages"]),
+                              btnClick: snapshot.data["isConnected"] == true
+                                  ? null
+                                  : () => disablePackage(
+                                      "5", snapshot.data["packages"]),
                               btnPriceChange: snapshot.data["isConnected"] ==
                                           true &&
                                       snapshot.data["packages"]["5"] == true &&
@@ -570,7 +572,7 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                                       ),
                             ),
                             CardWidget(
-                              isConnected: snapshot.data["isConnected"],
+                              isConnected: snapshot.data["isConnected"] == true,
                               packagetime: snapshot.data["packages_times"]["10"]
                                   .toString(),
                               title: '10MB',
@@ -602,8 +604,10 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                                           btnOk: Text(""),
                                         )..show()
                                       },
-                              btnClick: () => disablePackage(
-                                  "10", snapshot.data["packages"]),
+                              btnClick: snapshot.data["isConnected"] == true
+                                  ? null
+                                  : () => disablePackage(
+                                      "10", snapshot.data["packages"]),
                               btnPriceChange: snapshot.data["isConnected"] ==
                                           true &&
                                       snapshot.data["packages"]["10"] == true &&
@@ -617,7 +621,7 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                                       ),
                             ),
                             CardWidget(
-                              isConnected: snapshot.data["isConnected"],
+                              isConnected: snapshot.data["isConnected"] == true,
                               packagetime: snapshot.data["packages_times"]["15"]
                                   .toString(),
                               title: '15MB',
@@ -649,8 +653,10 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                                           btnOk: Text(""),
                                         )..show()
                                       },
-                              btnClick: () => disablePackage(
-                                  "15", snapshot.data["packages"]),
+                              btnClick: snapshot.data["isConnected"] == true
+                                  ? null
+                                  : () => disablePackage(
+                                      "15", snapshot.data["packages"]),
                               btnPriceChange: snapshot.data["isConnected"] ==
                                           true &&
                                       snapshot.data["packages"]["15"] == true &&
@@ -664,7 +670,7 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                                       ),
                             ),
                             CardWidget(
-                              isConnected: snapshot.data["isConnected"],
+                              isConnected: snapshot.data["isConnected"] == true,
                               packagetime: snapshot.data["packages_times"]["20"]
                                   .toString(),
                               title: '20MB',
@@ -696,8 +702,10 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                                           btnOk: Text(""),
                                         )..show()
                                       },
-                              btnClick: () => disablePackage(
-                                  "20", snapshot.data["packages"]),
+                              btnClick: snapshot.data["isConnected"] == true
+                                  ? null
+                                  : () => disablePackage(
+                                      "20", snapshot.data["packages"]),
                               btnPriceChange: snapshot.data["isConnected"] ==
                                           true &&
                                       snapshot.data["packages"]["20"] == true &&
@@ -711,7 +719,7 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                                       ),
                             ),
                             CardWidget(
-                              isConnected: snapshot.data["isConnected"],
+                              isConnected: snapshot.data["isConnected"] == true,
                               packagetime: snapshot.data["packages_times"]["25"]
                                   .toString(),
                               title: '25MB',
@@ -743,8 +751,10 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                                           btnOk: Text(""),
                                         )..show()
                                       },
-                              btnClick: () => disablePackage(
-                                  "25", snapshot.data["packages"]),
+                              btnClick: snapshot.data["isConnected"] == true
+                                  ? null
+                                  : () => disablePackage(
+                                      "25", snapshot.data["packages"]),
                               btnPriceChange: snapshot.data["isConnected"] ==
                                           true &&
                                       snapshot.data["packages"]["25"] == true &&
@@ -758,7 +768,7 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                                       ),
                             ),
                             CardWidget(
-                              isConnected: snapshot.data["isConnected"],
+                              isConnected: snapshot.data["isConnected"] == true,
                               packagetime: snapshot.data["packages_times"]["30"]
                                   .toString(),
                               title: '30MB',
@@ -790,8 +800,10 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                                           btnOk: Text(""),
                                         )..show()
                                       },
-                              btnClick: () => disablePackage(
-                                  "30", snapshot.data["packages"]),
+                              btnClick: snapshot.data["isConnected"] == true
+                                  ? null
+                                  : () => disablePackage(
+                                      "30", snapshot.data["packages"]),
                               btnPriceChange: snapshot.data["isConnected"] ==
                                           true &&
                                       snapshot.data["packages"]["30"] == true &&
@@ -805,7 +817,7 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                                       ),
                             ),
                             CardWidget(
-                              isConnected: snapshot.data["isConnected"],
+                              isConnected: snapshot.data["isConnected"] == true,
                               packagetime: snapshot.data["packages_times"]["35"]
                                   .toString(),
                               title: '35MB',
@@ -837,8 +849,10 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                                           btnOk: Text(""),
                                         )..show()
                                       },
-                              btnClick: () => disablePackage(
-                                  "35", snapshot.data["packages"]),
+                              btnClick: snapshot.data["isConnected"] == true
+                                  ? null
+                                  : () => disablePackage(
+                                      "35", snapshot.data["packages"]),
                               btnPriceChange: snapshot.data["isConnected"] ==
                                           true &&
                                       snapshot.data["packages"]["35"] == true &&
@@ -852,7 +866,7 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                                       ),
                             ),
                             CardWidget(
-                              isConnected: snapshot.data["isConnected"],
+                              isConnected: snapshot.data["isConnected"] == true,
                               packagetime: snapshot.data["packages_times"]["40"]
                                   .toString(),
                               title: '40MB',
@@ -884,8 +898,10 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                                           btnOk: Text(""),
                                         )..show()
                                       },
-                              btnClick: () => disablePackage(
-                                  "40", snapshot.data["packages"]),
+                              btnClick: snapshot.data["isConnected"] == true
+                                  ? null
+                                  : () => disablePackage(
+                                      "40", snapshot.data["packages"]),
                               btnPriceChange: snapshot.data["isConnected"] ==
                                           true &&
                                       snapshot.data["packages"]["40"] == true &&
@@ -899,7 +915,7 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                                       ),
                             ),
                             CardWidget(
-                              isConnected: snapshot.data["isConnected"],
+                              isConnected: snapshot.data["isConnected"] == true,
                               packagetime: snapshot.data["packages_times"]["45"]
                                   .toString(),
                               title: '45MB',
@@ -931,8 +947,10 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                                           btnOk: Text(""),
                                         )..show()
                                       },
-                              btnClick: () => disablePackage(
-                                  "45", snapshot.data["packages"]),
+                              btnClick: snapshot.data["isConnected"] == true
+                                  ? null
+                                  : () => disablePackage(
+                                      "45", snapshot.data["packages"]),
                               btnPriceChange: snapshot.data["isConnected"] ==
                                           true &&
                                       snapshot.data["packages"]["45"] == true &&
@@ -946,7 +964,7 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                                       ),
                             ),
                             CardWidget(
-                              isConnected: snapshot.data["isConnected"],
+                              isConnected: snapshot.data["isConnected"] == true,
                               packagetime: snapshot.data["packages_times"]["50"]
                                   .toString(),
                               title: '50MB',
@@ -978,8 +996,10 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                                           btnOk: Text(""),
                                         )..show()
                                       },
-                              btnClick: () => disablePackage(
-                                  "50", snapshot.data["packages"]),
+                              btnClick: snapshot.data["isConnected"] == true
+                                  ? null
+                                  : () => disablePackage(
+                                      "50", snapshot.data["packages"]),
                               btnPriceChange: snapshot.data["isConnected"] ==
                                           true &&
                                       snapshot.data["packages"]["50"] == true &&
@@ -993,7 +1013,7 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                                       ),
                             ),
                             CardWidget(
-                              isConnected: snapshot.data["isConnected"],
+                              isConnected: snapshot.data["isConnected"] == true,
                               packagetime: snapshot.data["packages_times"]["55"]
                                   .toString(),
                               title: '55MB',
@@ -1025,8 +1045,10 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                                           btnOk: Text(""),
                                         )..show()
                                       },
-                              btnClick: () => disablePackage(
-                                  "55", snapshot.data["packages"]),
+                              btnClick: snapshot.data["isConnected"] == true
+                                  ? null
+                                  : () => disablePackage(
+                                      "55", snapshot.data["packages"]),
                               btnPriceChange: snapshot.data["packages"]["55"] ==
                                           true &&
                                       snapshot.data["connectedCount"]["55"] > 0
@@ -1039,15 +1061,17 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                                       ),
                             ),
                             CardWidget(
-                              isConnected: snapshot.data["isConnected"],
+                              isConnected: snapshot.data["isConnected"] == true,
                               packagetime: snapshot.data["packages_times"]["60"]
                                   .toString(),
                               title: '60MB',
                               subTitle: 'LKR ' +
                                   snapshot.data["packages_prices"]["60"]
                                       .toString(),
-                              btnClick: () => disablePackage(
-                                  "60", snapshot.data["packages"]),
+                              btnClick: snapshot.data["isConnected"] == true
+                                  ? null
+                                  : () => disablePackage(
+                                      "60", snapshot.data["packages"]),
                               connectedCount: snapshot.data["connectedCount"]
                                   ["60"],
                               notConnected: snapshot.data["packages"]["60"] ==
@@ -1125,7 +1149,7 @@ class CardWidget extends StatelessWidget {
       elevation: 10,
       color: blueLightColors,
       child: InkWell(
-        onTap: onClick,
+        onTap: isConnected == true ? null : onClick,
         child: Container(
           padding: EdgeInsets.all(MediaQuery.of(context).size.width / 25),
           child: Row(
