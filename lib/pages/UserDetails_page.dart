@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:math';
 
 import 'package:awesome_dialog/awesome_dialog.dart';
@@ -49,58 +50,58 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
             final encrypter = Encrypter(AES(key));
             var random = new Random();
 
-            // Payhere payhere = new Payhere();
-            // OneTimePayment otp = new OneTimePayment(
-            //     merchantID: encrypter.decrypt64(widget.merchantId, iv: iv),
-            //     merchantSecret: encrypter.decrypt64(widget.merchantSec, iv: iv),
-            //     notifyUrl: "",
-            //     currency: "LKR", //Currency code LKR/USD/GBP/EUR/AUD
-            //     totalamount: price, // Final Amount to be charged.
-            //     orderID:
-            //         random.nextInt(100000).toString(), // Unique Reference ID
-            //     itemDesc: package, // Item description title
-            //     cM1: "CM1",
-            //     cM2: "CM2",
-            //     fName: result.docs[0].data()["fname"],
-            //     lName: result.docs[0].data()["lname"],
-            //     email: result.docs[0].data()["email"],
-            //     phone: result.docs[0].data()["phonenumber"],
-            //     address: "Address",
-            //     city: "Colombo",
-            //     country: "Sri Lanka",
-            //     //following are optional values as stated in the Payhere android SDK.
-            //     //you can avoid setting them if you wanted to.
-            //     deliveryAddress: "deliveryAddress",
-            //     deliveryCity: "deliveryAddress",
-            //     deliveryCountry: "deliveryAddress");
+            Payhere payhere = new Payhere();
+            OneTimePayment otp = new OneTimePayment(
+                merchantID: encrypter.decrypt64(widget.merchantId, iv: iv),
+                merchantSecret: encrypter.decrypt64(widget.merchantSec, iv: iv),
+                notifyUrl: "",
+                currency: "LKR", //Currency code LKR/USD/GBP/EUR/AUD
+                totalamount: price, // Final Amount to be charged.
+                orderID:
+                    random.nextInt(100000).toString(), // Unique Reference ID
+                itemDesc: package, // Item description title
+                cM1: "CM1",
+                cM2: "CM2",
+                fName: result.docs[0].data()["fname"],
+                lName: result.docs[0].data()["lname"],
+                email: result.docs[0].data()["email"],
+                phone: result.docs[0].data()["phonenumber"],
+                address: "Address",
+                city: "Colombo",
+                country: "Sri Lanka",
+                //following are optional values as stated in the Payhere android SDK.
+                //you can avoid setting them if you wanted to.
+                deliveryAddress: "deliveryAddress",
+                deliveryCity: "deliveryAddress",
+                deliveryCountry: "deliveryAddress");
 
-            // String resPayhere = await payhere.makeOneTimePayment(otp);
+            String resPayhere = await payhere.makeOneTimePayment(otp);
 
-            // if (json.decode(resPayhere)["STATUS"] == "SUCCESS") {
-            //   connectToHotspot(package, connectedCount, packageTime);
-            // } else if (json.decode(resPayhere)["STATUS"] == "ERROR") {
-            //   AwesomeDialog(
-            //     context: context,
-            //     dialogType: DialogType.WARNING,
-            //     animType: AnimType.BOTTOMSLIDE,
-            //     title: 'Info',
-            //     desc: "Payment encountered an Error",
-            //     btnCancel: Text(""),
-            //     btnOk: Text(""),
-            //   )..show();
-
-            // } else if (json.decode(resPayhere)["STATUS"] == "CANCELED") {
-            //   AwesomeDialog(
-            //     context: context,
-            //     dialogType: DialogType.WARNING,
-            //     animType: AnimType.BOTTOMSLIDE,
-            //     title: 'Info',
-            //     desc: "Payment is Canceled",
-            //     btnCancel: Text(""),
-            //     btnOk: Text(""),
-            //   )..show();
-            // }
-            connectToHotspot(package, connectedCount, packageTime);
+            if (json.decode(resPayhere)["STATUS"] == "SUCCESS") {
+              connectToHotspot(package, connectedCount, packageTime);
+            } else if (json.decode(resPayhere)["STATUS"] == "ERROR") {
+              connectToHotspot(package, connectedCount, packageTime);
+              // AwesomeDialog(
+              //   context: context,
+              //   dialogType: DialogType.WARNING,
+              //   animType: AnimType.BOTTOMSLIDE,
+              //   title: 'Info',
+              //   desc: "Payment encountered an Error",
+              //   btnCancel: Text(""),
+              //   btnOk: Text(""),
+              // )..show();
+            } else if (json.decode(resPayhere)["STATUS"] == "CANCELED") {
+              connectToHotspot(package, connectedCount, packageTime);
+              // AwesomeDialog(
+              //   context: context,
+              //   dialogType: DialogType.WARNING,
+              //   animType: AnimType.BOTTOMSLIDE,
+              //   title: 'Info',
+              //   desc: "Payment is Canceled",
+              //   btnCancel: Text(""),
+              //   btnOk: Text(""),
+              // )..show();
+            }
           } else {
             AwesomeDialog(
               context: context,
