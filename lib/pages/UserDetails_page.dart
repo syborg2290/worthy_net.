@@ -786,7 +786,7 @@ class CardWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       elevation: 10,
-      color: blueLightColors,
+      color: unavailable == "Available" ? dashbordColor : blueLightColors,
       child: InkWell(
         onTap: onClick,
         child: Container(

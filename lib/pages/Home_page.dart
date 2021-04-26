@@ -45,7 +45,12 @@ class _HomePageState extends State<HomePage> {
                     // await prefs.setInt("package_time", null);
                     // await prefs.setInt("random_up", null);
                     // await prefs.setInt("random_down", null);
-
+                    setState(() {
+                      ssid = "Not connected";
+                      up = 0;
+                      down = 0;
+                      packageTime = 0;
+                    });
                     if (prefs.getString("connected_ssid") != "") {
                       await disconnectPackage();
                     }
@@ -56,18 +61,17 @@ class _HomePageState extends State<HomePage> {
                     await prefs.setInt("package_time", getTime + 1);
                     await prefs.setInt("random_up", rUp);
                     await prefs.setInt("random_down", rDown);
+                    int packageTimel = prefs.getInt("package_time");
+                    int upl = prefs.getInt("random_up");
+                    int downl = prefs.getInt("random_down");
+                    setState(() {
+                      ssid = prefs.getString("connected_ssid");
+                      up = upl;
+                      down = downl;
+                      packageTime = packageTimel;
+                    });
                   }
                 }
-
-                int packageTimel = prefs.getInt("package_time");
-                int upl = prefs.getInt("random_up");
-                int downl = prefs.getInt("random_down");
-                setState(() {
-                  ssid = prefs.getString("connected_ssid");
-                  up = upl;
-                  down = downl;
-                  packageTime = packageTimel;
-                });
               });
           }
         }
@@ -223,12 +227,6 @@ class _HomePageState extends State<HomePage> {
                                     : resultGet.data()["connectedCount"]["60"],
                               }
                             }).then((_) async => {
-                                  setState(() {
-                                    ssid = "Not connected";
-                                    up = 0;
-                                    down = 0;
-                                    packageTime = 0;
-                                  }),
                                   SimplyWifi.disconnectWifi(),
                                   SimplyWifi.forgetWifiByWifiName(
                                       connectedSsid),
