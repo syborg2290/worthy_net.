@@ -164,7 +164,6 @@ class _PymantPageState extends State<PymantPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
-                  // Text('sdfsf', style: TextStyle(fontSize: 20)),
                   textInput(
                       controller: merchantId,
                       hint: "merchant id",
@@ -189,7 +188,7 @@ class _PymantPageState extends State<PymantPage> {
         ));
   }
 
-  //page url
+  // payhere page url
   aunchURL() async {
     const url =
         'https://www.payhere.lk/?gclid=Cj0KCQjw9_mDBhCGARIsAN3PaFOcCNnmQHkSdbFm0r22trwbSQYsSH_RwD8l7-uWc3hg_9o0tSYwE_oaAhl1EALw_wcB';

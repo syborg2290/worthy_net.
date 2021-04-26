@@ -60,16 +60,11 @@ class HelpPage extends StatelessWidget {
             padding: const EdgeInsets.all(18.0),
             child: Column(
               children: <Widget>[
-                SelectableText(
-                  "paste domain name ",
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 20,
-                  ),
-                  onTap: () {
-                    // you can show toast to the user, like "Copied"
-                  },
-                ),
+                SelectableText("paste domain name ",
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 20,
+                    )),
               ],
             ),
           ),
@@ -92,16 +87,11 @@ class HelpPage extends StatelessWidget {
             padding: const EdgeInsets.all(18.0),
             child: Column(
               children: <Widget>[
-                SelectableText(
-                  "Copy your merchant id and merchant secret",
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 20,
-                  ),
-                  onTap: () {
-                    // you can show toast to the user, like "Copied"
-                  },
-                ),
+                SelectableText("Copy your merchant id and merchant secret",
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 20,
+                    )),
               ],
             ),
           ),
@@ -124,16 +114,11 @@ class HelpPage extends StatelessWidget {
             padding: const EdgeInsets.all(18.0),
             child: Column(
               children: <Widget>[
-                SelectableText(
-                  "Paste your merchant id and merchant secret",
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 20,
-                  ),
-                  onTap: () {
-                    // you can show toast to the user, like "Copied"
-                  },
-                ),
+                SelectableText("Paste your merchant id and merchant secret",
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 20,
+                    )),
               ],
             ),
           ),

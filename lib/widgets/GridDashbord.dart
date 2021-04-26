@@ -13,6 +13,7 @@ class GridDashbor extends StatelessWidget {
       CardWidget(
         img: 'assets/user.png',
         title: 'User',
+        //user page load
         onClick: () => {
           Navigator.push(
               context, MaterialPageRoute(builder: (context) => UserPage()))
@@ -21,6 +22,7 @@ class GridDashbor extends StatelessWidget {
       CardWidget(
         img: 'assets/host.png',
         title: 'Host',
+        //Host page load
         onClick: () => {
           Navigator.push(
               context, MaterialPageRoute(builder: (context) => HostDashboardPage()))

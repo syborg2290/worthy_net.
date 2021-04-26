@@ -190,7 +190,6 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
       builder: (BuildContext context) {
         return Container(
           height: MediaQuery.of(context).size.height / 2,
-          // width: double.infinity,
           color: modalColor,
           child: Center(
             child: ListView(
@@ -226,7 +225,6 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                   ),
                 ),
                 Container(
-                  // width: MediaQuery.of(context).size.width,
                   margin: EdgeInsets.only(top: 10),
                   padding: EdgeInsets.symmetric(horizontal: 65),
                   child: Text('Enter your hotspot password and SSID',
@@ -1120,6 +1118,7 @@ class CardWidget extends StatelessWidget {
       this.connectedCount,
       this.unavailable});
 
+//host page card
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -1129,11 +1128,9 @@ class CardWidget extends StatelessWidget {
         onTap: isConnected == true ? null : onClick,
         child: Container(
           padding: EdgeInsets.all(MediaQuery.of(context).size.width / 25),
-          // alignment: Alignment.center,
           child: Row(
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            // crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Column(
                 mainAxisSize: MainAxisSize.min,
@@ -1174,7 +1171,6 @@ class CardWidget extends StatelessWidget {
                     ),
                   ),
                   Container(
-                    // margin: EdgeInsets.only(top: 30),
                     padding: EdgeInsets.symmetric(horizontal: 15),
                     child: ElevatedButton.icon(
                       label: Text('Price and time'),
@@ -1184,7 +1180,6 @@ class CardWidget extends StatelessWidget {
                       style: ElevatedButton.styleFrom(
                         primary: Colors.yellow,
                         onPrimary: Colors.black,
-                        // onSurface: Colors.red,
                       ),
                     ),
                   ),
@@ -1196,7 +1191,6 @@ class CardWidget extends StatelessWidget {
                   children: <Widget>[
                     unavailable == "Available"
                         ? Container(
-                            // margin: EdgeInsets.only(top: 30),
                             padding: EdgeInsets.symmetric(horizontal: 20),
                             child: ElevatedButton.icon(
                               label: Text('Disable'),
@@ -1206,7 +1200,6 @@ class CardWidget extends StatelessWidget {
                               style: ElevatedButton.styleFrom(
                                 primary: Colors.red,
                                 onPrimary: cardBtnTextColor,
-                                // onSurface: Colors.red,
                               ),
                             ),
                           )
@@ -1223,7 +1216,6 @@ class CardWidget extends StatelessWidget {
                       ),
                     ),
                     Container(
-                      // padding: EdgeInsets.only(bottom: 4.0),
                       child: Text(
                         notConnected,
                         style: GoogleFonts.openSans(
@@ -1236,7 +1228,6 @@ class CardWidget extends StatelessWidget {
                     ),
                     notConnected == "Connected"
                         ? Container(
-                            // padding: EdgeInsets.only(bottom: 4.0),
                             child: Text(
                               "Connected count :" + connectedCount.toString(),
                               style: GoogleFonts.openSans(

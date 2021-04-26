@@ -132,7 +132,6 @@ class _UserPageState extends State<UserPage> {
                     Image.asset("assets/radar.gif"),
                     Text(""),
                     Container(
-                      // margin: EdgeInsets.only(top: 30),
                       padding: EdgeInsets.symmetric(horizontal: 15),
                       child: ElevatedButton.icon(
                         label: Text(''),
@@ -145,7 +144,6 @@ class _UserPageState extends State<UserPage> {
                         style: ElevatedButton.styleFrom(
                           primary: Colors.yellow,
                           onPrimary: Colors.black,
-                          // onSurface: Colors.red,
                         ),
                       ),
                     ),
@@ -166,7 +164,6 @@ class _UserPageState extends State<UserPage> {
                         ),
                         Text(""),
                         Container(
-                          // margin: EdgeInsets.only(top: 30),
                           padding: EdgeInsets.symmetric(horizontal: 15),
                           child: ElevatedButton.icon(
                             label: Text(''),
@@ -179,7 +176,6 @@ class _UserPageState extends State<UserPage> {
                             style: ElevatedButton.styleFrom(
                               primary: Colors.yellow,
                               onPrimary: Colors.black,
-                              // onSurface: Colors.red,
                             ),
                           ),
                         ),
