@@ -433,7 +433,7 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
     final double itemWidth = size.width / 2;
     return Scaffold(
       appBar: AppBar(
-        title: Text('packages details'),
+        title: Text('Packages details'),
         automaticallyImplyLeading: false,
       ),
       // child: Text('details #$index'),

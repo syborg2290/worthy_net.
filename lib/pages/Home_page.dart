@@ -46,8 +46,10 @@ class _HomePageState extends State<HomePage> {
                     // await prefs.setInt("package_time", null);
                     // await prefs.setInt("random_up", null);
                     // await prefs.setInt("random_down", null);
+                    if (prefs.getString("key") != "connected_ssid") {
+                      await disconnectPackage();
+                    }
 
-                    await disconnectPackage();
                     setState(() {
                       ssid = "Not connected";
                       up = 0;

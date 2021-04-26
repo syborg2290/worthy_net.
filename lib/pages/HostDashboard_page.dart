@@ -525,6 +525,7 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                           childAspectRatio: (itemWidth / itemHeight),
                           children: <Widget>[
                             CardWidget(
+                              isConnected: snapshot.data["isConnected"],
                               packagetime: snapshot.data["packages_times"]["5"]
                                   .toString(),
                               title: '5MB',
@@ -558,8 +559,9 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                                       },
                               btnClick: () => disablePackage(
                                   "5", snapshot.data["packages"]),
-                              btnPriceChange: snapshot.data["packages"]["5"] ==
+                              btnPriceChange: snapshot.data["isConnected"] ==
                                           true &&
+                                      snapshot.data["packages"]["5"] == true &&
                                       snapshot.data["connectedCount"]["5"] > 0
                                   ? null
                                   : () => modalPriceChengeWidget(
@@ -570,6 +572,7 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                                       ),
                             ),
                             CardWidget(
+                              isConnected: snapshot.data["isConnected"],
                               packagetime: snapshot.data["packages_times"]["10"]
                                   .toString(),
                               title: '10MB',
@@ -603,8 +606,9 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                                       },
                               btnClick: () => disablePackage(
                                   "10", snapshot.data["packages"]),
-                              btnPriceChange: snapshot.data["packages"]["10"] ==
+                              btnPriceChange: snapshot.data["isConnected"] ==
                                           true &&
+                                      snapshot.data["packages"]["10"] == true &&
                                       snapshot.data["connectedCount"]["10"] > 0
                                   ? null
                                   : () => modalPriceChengeWidget(
@@ -615,6 +619,7 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                                       ),
                             ),
                             CardWidget(
+                              isConnected: snapshot.data["isConnected"],
                               packagetime: snapshot.data["packages_times"]["15"]
                                   .toString(),
                               title: '15MB',
@@ -648,8 +653,9 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                                       },
                               btnClick: () => disablePackage(
                                   "15", snapshot.data["packages"]),
-                              btnPriceChange: snapshot.data["packages"]["15"] ==
+                              btnPriceChange: snapshot.data["isConnected"] ==
                                           true &&
+                                      snapshot.data["packages"]["15"] == true &&
                                       snapshot.data["connectedCount"]["15"] > 0
                                   ? null
                                   : () => modalPriceChengeWidget(
@@ -660,6 +666,7 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                                       ),
                             ),
                             CardWidget(
+                              isConnected: snapshot.data["isConnected"],
                               packagetime: snapshot.data["packages_times"]["20"]
                                   .toString(),
                               title: '20MB',
@@ -693,8 +700,9 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                                       },
                               btnClick: () => disablePackage(
                                   "20", snapshot.data["packages"]),
-                              btnPriceChange: snapshot.data["packages"]["20"] ==
+                              btnPriceChange: snapshot.data["isConnected"] ==
                                           true &&
+                                      snapshot.data["packages"]["20"] == true &&
                                       snapshot.data["connectedCount"]["20"] > 0
                                   ? null
                                   : () => modalPriceChengeWidget(
@@ -705,6 +713,7 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                                       ),
                             ),
                             CardWidget(
+                              isConnected: snapshot.data["isConnected"],
                               packagetime: snapshot.data["packages_times"]["25"]
                                   .toString(),
                               title: '25MB',
@@ -738,8 +747,9 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                                       },
                               btnClick: () => disablePackage(
                                   "25", snapshot.data["packages"]),
-                              btnPriceChange: snapshot.data["packages"]["25"] ==
+                              btnPriceChange: snapshot.data["isConnected"] ==
                                           true &&
+                                      snapshot.data["packages"]["25"] == true &&
                                       snapshot.data["connectedCount"]["25"] > 0
                                   ? null
                                   : () => modalPriceChengeWidget(
@@ -750,6 +760,7 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                                       ),
                             ),
                             CardWidget(
+                              isConnected: snapshot.data["isConnected"],
                               packagetime: snapshot.data["packages_times"]["30"]
                                   .toString(),
                               title: '30MB',
@@ -783,8 +794,9 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                                       },
                               btnClick: () => disablePackage(
                                   "30", snapshot.data["packages"]),
-                              btnPriceChange: snapshot.data["packages"]["30"] ==
+                              btnPriceChange: snapshot.data["isConnected"] ==
                                           true &&
+                                      snapshot.data["packages"]["30"] == true &&
                                       snapshot.data["connectedCount"]["30"] > 0
                                   ? null
                                   : () => modalPriceChengeWidget(
@@ -795,6 +807,7 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                                       ),
                             ),
                             CardWidget(
+                              isConnected: snapshot.data["isConnected"],
                               packagetime: snapshot.data["packages_times"]["35"]
                                   .toString(),
                               title: '35MB',
@@ -828,8 +841,9 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                                       },
                               btnClick: () => disablePackage(
                                   "35", snapshot.data["packages"]),
-                              btnPriceChange: snapshot.data["packages"]["35"] ==
+                              btnPriceChange: snapshot.data["isConnected"] ==
                                           true &&
+                                      snapshot.data["packages"]["35"] == true &&
                                       snapshot.data["connectedCount"]["35"] > 0
                                   ? null
                                   : () => modalPriceChengeWidget(
@@ -840,6 +854,7 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                                       ),
                             ),
                             CardWidget(
+                              isConnected: snapshot.data["isConnected"],
                               packagetime: snapshot.data["packages_times"]["40"]
                                   .toString(),
                               title: '40MB',
@@ -873,8 +888,9 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                                       },
                               btnClick: () => disablePackage(
                                   "40", snapshot.data["packages"]),
-                              btnPriceChange: snapshot.data["packages"]["40"] ==
+                              btnPriceChange: snapshot.data["isConnected"] ==
                                           true &&
+                                      snapshot.data["packages"]["40"] == true &&
                                       snapshot.data["connectedCount"]["40"] > 0
                                   ? null
                                   : () => modalPriceChengeWidget(
@@ -885,6 +901,7 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                                       ),
                             ),
                             CardWidget(
+                              isConnected: snapshot.data["isConnected"],
                               packagetime: snapshot.data["packages_times"]["45"]
                                   .toString(),
                               title: '45MB',
@@ -918,8 +935,9 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                                       },
                               btnClick: () => disablePackage(
                                   "45", snapshot.data["packages"]),
-                              btnPriceChange: snapshot.data["packages"]["45"] ==
+                              btnPriceChange: snapshot.data["isConnected"] ==
                                           true &&
+                                      snapshot.data["packages"]["45"] == true &&
                                       snapshot.data["connectedCount"]["45"] > 0
                                   ? null
                                   : () => modalPriceChengeWidget(
@@ -930,6 +948,7 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                                       ),
                             ),
                             CardWidget(
+                              isConnected: snapshot.data["isConnected"],
                               packagetime: snapshot.data["packages_times"]["50"]
                                   .toString(),
                               title: '50MB',
@@ -963,8 +982,9 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                                       },
                               btnClick: () => disablePackage(
                                   "50", snapshot.data["packages"]),
-                              btnPriceChange: snapshot.data["packages"]["50"] ==
+                              btnPriceChange: snapshot.data["isConnected"] ==
                                           true &&
+                                      snapshot.data["packages"]["50"] == true &&
                                       snapshot.data["connectedCount"]["50"] > 0
                                   ? null
                                   : () => modalPriceChengeWidget(
@@ -975,6 +995,7 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                                       ),
                             ),
                             CardWidget(
+                              isConnected: snapshot.data["isConnected"],
                               packagetime: snapshot.data["packages_times"]["55"]
                                   .toString(),
                               title: '55MB',
@@ -1020,6 +1041,7 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                                       ),
                             ),
                             CardWidget(
+                              isConnected: snapshot.data["isConnected"],
                               packagetime: snapshot.data["packages_times"]["60"]
                                   .toString(),
                               title: '60MB',
@@ -1081,6 +1103,7 @@ class CardWidget extends StatelessWidget {
   final String unavailable;
   final String notConnected;
   final int connectedCount;
+  final bool isConnected;
   final onClick;
   final btnClick;
   final btnPriceChange;
@@ -1091,6 +1114,7 @@ class CardWidget extends StatelessWidget {
       this.onClick,
       this.btnClick,
       this.btnPriceChange,
+      this.isConnected,
       this.title,
       this.notConnected,
       this.connectedCount,
@@ -1102,7 +1126,7 @@ class CardWidget extends StatelessWidget {
       elevation: 10,
       color: blueLightColors,
       child: InkWell(
-        onTap: onClick,
+        onTap: isConnected == true ? null : onClick,
         child: Container(
           padding: EdgeInsets.all(MediaQuery.of(context).size.width / 25),
           // alignment: Alignment.center,
