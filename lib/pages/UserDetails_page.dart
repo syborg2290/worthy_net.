@@ -144,8 +144,6 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
     final iv = IV.fromLength(16);
     final encrypter = Encrypter(AES(key));
     try {
-      print(widget.ssid);
-      print(encrypter.decrypt64(widget.hotspassword, iv: iv));
       SimplyWifi.connectWifiByName(widget.ssid,
               password: encrypter.decrypt64(widget.hotspassword, iv: iv))
           .then((value) async => {
@@ -233,6 +231,9 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
         .get();
     if (result.docs.length > 0) {
       await prefs.setInt("initial_packageTime", packageTime);
+      await prefs.setInt("package_time", 0);
+      await prefs.setInt("random_up", 0);
+      await prefs.setInt("random_down", 0);
       usersRef.doc(result.docs[0].id).update({
         "isConnected": true,
         "user": true,
@@ -240,35 +241,11 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
         "host_id": widget.userId,
       }).then((_) => {
             prefs.setString("connected_ssid", widget.ssid).then((_) => {
-                  cronJob(),
+                  // Navigator.push(context,
+                  //     MaterialPageRoute(builder: (context) => HomePage()))
                 }),
           });
     }
-  }
-
-  cronJob() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    final cron = Cron()
-      ..schedule(Schedule.parse('*/1 * * * * *'), () async {
-        var getTime = prefs.getInt("package_time");
-        var getInitTime = prefs.getInt("initial_packageTime");
-
-        if (getTime != null) {
-          if (getTime >= getInitTime * 60) {
-            await prefs.setInt("package_time", null);
-            await prefs.setInt("random_up", null);
-            await prefs.setInt("random_down", null);
-            dicoconnectPackage();
-          } else {
-            Random random = new Random();
-            int rUp = 50 + random.nextInt(500 - 50);
-            int rDown = 40 + random.nextInt(300 - 40);
-            await prefs.setInt("package_time", getTime + 1);
-            await prefs.setInt("random_up", rUp);
-            await prefs.setInt("random_down", rDown);
-          }
-        }
-      });
   }
 
   dicoconnectPackage() async {

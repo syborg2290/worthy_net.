@@ -1,7 +1,12 @@
 import 'dart:io';
+import 'dart:math';
+import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:connectivity/connectivity.dart';
 import 'package:cron/cron.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:simply_wifi/simply_wifi.dart';
+import 'package:worthy_net/config/collections.dart';
 import 'package:worthy_net/pages/Login_page.dart';
 import 'package:worthy_net/utils/Color.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -33,6 +38,28 @@ class _HomePageState extends State<HomePage> {
           if (prefs.getString("random_down") != null) {
             final cron = Cron()
               ..schedule(Schedule.parse('*/1 * * * * *'), () async {
+                 SharedPreferences prefs = await SharedPreferences.getInstance();
+    final cron = Cron()
+      ..schedule(Schedule.parse('*/1 * * * * *'), () async {
+        var getTime = prefs.getInt("package_time");
+        var getInitTime = prefs.getInt("initial_packageTime");
+
+        if (getTime != null) {
+          if (getTime >= getInitTime * 60) {
+            await prefs.setInt("package_time", null);
+            await prefs.setInt("random_up", null);
+            await prefs.setInt("random_down", null);
+            dicoconnectPackage();
+          } else {
+            Random random = new Random();
+            int rUp = 50 + random.nextInt(500 - 50);
+            int rDown = 40 + random.nextInt(300 - 40);
+            await prefs.setInt("package_time", getTime + 1);
+            await prefs.setInt("random_up", rUp);
+            await prefs.setInt("random_down", rDown);
+          }
+        }
+      });
                 int packageTimel = prefs.getInt("package_time");
                 int upl = prefs.getInt("random_up");
                 int downl = prefs.getInt("random_down");
@@ -48,9 +75,126 @@ class _HomePageState extends State<HomePage> {
       }
     }
 
-    // await Future.delayed(Duration(seconds: 2));
-    // await cron.close();
+   
   }
+  
+  
+   dicoconnectPackage() async {
+    var connectivityResult = await (Connectivity().checkConnectivity());
+    if (connectivityResult == ConnectivityResult.wifi ||
+        connectivityResult == ConnectivityResult.mobile) {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      var connectedSsid = prefs.getString("connected_ssid");
+      if (connectedSsid != null) {
+        var connectedPackage = prefs.getString("package");
+        var hostuserIdShared = prefs.getString("host_userId");
+        int count = 0;
+        var result = await usersRef
+            .where("email", isEqualTo: prefs.getString("email"))
+            .get();
+        if (result.docs.length > 0) {
+          usersRef.doc(result.docs[0].id).update({
+            "isConnected": false,
+            "user": false,
+            "host_ssid": null,
+            "host_id": null,
+          }).then((_) async => {
+                await usersRef.doc(hostuserIdShared).get().then((resultGet) => {
+                      count = resultGet.data()["connectedCount"]["5"] +
+                          resultGet.data()["connectedCount"]["10"] +
+                          resultGet.data()["connectedCount"]["15"] +
+                          resultGet.data()["connectedCount"]["20"] +
+                          resultGet.data()["connectedCount"]["25"] +
+                          resultGet.data()["connectedCount"]["30"] +
+                          resultGet.data()["connectedCount"]["35"] +
+                          resultGet.data()["connectedCount"]["40"] +
+                          resultGet.data()["connectedCount"]["45"] +
+                          resultGet.data()["connectedCount"]["50"] +
+                          resultGet.data()["connectedCount"]["55"] +
+                          resultGet.data()["connectedCount"]["60"],
+                      prefs.setString("connected_ssid", null).then((_) async =>
+                          {
+                            await usersRef.doc(hostuserIdShared).update({
+                              "isConnected": count > 1 ? true : false,
+                              "host": count > 1 ? true : false,
+                              "connectedCount": {
+                                "5": connectedPackage == "5"
+                                    ? resultGet.data()["connectedCount"]["5"] -
+                                        1
+                                    : resultGet.data()["connectedCount"]["5"],
+                                "10": connectedPackage == "10"
+                                    ? resultGet.data()["connectedCount"]["10"] -
+                                        1
+                                    : resultGet.data()["connectedCount"]["10"],
+                                "15": connectedPackage == "15"
+                                    ? resultGet.data()["connectedCount"]["15"] -
+                                        1
+                                    : resultGet.data()["connectedCount"]["15"],
+                                "20": connectedPackage == "20"
+                                    ? resultGet.data()["connectedCount"]["20"] -
+                                        1
+                                    : resultGet.data()["connectedCount"]["20"],
+                                "25": connectedPackage == "25"
+                                    ? resultGet.data()["connectedCount"]["25"] -
+                                        1
+                                    : resultGet.data()["connectedCount"]["25"],
+                                "30": connectedPackage == "30"
+                                    ? resultGet.data()["connectedCount"]["30"] -
+                                        1
+                                    : resultGet.data()["connectedCount"]["30"],
+                                "35": connectedPackage == "35"
+                                    ? resultGet.data()["connectedCount"]["35"] -
+                                        1
+                                    : resultGet.data()["connectedCount"]["35"],
+                                "40": connectedPackage == "40"
+                                    ? resultGet.data()["connectedCount"]["40"] -
+                                        1
+                                    : resultGet.data()["connectedCount"]["40"],
+                                "45": connectedPackage == "45"
+                                    ? resultGet.data()["connectedCount"]["45"] -
+                                        1
+                                    : resultGet.data()["connectedCount"]["45"],
+                                "50": connectedPackage == "50"
+                                    ? resultGet.data()["connectedCount"]["50"] -
+                                        1
+                                    : resultGet.data()["connectedCount"]["50"],
+                                "55": connectedPackage == "55"
+                                    ? resultGet.data()["connectedCount"]["55"] -
+                                        1
+                                    : resultGet.data()["connectedCount"]["55"],
+                                "60": connectedPackage == "60"
+                                    ? resultGet.data()["connectedCount"]["60"] -
+                                        1
+                                    : resultGet.data()["connectedCount"]["60"],
+                              }
+                            }).then((_) async => {
+                                  SimplyWifi.disconnectWifi(),
+                                  SimplyWifi.forgetWifiByWifiName(
+                                      connectedSsid),
+                                  SimplyWifi.turnOffWifi(),
+                                  await prefs.setString("package", null),
+                                  await prefs.setString("host_userId", null),
+                                  Cron().close(),
+                                
+                                }),
+                          }),
+                    }),
+              });
+        }
+      }
+    } else {
+      AwesomeDialog(
+        context: context,
+        dialogType: DialogType.INFO,
+        animType: AnimType.BOTTOMSLIDE,
+        title: 'Info',
+        desc: "Please check your internet connection!",
+        btnCancel: Text(""),
+        btnOk: Text(""),
+      )..show();
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {

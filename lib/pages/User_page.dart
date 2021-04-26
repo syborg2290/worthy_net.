@@ -125,7 +125,32 @@ class _UserPageState extends State<UserPage> {
         strokeWidth: 4.0,
         child: Container(
           child: isLoading
-              ? Center(child: Image.asset("assets/radar.gif"))
+              ? Center(
+                  child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset("assets/radar.gif"),
+                    Text(""),
+                    Container(
+                      // margin: EdgeInsets.only(top: 30),
+                      padding: EdgeInsets.symmetric(horizontal: 15),
+                      child: ElevatedButton.icon(
+                        label: Text(''),
+                        icon: Icon(Icons.refresh),
+                        onPressed: () async {
+                          SimplyWifi.turnOnWifi().then(
+                            (value) => {getListOfWifiAvailable()},
+                          );
+                        },
+                        style: ElevatedButton.styleFrom(
+                          primary: Colors.yellow,
+                          onPrimary: Colors.black,
+                          // onSurface: Colors.red,
+                        ),
+                      ),
+                    ),
+                  ],
+                ))
               : wifiNetworks.length <= 0
                   ? Center(
                       child: Column(
