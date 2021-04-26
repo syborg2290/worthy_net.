@@ -1155,7 +1155,7 @@ class CardWidget extends StatelessWidget {
                     child: ElevatedButton.icon(
                       label: Text('Price and time'),
                       icon: Icon(Icons.credit_card_outlined),
-                      onPressed: btnPriceChange,
+                      onPressed: connectedCount > 0 ? null : btnPriceChange,
                       style: ElevatedButton.styleFrom(
                         primary: Colors.yellow,
                         onPrimary: Colors.black,
