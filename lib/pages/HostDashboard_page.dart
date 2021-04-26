@@ -1175,8 +1175,7 @@ class CardWidget extends StatelessWidget {
                     child: ElevatedButton.icon(
                       label: Text('Price and time'),
                       icon: Icon(Icons.credit_card_outlined),
-                      onPressed:
-                          notConnected == "Connected" ? null : btnPriceChange,
+                      onPressed: btnPriceChange,
                       style: ElevatedButton.styleFrom(
                         primary: Colors.yellow,
                         onPrimary: Colors.black,
@@ -1195,8 +1194,7 @@ class CardWidget extends StatelessWidget {
                             child: ElevatedButton.icon(
                               label: Text('Disable'),
                               icon: Icon(Icons.web),
-                              onPressed:
-                                  notConnected == "Connected" ? null : btnClick,
+                              onPressed: btnClick,
                               style: ElevatedButton.styleFrom(
                                 primary: Colors.red,
                                 onPrimary: cardBtnTextColor,
