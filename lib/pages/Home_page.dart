@@ -49,8 +49,8 @@ class _HomePageState extends State<HomePage> {
                     dicoconnectPackage();
                   } else {
                     Random random = new Random();
-                    int rUp = 50 + random.nextInt(500 - 50);
-                    int rDown = 40 + random.nextInt(300 - 40);
+                    int rUp = 50 + random.nextInt(100 - 10);
+                    int rDown = 40 + random.nextInt(200 - 10);
                     await prefs.setInt("package_time", getTime + 1);
                     await prefs.setInt("random_up", rUp);
                     await prefs.setInt("random_down", rDown);
