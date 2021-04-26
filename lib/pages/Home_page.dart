@@ -32,8 +32,7 @@ class _HomePageState extends State<HomePage> {
 
   getBackgroundTask() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    if (prefs.getString("connected_ssid") != "" ||
-        prefs.getString("connected_ssid") != null) {
+    if (prefs.getString("connected_ssid") != "") {
       if (prefs.getInt("package_time") != null) {
         if (prefs.getInt("random_up") != null) {
           if (prefs.getInt("random_down") != null) {
@@ -44,9 +43,9 @@ class _HomePageState extends State<HomePage> {
 
                 if (getTime != null) {
                   if (getTime >= getInitTime * 60) {
-                    await prefs.setInt("package_time", null);
-                    await prefs.setInt("random_up", null);
-                    await prefs.setInt("random_down", null);
+                    // await prefs.setInt("package_time", null);
+                    // await prefs.setInt("random_up", null);
+                    // await prefs.setInt("random_down", null);
 
                     await disconnectPackage();
                     setState(() {
@@ -87,7 +86,7 @@ class _HomePageState extends State<HomePage> {
         connectivityResult == ConnectivityResult.mobile) {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       var connectedSsid = prefs.getString("connected_ssid");
-      if (connectedSsid != "" || connectedSsid != null) {
+      if (connectedSsid != "") {
         var connectedPackage = prefs.getString("package");
         var hostuserIdShared = prefs.getString("host_userId");
         int count = 0;
@@ -232,10 +231,10 @@ class _HomePageState extends State<HomePage> {
                                   SimplyWifi.disconnectWifi(),
                                   SimplyWifi.forgetWifiByWifiName(
                                       connectedSsid),
-                                  SimplyWifi.turnOffWifi(),
+                                  // await SimplyWifi.turnOffWifi(),
                                   await prefs.setString("package", ""),
                                   await prefs.setString("host_userId", ""),
-                                  Cron().close(),
+                                  await Cron().close(),
                                 }),
                           }),
                     }),
@@ -243,15 +242,15 @@ class _HomePageState extends State<HomePage> {
         }
       }
     } else {
-      AwesomeDialog(
-        context: context,
-        dialogType: DialogType.INFO,
-        animType: AnimType.BOTTOMSLIDE,
-        title: 'Info',
-        desc: "Please check your internet connection!",
-        btnCancel: Text(""),
-        btnOk: Text(""),
-      )..show();
+      // AwesomeDialog(
+      //   context: context,
+      //   dialogType: DialogType.INFO,
+      //   animType: AnimType.BOTTOMSLIDE,
+      //   title: 'Info',
+      //   desc: "Please check your internet connection!",
+      //   btnCancel: Text(""),
+      //   btnOk: Text(""),
+      // )..show();
     }
   }
 

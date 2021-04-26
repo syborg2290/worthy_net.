@@ -558,12 +558,16 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                                       },
                               btnClick: () => disablePackage(
                                   "5", snapshot.data["packages"]),
-                              btnPriceChange: () => modalPriceChengeWidget(
-                                context,
-                                "5",
-                                snapshot.data["packages_prices"]["5"],
-                                snapshot.data["packages_times"]["5"],
-                              ),
+                              btnPriceChange: snapshot.data["packages"]["5"] ==
+                                          true &&
+                                      snapshot.data["connectedCount"]["5"] > 0
+                                  ? null
+                                  : () => modalPriceChengeWidget(
+                                        context,
+                                        "5",
+                                        snapshot.data["packages_prices"]["5"],
+                                        snapshot.data["packages_times"]["5"],
+                                      ),
                             ),
                             CardWidget(
                               packagetime: snapshot.data["packages_times"]["10"]
@@ -599,12 +603,16 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                                       },
                               btnClick: () => disablePackage(
                                   "10", snapshot.data["packages"]),
-                              btnPriceChange: () => modalPriceChengeWidget(
-                                context,
-                                "10",
-                                snapshot.data["packages_prices"]["10"],
-                                snapshot.data["packages_times"]["10"],
-                              ),
+                              btnPriceChange: snapshot.data["packages"]["10"] ==
+                                          true &&
+                                      snapshot.data["connectedCount"]["10"] > 0
+                                  ? null
+                                  : () => modalPriceChengeWidget(
+                                        context,
+                                        "10",
+                                        snapshot.data["packages_prices"]["10"],
+                                        snapshot.data["packages_times"]["10"],
+                                      ),
                             ),
                             CardWidget(
                               packagetime: snapshot.data["packages_times"]["15"]
@@ -640,12 +648,16 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                                       },
                               btnClick: () => disablePackage(
                                   "15", snapshot.data["packages"]),
-                              btnPriceChange: () => modalPriceChengeWidget(
-                                context,
-                                "15",
-                                snapshot.data["packages_prices"]["15"],
-                                snapshot.data["packages_times"]["15"],
-                              ),
+                              btnPriceChange: snapshot.data["packages"]["15"] ==
+                                          true &&
+                                      snapshot.data["connectedCount"]["15"] > 0
+                                  ? null
+                                  : () => modalPriceChengeWidget(
+                                        context,
+                                        "15",
+                                        snapshot.data["packages_prices"]["15"],
+                                        snapshot.data["packages_times"]["15"],
+                                      ),
                             ),
                             CardWidget(
                               packagetime: snapshot.data["packages_times"]["20"]
@@ -681,12 +693,16 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                                       },
                               btnClick: () => disablePackage(
                                   "20", snapshot.data["packages"]),
-                              btnPriceChange: () => modalPriceChengeWidget(
-                                context,
-                                "20",
-                                snapshot.data["packages_prices"]["20"],
-                                snapshot.data["packages_times"]["20"],
-                              ),
+                              btnPriceChange: snapshot.data["packages"]["20"] ==
+                                          true &&
+                                      snapshot.data["connectedCount"]["20"] > 0
+                                  ? null
+                                  : () => modalPriceChengeWidget(
+                                        context,
+                                        "20",
+                                        snapshot.data["packages_prices"]["20"],
+                                        snapshot.data["packages_times"]["20"],
+                                      ),
                             ),
                             CardWidget(
                               packagetime: snapshot.data["packages_times"]["25"]
@@ -722,12 +738,16 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                                       },
                               btnClick: () => disablePackage(
                                   "25", snapshot.data["packages"]),
-                              btnPriceChange: () => modalPriceChengeWidget(
-                                context,
-                                "25",
-                                snapshot.data["packages_prices"]["25"],
-                                snapshot.data["packages_times"]["25"],
-                              ),
+                              btnPriceChange: snapshot.data["packages"]["25"] ==
+                                          true &&
+                                      snapshot.data["connectedCount"]["25"] > 0
+                                  ? null
+                                  : () => modalPriceChengeWidget(
+                                        context,
+                                        "25",
+                                        snapshot.data["packages_prices"]["25"],
+                                        snapshot.data["packages_times"]["25"],
+                                      ),
                             ),
                             CardWidget(
                               packagetime: snapshot.data["packages_times"]["30"]
@@ -763,12 +783,16 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                                       },
                               btnClick: () => disablePackage(
                                   "30", snapshot.data["packages"]),
-                              btnPriceChange: () => modalPriceChengeWidget(
-                                context,
-                                "30",
-                                snapshot.data["packages_prices"]["30"],
-                                snapshot.data["packages_times"]["30"],
-                              ),
+                              btnPriceChange: snapshot.data["packages"]["30"] ==
+                                          true &&
+                                      snapshot.data["connectedCount"]["30"] > 0
+                                  ? null
+                                  : () => modalPriceChengeWidget(
+                                        context,
+                                        "30",
+                                        snapshot.data["packages_prices"]["30"],
+                                        snapshot.data["packages_times"]["30"],
+                                      ),
                             ),
                             CardWidget(
                               packagetime: snapshot.data["packages_times"]["35"]
@@ -804,12 +828,16 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                                       },
                               btnClick: () => disablePackage(
                                   "35", snapshot.data["packages"]),
-                              btnPriceChange: () => modalPriceChengeWidget(
-                                context,
-                                "35",
-                                snapshot.data["packages_prices"]["35"],
-                                snapshot.data["packages_times"]["35"],
-                              ),
+                              btnPriceChange: snapshot.data["packages"]["35"] ==
+                                          true &&
+                                      snapshot.data["connectedCount"]["35"] > 0
+                                  ? null
+                                  : () => modalPriceChengeWidget(
+                                        context,
+                                        "35",
+                                        snapshot.data["packages_prices"]["35"],
+                                        snapshot.data["packages_times"]["35"],
+                                      ),
                             ),
                             CardWidget(
                               packagetime: snapshot.data["packages_times"]["40"]
@@ -845,12 +873,16 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                                       },
                               btnClick: () => disablePackage(
                                   "40", snapshot.data["packages"]),
-                              btnPriceChange: () => modalPriceChengeWidget(
-                                context,
-                                "40",
-                                snapshot.data["packages_prices"]["40"],
-                                snapshot.data["packages_times"]["40"],
-                              ),
+                              btnPriceChange: snapshot.data["packages"]["40"] ==
+                                          true &&
+                                      snapshot.data["connectedCount"]["40"] > 0
+                                  ? null
+                                  : () => modalPriceChengeWidget(
+                                        context,
+                                        "40",
+                                        snapshot.data["packages_prices"]["40"],
+                                        snapshot.data["packages_times"]["40"],
+                                      ),
                             ),
                             CardWidget(
                               packagetime: snapshot.data["packages_times"]["45"]
@@ -886,12 +918,16 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                                       },
                               btnClick: () => disablePackage(
                                   "45", snapshot.data["packages"]),
-                              btnPriceChange: () => modalPriceChengeWidget(
-                                context,
-                                "45",
-                                snapshot.data["packages_prices"]["45"],
-                                snapshot.data["packages_times"]["45"],
-                              ),
+                              btnPriceChange: snapshot.data["packages"]["45"] ==
+                                          true &&
+                                      snapshot.data["connectedCount"]["45"] > 0
+                                  ? null
+                                  : () => modalPriceChengeWidget(
+                                        context,
+                                        "45",
+                                        snapshot.data["packages_prices"]["45"],
+                                        snapshot.data["packages_times"]["45"],
+                                      ),
                             ),
                             CardWidget(
                               packagetime: snapshot.data["packages_times"]["50"]
@@ -927,12 +963,16 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                                       },
                               btnClick: () => disablePackage(
                                   "50", snapshot.data["packages"]),
-                              btnPriceChange: () => modalPriceChengeWidget(
-                                context,
-                                "50",
-                                snapshot.data["packages_prices"]["50"],
-                                snapshot.data["packages_times"]["50"],
-                              ),
+                              btnPriceChange: snapshot.data["packages"]["50"] ==
+                                          true &&
+                                      snapshot.data["connectedCount"]["50"] > 0
+                                  ? null
+                                  : () => modalPriceChengeWidget(
+                                        context,
+                                        "50",
+                                        snapshot.data["packages_prices"]["50"],
+                                        snapshot.data["packages_times"]["50"],
+                                      ),
                             ),
                             CardWidget(
                               packagetime: snapshot.data["packages_times"]["55"]
@@ -968,12 +1008,16 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                                       },
                               btnClick: () => disablePackage(
                                   "55", snapshot.data["packages"]),
-                              btnPriceChange: () => modalPriceChengeWidget(
-                                context,
-                                "55",
-                                snapshot.data["packages_prices"]["55"],
-                                snapshot.data["packages_times"]["55"],
-                              ),
+                              btnPriceChange: snapshot.data["packages"]["55"] ==
+                                          true &&
+                                      snapshot.data["connectedCount"]["55"] > 0
+                                  ? null
+                                  : () => modalPriceChengeWidget(
+                                        context,
+                                        "55",
+                                        snapshot.data["packages_prices"]["55"],
+                                        snapshot.data["packages_times"]["55"],
+                                      ),
                             ),
                             CardWidget(
                               packagetime: snapshot.data["packages_times"]["60"]
@@ -1009,12 +1053,16 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                                           btnOk: Text(""),
                                         )..show()
                                       },
-                              btnPriceChange: () => modalPriceChengeWidget(
-                                context,
-                                "60",
-                                snapshot.data["packages_prices"]["60"],
-                                snapshot.data["packages_times"]["60"],
-                              ),
+                              btnPriceChange: snapshot.data["packages"]["60"] ==
+                                          true &&
+                                      snapshot.data["connectedCount"]["60"] > 0
+                                  ? null
+                                  : () => modalPriceChengeWidget(
+                                        context,
+                                        "60",
+                                        snapshot.data["packages_prices"]["60"],
+                                        snapshot.data["packages_times"]["60"],
+                                      ),
                             ),
                           ],
                         ),

@@ -254,7 +254,7 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
         connectivityResult == ConnectivityResult.mobile) {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       var connectedSsid = prefs.getString("connected_ssid");
-      if (connectedSsid != "" || connectedSsid != null) {
+      if (connectedSsid != "") {
         var connectedPackage = prefs.getString("package");
         var hostuserIdShared = prefs.getString("host_userId");
         int count = 0;
@@ -399,10 +399,10 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
                                   SimplyWifi.disconnectWifi(),
                                   SimplyWifi.forgetWifiByWifiName(
                                       connectedSsid),
-                                  SimplyWifi.turnOffWifi(),
+                                  // await SimplyWifi.turnOffWifi(),
                                   await prefs.setString("package", ""),
                                   await prefs.setString("host_userId", ""),
-                                  Cron().close(),
+                                  await Cron().close(),
                                   setState(() {
                                     isLoading = false;
                                   })
@@ -413,15 +413,15 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
         }
       }
     } else {
-      AwesomeDialog(
-        context: context,
-        dialogType: DialogType.INFO,
-        animType: AnimType.BOTTOMSLIDE,
-        title: 'Info',
-        desc: "Please check your internet connection!",
-        btnCancel: Text(""),
-        btnOk: Text(""),
-      )..show();
+      // AwesomeDialog(
+      //   context: context,
+      //   dialogType: DialogType.INFO,
+      //   animType: AnimType.BOTTOMSLIDE,
+      //   title: 'Info',
+      //   desc: "Please check your internet connection!",
+      //   btnCancel: Text(""),
+      //   btnOk: Text(""),
+      // )..show();
     }
   }
 
