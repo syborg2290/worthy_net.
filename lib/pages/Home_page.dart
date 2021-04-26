@@ -36,7 +36,6 @@ class _HomePageState extends State<HomePage> {
       if (prefs.getInt("package_time") != null) {
         if (prefs.getInt("random_up") != null) {
           if (prefs.getInt("random_down") != null) {
-            SharedPreferences prefs = await SharedPreferences.getInstance();
             final cron = Cron()
               ..schedule(Schedule.parse('*/1 * * * * *'), () async {
                 var getTime = prefs.getInt("package_time");
@@ -57,16 +56,17 @@ class _HomePageState extends State<HomePage> {
                     await prefs.setInt("random_down", rDown);
                   }
                 }
+
+                int packageTimel = prefs.getInt("package_time");
+                int upl = prefs.getInt("random_up");
+                int downl = prefs.getInt("random_down");
+                setState(() {
+                  ssid = prefs.getString("connected_ssid");
+                  up = upl;
+                  down = downl;
+                  packageTime = packageTimel;
+                });
               });
-            int packageTimel = prefs.getInt("package_time");
-            int upl = prefs.getInt("random_up");
-            int downl = prefs.getInt("random_down");
-            setState(() {
-              ssid = prefs.getString("connected_ssid");
-              up = upl;
-              down = downl;
-              packageTime = packageTimel;
-            });
           }
         }
       }
