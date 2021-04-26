@@ -45,12 +45,7 @@ class _HomePageState extends State<HomePage> {
                     // await prefs.setInt("package_time", null);
                     // await prefs.setInt("random_up", null);
                     // await prefs.setInt("random_down", null);
-                    setState(() {
-                      ssid = "Not connected";
-                      up = 0;
-                      down = 0;
-                      packageTime = 0;
-                    });
+
                     if (prefs.getString("connected_ssid") != "") {
                       await disconnectPackage();
                     }
@@ -234,6 +229,12 @@ class _HomePageState extends State<HomePage> {
                                   await prefs.setString("package", ""),
                                   await prefs.setString("host_userId", ""),
                                   await Cron().close(),
+                                  setState(() {
+                                    ssid = "Not connected";
+                                    up = 0;
+                                    down = 0;
+                                    packageTime = 0;
+                                  })
                                 }),
                           }),
                     }),
