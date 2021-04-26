@@ -255,84 +255,96 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
         connectivityResult == ConnectivityResult.mobile) {
       if (priceChangeController.text != "") {
         if (timeController.text != "") {
-          usersRef.doc(userId).update({
-            "packages_times": {
-              "5": package == "5"
-                  ? int.parse(timeController.text.trim())
-                  : currentTime,
-              "10": package == "10"
-                  ? int.parse(timeController.text.trim())
-                  : currentTime,
-              "15": package == "15"
-                  ? int.parse(timeController.text.trim())
-                  : currentTime,
-              "20": package == "20"
-                  ? int.parse(timeController.text.trim())
-                  : currentTime,
-              "25": package == "25"
-                  ? int.parse(timeController.text.trim())
-                  : currentTime,
-              "30": package == "30"
-                  ? int.parse(timeController.text.trim())
-                  : currentTime,
-              "35": package == "35"
-                  ? int.parse(timeController.text.trim())
-                  : currentTime,
-              "40": package == "40"
-                  ? int.parse(timeController.text.trim())
-                  : currentTime,
-              "45": package == "45"
-                  ? int.parse(timeController.text.trim())
-                  : currentTime,
-              "50": package == "50"
-                  ? int.parse(timeController.text.trim())
-                  : currentTime,
-              "55": package == "55"
-                  ? int.parse(timeController.text.trim())
-                  : currentTime,
-              "60": package == "60"
-                  ? int.parse(timeController.text.trim())
-                  : currentTime,
-            },
-            "packages_prices": {
-              "5": package == "5"
-                  ? double.parse(priceChangeController.text.trim())
-                  : currentPrice,
-              "10": package == "10"
-                  ? double.parse(priceChangeController.text.trim())
-                  : currentPrice,
-              "15": package == "15"
-                  ? double.parse(priceChangeController.text.trim())
-                  : currentPrice,
-              "20": package == "20"
-                  ? double.parse(priceChangeController.text.trim())
-                  : currentPrice,
-              "25": package == "25"
-                  ? double.parse(priceChangeController.text.trim())
-                  : currentPrice,
-              "30": package == "30"
-                  ? double.parse(priceChangeController.text.trim())
-                  : currentPrice,
-              "35": package == "35"
-                  ? double.parse(priceChangeController.text.trim())
-                  : currentPrice,
-              "40": package == "40"
-                  ? double.parse(priceChangeController.text.trim())
-                  : currentPrice,
-              "45": package == "45"
-                  ? double.parse(priceChangeController.text.trim())
-                  : currentPrice,
-              "50": package == "50"
-                  ? double.parse(priceChangeController.text.trim())
-                  : currentPrice,
-              "55": package == "55"
-                  ? double.parse(priceChangeController.text.trim())
-                  : currentPrice,
-              "60": package == "60"
-                  ? double.parse(priceChangeController.text.trim())
-                  : currentPrice,
-            }
-          }).then((value) => {Navigator.pop(context)});
+          if (int.parse(priceChangeController.text) >= 50) {
+            usersRef.doc(userId).update({
+              "packages_times": {
+                "5": package == "5"
+                    ? int.parse(timeController.text.trim())
+                    : currentTime,
+                "10": package == "10"
+                    ? int.parse(timeController.text.trim())
+                    : currentTime,
+                "15": package == "15"
+                    ? int.parse(timeController.text.trim())
+                    : currentTime,
+                "20": package == "20"
+                    ? int.parse(timeController.text.trim())
+                    : currentTime,
+                "25": package == "25"
+                    ? int.parse(timeController.text.trim())
+                    : currentTime,
+                "30": package == "30"
+                    ? int.parse(timeController.text.trim())
+                    : currentTime,
+                "35": package == "35"
+                    ? int.parse(timeController.text.trim())
+                    : currentTime,
+                "40": package == "40"
+                    ? int.parse(timeController.text.trim())
+                    : currentTime,
+                "45": package == "45"
+                    ? int.parse(timeController.text.trim())
+                    : currentTime,
+                "50": package == "50"
+                    ? int.parse(timeController.text.trim())
+                    : currentTime,
+                "55": package == "55"
+                    ? int.parse(timeController.text.trim())
+                    : currentTime,
+                "60": package == "60"
+                    ? int.parse(timeController.text.trim())
+                    : currentTime,
+              },
+              "packages_prices": {
+                "5": package == "5"
+                    ? double.parse(priceChangeController.text.trim())
+                    : currentPrice,
+                "10": package == "10"
+                    ? double.parse(priceChangeController.text.trim())
+                    : currentPrice,
+                "15": package == "15"
+                    ? double.parse(priceChangeController.text.trim())
+                    : currentPrice,
+                "20": package == "20"
+                    ? double.parse(priceChangeController.text.trim())
+                    : currentPrice,
+                "25": package == "25"
+                    ? double.parse(priceChangeController.text.trim())
+                    : currentPrice,
+                "30": package == "30"
+                    ? double.parse(priceChangeController.text.trim())
+                    : currentPrice,
+                "35": package == "35"
+                    ? double.parse(priceChangeController.text.trim())
+                    : currentPrice,
+                "40": package == "40"
+                    ? double.parse(priceChangeController.text.trim())
+                    : currentPrice,
+                "45": package == "45"
+                    ? double.parse(priceChangeController.text.trim())
+                    : currentPrice,
+                "50": package == "50"
+                    ? double.parse(priceChangeController.text.trim())
+                    : currentPrice,
+                "55": package == "55"
+                    ? double.parse(priceChangeController.text.trim())
+                    : currentPrice,
+                "60": package == "60"
+                    ? double.parse(priceChangeController.text.trim())
+                    : currentPrice,
+              }
+            }).then((value) => {Navigator.pop(context)});
+          }
+        } else {
+          AwesomeDialog(
+            context: context,
+            dialogType: DialogType.INFO,
+            animType: AnimType.BOTTOMSLIDE,
+            title: 'Info',
+            desc: "Price must be 50LKR or higher",
+            btnCancel: Text(""),
+            btnOk: Text(""),
+          )..show();
         }
       }
     } else {
@@ -388,7 +400,7 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
                     keyboardType: TextInputType.number,
                     decoration: InputDecoration(
                         border: InputBorder.none,
-                        hintText: "Enter package Time(minit)",
+                        hintText: "Enter package Time(min)",
                         prefixIcon: Icon(Icons.timer)),
                   ),
                 ),
@@ -419,27 +431,27 @@ class _HostDashboardPageState extends State<HostDashboardPage> {
     var connectivityResult = await (Connectivity().checkConnectivity());
     if (connectivityResult == ConnectivityResult.wifi ||
         connectivityResult == ConnectivityResult.mobile) {
-    await usersRef.doc(userId).update({
-      "packages": {
-        "5": package == "5" ? false : currentStatus["5"],
-        "10": package == "10" ? false : currentStatus["10"],
-        "15": package == "15" ? false : currentStatus["15"],
-        "20": package == "20" ? false : currentStatus["20"],
-        "25": package == "25" ? false : currentStatus["25"],
-        "30": package == "30" ? false : currentStatus["30"],
-        "35": package == "35" ? false : currentStatus["35"],
-        "40": package == "40" ? false : currentStatus["40"],
-        "45": package == "45" ? false : currentStatus["45"],
-        "50": package == "50" ? false : currentStatus["50"],
-        "55": package == "55" ? false : currentStatus["55"],
-        "60": package == "60" ? false : currentStatus["60"],
-      }
-    }).then((_) => {
-          setState(() {
-            isLoading = false;
-          })
-        });
-        } else {
+      await usersRef.doc(userId).update({
+        "packages": {
+          "5": package == "5" ? false : currentStatus["5"],
+          "10": package == "10" ? false : currentStatus["10"],
+          "15": package == "15" ? false : currentStatus["15"],
+          "20": package == "20" ? false : currentStatus["20"],
+          "25": package == "25" ? false : currentStatus["25"],
+          "30": package == "30" ? false : currentStatus["30"],
+          "35": package == "35" ? false : currentStatus["35"],
+          "40": package == "40" ? false : currentStatus["40"],
+          "45": package == "45" ? false : currentStatus["45"],
+          "50": package == "50" ? false : currentStatus["50"],
+          "55": package == "55" ? false : currentStatus["55"],
+          "60": package == "60" ? false : currentStatus["60"],
+        }
+      }).then((_) => {
+            setState(() {
+              isLoading = false;
+            })
+          });
+    } else {
       AwesomeDialog(
         context: context,
         dialogType: DialogType.INFO,
@@ -1116,9 +1128,8 @@ class CardWidget extends StatelessWidget {
                             child: ElevatedButton.icon(
                               label: Text('Disable'),
                               icon: Icon(Icons.web),
-                              onPressed: notConnected == "Connected"
-                                  ? null
-                                  : btnClick,
+                              onPressed:
+                                  notConnected == "Connected" ? null : btnClick,
                               style: ElevatedButton.styleFrom(
                                 primary: Colors.red,
                                 onPrimary: cardBtnTextColor,
@@ -1154,8 +1165,7 @@ class CardWidget extends StatelessWidget {
                         ? Container(
                             // padding: EdgeInsets.only(bottom: 4.0),
                             child: Text(
-                              "Connected count :" +
-                                  connectedCount.toString(),
+                              "Connected count :" + connectedCount.toString(),
                               style: GoogleFonts.openSans(
                                 textStyle: TextStyle(
                                     color: Colors.black12,

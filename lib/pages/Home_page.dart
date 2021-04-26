@@ -32,7 +32,8 @@ class _HomePageState extends State<HomePage> {
 
   getBackgroundTask() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    if (prefs.getString("connected_ssid") != null) {
+    if (prefs.getString("connected_ssid") != "" ||
+        prefs.getString("connected_ssid") != null) {
       if (prefs.getInt("package_time") != null) {
         if (prefs.getInt("random_up") != null) {
           if (prefs.getInt("random_down") != null) {
@@ -46,7 +47,14 @@ class _HomePageState extends State<HomePage> {
                     await prefs.setInt("package_time", null);
                     await prefs.setInt("random_up", null);
                     await prefs.setInt("random_down", null);
-                    dicoconnectPackage();
+
+                    await disconnectPackage();
+                    setState(() {
+                      ssid = "Not connected";
+                      up = 0;
+                      down = 0;
+                      packageTime = 0;
+                    });
                   } else {
                     Random random = new Random();
                     int rUp = 50 + random.nextInt(100 - 10);
@@ -73,13 +81,13 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-  dicoconnectPackage() async {
+  disconnectPackage() async {
     var connectivityResult = await (Connectivity().checkConnectivity());
     if (connectivityResult == ConnectivityResult.wifi ||
         connectivityResult == ConnectivityResult.mobile) {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       var connectedSsid = prefs.getString("connected_ssid");
-      if (connectedSsid != null) {
+      if (connectedSsid != "" || connectedSsid != null) {
         var connectedPackage = prefs.getString("package");
         var hostuserIdShared = prefs.getString("host_userId");
         int count = 0;
@@ -106,59 +114,118 @@ class _HomePageState extends State<HomePage> {
                           resultGet.data()["connectedCount"]["50"] +
                           resultGet.data()["connectedCount"]["55"] +
                           resultGet.data()["connectedCount"]["60"],
-                      prefs.setString("connected_ssid", null).then((_) async =>
-                          {
+                      prefs.setString("connected_ssid", "").then((_) async => {
                             await usersRef.doc(hostuserIdShared).update({
                               "isConnected": count > 1 ? true : false,
                               "host": count > 1 ? true : false,
                               "connectedCount": {
                                 "5": connectedPackage == "5"
                                     ? resultGet.data()["connectedCount"]["5"] -
-                                        1
+                                                1 <
+                                            0
+                                        ? 0
+                                        : resultGet.data()["connectedCount"]
+                                                ["5"] -
+                                            1
                                     : resultGet.data()["connectedCount"]["5"],
                                 "10": connectedPackage == "10"
                                     ? resultGet.data()["connectedCount"]["10"] -
-                                        1
+                                                1 <
+                                            0
+                                        ? 0
+                                        : resultGet.data()["connectedCount"]
+                                                ["10"] -
+                                            1
                                     : resultGet.data()["connectedCount"]["10"],
                                 "15": connectedPackage == "15"
                                     ? resultGet.data()["connectedCount"]["15"] -
-                                        1
+                                                1 <
+                                            0
+                                        ? 0
+                                        : resultGet.data()["connectedCount"]
+                                                ["15"] -
+                                            1
                                     : resultGet.data()["connectedCount"]["15"],
                                 "20": connectedPackage == "20"
                                     ? resultGet.data()["connectedCount"]["20"] -
-                                        1
+                                                1 <
+                                            0
+                                        ? 0
+                                        : resultGet.data()["connectedCount"]
+                                                ["20"] -
+                                            1
                                     : resultGet.data()["connectedCount"]["20"],
                                 "25": connectedPackage == "25"
                                     ? resultGet.data()["connectedCount"]["25"] -
-                                        1
+                                                1 <
+                                            0
+                                        ? 0
+                                        : resultGet.data()["connectedCount"]
+                                                ["25"] -
+                                            1
                                     : resultGet.data()["connectedCount"]["25"],
                                 "30": connectedPackage == "30"
                                     ? resultGet.data()["connectedCount"]["30"] -
-                                        1
+                                                1 <
+                                            0
+                                        ? 0
+                                        : resultGet.data()["connectedCount"]
+                                                ["30"] -
+                                            1
                                     : resultGet.data()["connectedCount"]["30"],
                                 "35": connectedPackage == "35"
                                     ? resultGet.data()["connectedCount"]["35"] -
-                                        1
+                                                1 <
+                                            0
+                                        ? 0
+                                        : resultGet.data()["connectedCount"]
+                                                ["35"] -
+                                            1
                                     : resultGet.data()["connectedCount"]["35"],
                                 "40": connectedPackage == "40"
                                     ? resultGet.data()["connectedCount"]["40"] -
-                                        1
+                                                1 <
+                                            0
+                                        ? 0
+                                        : resultGet.data()["connectedCount"]
+                                                ["40"] -
+                                            1
                                     : resultGet.data()["connectedCount"]["40"],
                                 "45": connectedPackage == "45"
                                     ? resultGet.data()["connectedCount"]["45"] -
-                                        1
+                                                1 <
+                                            0
+                                        ? 0
+                                        : resultGet.data()["connectedCount"]
+                                                ["45"] -
+                                            1
                                     : resultGet.data()["connectedCount"]["45"],
                                 "50": connectedPackage == "50"
                                     ? resultGet.data()["connectedCount"]["50"] -
-                                        1
+                                                1 <
+                                            0
+                                        ? 0
+                                        : resultGet.data()["connectedCount"]
+                                                ["50"] -
+                                            1
                                     : resultGet.data()["connectedCount"]["50"],
                                 "55": connectedPackage == "55"
                                     ? resultGet.data()["connectedCount"]["55"] -
-                                        1
+                                                1 <
+                                            0
+                                        ? 0
+                                        : resultGet.data()["connectedCount"]
+                                                ["55"] -
+                                            1
                                     : resultGet.data()["connectedCount"]["55"],
                                 "60": connectedPackage == "60"
                                     ? resultGet.data()["connectedCount"]["60"] -
-                                        1
+                                                1 <
+                                            0
+                                        ? 0
+                                        : resultGet.data()["connectedCount"]
+                                                ["60"] -
+                                            1
                                     : resultGet.data()["connectedCount"]["60"],
                               }
                             }).then((_) async => {
@@ -166,8 +233,8 @@ class _HomePageState extends State<HomePage> {
                                   SimplyWifi.forgetWifiByWifiName(
                                       connectedSsid),
                                   SimplyWifi.turnOffWifi(),
-                                  await prefs.setString("package", null),
-                                  await prefs.setString("host_userId", null),
+                                  await prefs.setString("package", ""),
+                                  await prefs.setString("host_userId", ""),
                                   Cron().close(),
                                 }),
                           }),
@@ -285,7 +352,8 @@ class _HomePageState extends State<HomePage> {
                         padding: EdgeInsets.all(
                             MediaQuery.of(context).size.width / 60),
                         child: Text(
-                          double.parse((packageTime / 60).toString())
+                          double.parse(((packageTime / 60).toStringAsFixed(1))
+                                      .toString())
                                   .toString() +
                               " Min",
                           style: GoogleFonts.openSans(
