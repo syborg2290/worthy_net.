@@ -44,13 +44,11 @@ class _LoginPageState extends State<LoginPage> {
         } else {
           if (emailController.text != "") {
             setState(() {
-              // print(emailController.text);
               valEmail = "";
             });
           }
           if (passwordController.text != "") {
             setState(() {
-              // print(passwordController.text);
               valPassword = "";
             });
           }
@@ -154,7 +152,6 @@ class _LoginPageState extends State<LoginPage> {
           exit(0);
         },
         child: Container(
-          // padding: EdgeInsets.only(bottom: 10),
           child: ListView(
             children: <Widget>[
               HeaderContainer("Login"),
@@ -211,6 +208,7 @@ class _LoginPageState extends State<LoginPage> {
                             fontSize: 17,
                           ),
                           recognizer: TapGestureRecognizer()
+                          //navigat Register page
                             ..onTap = () => Navigator.push(
                                   context,
                                   MaterialPageRoute(

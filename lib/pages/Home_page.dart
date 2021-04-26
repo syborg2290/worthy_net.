@@ -424,10 +424,8 @@ class _HomePageState extends State<HomePage> {
                 ),
               ],
             ),
-            // SizedBox(
-            //   height: 10,
-            // ),
             GridDashbor(),
+            // Home page card load
           ],
         ),
       ),

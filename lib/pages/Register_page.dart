@@ -252,7 +252,6 @@ class _RegisterPageState extends State<RegisterPage> {
           child: AppBar(
             automaticallyImplyLeading: false,
           )),
-      // resizeToAvoidBottomInset: false,
       body: Container(
         padding: EdgeInsets.only(bottom: 5),
         child: ListView(
@@ -260,12 +259,7 @@ class _RegisterPageState extends State<RegisterPage> {
             HeaderContainer("Register"),
             Container(
               margin: EdgeInsets.only(left: 20, right: 20, top: 30),
-              //Column
-              //ListView
               child: Column(
-                // shrinkWrap: true,
-                // mainAxisAlignment: MainAxisAlignment.center,
-                // crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   textInput(
                       controller: fNameController,

@@ -436,7 +436,6 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
         title: Text('packages details'),
         automaticallyImplyLeading: false,
       ),
-      // child: Text('details #$index'),
       body: WillPopScope(
         onWillPop: () async {
           Navigator.push(
@@ -842,7 +841,6 @@ class CardWidget extends StatelessWidget {
                   children: <Widget>[
                     unavailable == "Available"
                         ? Container(
-                            // margin: EdgeInsets.only(top: 30),
                             padding: EdgeInsets.symmetric(horizontal: 20),
                             child: ElevatedButton.icon(
                               label: Text('Disconnect'),
@@ -852,7 +850,6 @@ class CardWidget extends StatelessWidget {
                               style: ElevatedButton.styleFrom(
                                 primary: Colors.red,
                                 onPrimary: cardBtnTextColor,
-                                // onSurface: Colors.red,
                               ),
                             ),
                           )
