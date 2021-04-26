@@ -285,7 +285,8 @@ class _HomePageState extends State<HomePage> {
                         padding: EdgeInsets.all(
                             MediaQuery.of(context).size.width / 60),
                         child: Text(
-                          double.parse(packageTime.toString()).toString() +
+                          double.parse((packageTime / 60).toString())
+                                  .toString() +
                               " Min",
                           style: GoogleFonts.openSans(
                               textStyle: TextStyle(
