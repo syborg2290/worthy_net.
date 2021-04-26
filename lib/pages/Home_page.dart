@@ -45,16 +45,15 @@ class _HomePageState extends State<HomePage> {
                     // await prefs.setInt("package_time", null);
                     // await prefs.setInt("random_up", null);
                     // await prefs.setInt("random_down", null);
-                    if (prefs.getString("connected_ssid") != "") {
-                      await disconnectPackage();
-                    }
-
                     setState(() {
                       ssid = "Not connected";
                       up = 0;
                       down = 0;
                       packageTime = 0;
                     });
+                    if (prefs.getString("connected_ssid") != "") {
+                      await disconnectPackage();
+                    }
                   } else {
                     Random random = new Random();
                     int rUp = 50 + random.nextInt(100 - 10);
