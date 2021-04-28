@@ -7,9 +7,7 @@ import 'package:worthy_net/pages/HostDashboard_page.dart';
 class GridDashbor extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
+    return Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
       CardWidget(
         img: 'assets/user.png',
         title: 'User',
@@ -24,8 +22,8 @@ class GridDashbor extends StatelessWidget {
         title: 'Host',
         //Host page load
         onClick: () => {
-          Navigator.push(
-              context, MaterialPageRoute(builder: (context) => HostDashboardPage()))
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => HostDashboardPage()))
         },
       ),
     ]);
@@ -54,8 +52,8 @@ class CardWidget extends StatelessWidget {
             children: <Widget>[
               Image.asset(
                 img,
-                width: 150,
-                height: 150,
+                width: MediaQuery.of(context).size.height / 5,
+                height: MediaQuery.of(context).size.height / 5,
               ),
               SizedBox(
                 height: 14,
