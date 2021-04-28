@@ -1,6 +1,7 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:wifi_iot/wifi_iot.dart';
 import 'package:worthy_net/config/collections.dart';
 import 'package:worthy_net/pages/UserDetails_page.dart';
@@ -30,11 +31,15 @@ class _UserPageState extends State<UserPage> {
   }
 
   getListOfWifiAvailable() async {
-    // To get the list of Wifis
-    List<WifiNetwork> _wifiNetworks = await SimplyWifi.getListOfWifis();
+    try {
+      //To get the list of Wifis
+      List<WifiNetwork> _wifiNetworks = await SimplyWifi.getListOfWifis();
 
-    for (var i = 0; i < _wifiNetworks.length; i++) {
-      await getUserDocUsingSsid(_wifiNetworks[i]);
+      for (var i = 0; i < _wifiNetworks.length; i++) {
+        await getUserDocUsingSsid(_wifiNetworks[i]);
+      }
+    } on PlatformException catch (e) {
+      print(e.message);
     }
   }
 
